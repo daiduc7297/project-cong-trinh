@@ -33,7 +33,7 @@ Mở [http://localhost:3000](http://localhost:3000) → đăng nhập admin. Ghi
    - `MONGODB_URI`
    - `MONGODB_DB` = `tiendo`
    - `AUTH_SECRET` (cùng giá trị local)
-   - `AUTH_URL` = `https://<app>.vercel.app`
+   - `AUTH_URL` = `https://<project>.vercel.app` (phải có `https://`, không copy `localhost`)
 
 3. Deploy. Chạy seed **một lần** từ máy bạn (đã trỏ URI Atlas): `npm run seed`.
 
