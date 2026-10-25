@@ -78,11 +78,16 @@ export function asProjectJson(json: unknown): Record<string, unknown> {
   return {};
 }
 
-/** Member chỉ được ghi tick mặt bằng (`done`), không đụng Gantt / ép cọc. */
+/** Member chỉ được ghi tick mặt bằng (`done`), ngày xong (`dd`) và bảng ép cọc (`piles`); không đụng Gantt. */
 export function mergeMemberJson(current: unknown, incoming: unknown) {
   const cur = asProjectJson(current);
   const inc = asProjectJson(incoming);
-  return { ...cur, done: inc.done ?? cur.done };
+  return {
+    ...cur,
+    done: inc.done ?? cur.done,
+    dd: inc.dd ?? cur.dd,
+    piles: inc.piles ?? cur.piles,
+  };
 }
 
 export function canDelete(role: Role | null): boolean {
