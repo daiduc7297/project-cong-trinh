@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Construction Schedule</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover"><title>Construction Schedule</title>
 <style>
 :root{--bg:#fff;--fg:#1a202c;--mut:#64748b;--card:#f1f5f9;--bd:#cbd5e1;--ok:#22a85a;--ac:#1f6f8b;--in:#fef9c3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f172a;--fg:#e2e8f0;--mut:#94a3b8;--card:#1e293b;--bd:#334155;--in:#3b3a1a}}
@@ -54,7 +54,7 @@ body.mv .mvbr{display:block;flex-basis:100%;order:1;height:0;padding:0}
 body.mv #row1{display:flex;flex-wrap:wrap;align-items:center}
 body.mv #row1>*{order:1}body.mv #row1 #t1,body.mv #row1 #t2,body.mv #row1 #t3,body.mv #row1 #t4{order:2;flex:1 1 22%;padding:9px 2px;font-size:14px}
 body.mv #un,body.mv #re,body.mv #px,body.mv #adm,body.mv #lockb,body.mv #mmn,body.mv #fmn,body.mv #su,body.mv #fsv,body.mv .sp,body.mv .stt,body.mv #row1>b.mgr{display:none!important}
-body.mv #row1 #pj{max-width:none;flex:1}body.mv #out{font-size:11px;color:var(--mut);padding:4px 6px;text-decoration:underline}
+html,body{max-width:100%;overflow-x:hidden}body.mv #row1{min-width:0;max-width:100%;box-sizing:border-box}body.mv #row1 #pj{max-width:none;min-width:0;width:0;flex:1 1 0;text-overflow:ellipsis}body.mv #out{font-size:11px;color:var(--mut);padding:4px 6px;text-decoration:underline}
 body.mv #row2{display:none!important}
 body.mv #sum{display:none!important}
 
