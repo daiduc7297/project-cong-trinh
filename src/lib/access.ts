@@ -98,7 +98,7 @@ export function publicProject(doc: Document, role?: Role | null) {
   const lock = lockFrom(doc);
   return {
     id: String(doc._id),
-    name: String(doc.name || "Dự án"),
+    name: String(doc.name || "Project"),
     json: doc.json,
     rev: Number(doc.rev || 0),
     lock,

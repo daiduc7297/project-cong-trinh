@@ -47,7 +47,7 @@ export async function POST(req: Request) {
   const name = String(body?.name || "").trim();
   const json = body?.json;
   if (!name || json == null) {
-    return NextResponse.json({ error: "Thiếu tên hoặc dữ liệu" }, { status: 400 });
+    return NextResponse.json({ error: "Missing name or data" }, { status: 400 });
   }
   const db = await getDb();
   const col = db.collection<ProjectDoc>("projects");
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
       role: { $in: ["sua", "admin"] },
     });
     if (!anyWrite) {
-      return NextResponse.json({ error: "Không có quyền tạo dự án" }, { status: 403 });
+      return NextResponse.json({ error: "No permission to create projects" }, { status: 403 });
     }
   }
   const id = "p" + Date.now().toString(36);

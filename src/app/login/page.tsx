@@ -8,8 +8,9 @@ const field: CSSProperties = {
   borderRadius: 5,
 };
 const card: CSSProperties = {
-  width: 360,
-  maxWidth: "92vw",
+  width: "100%",
+  maxWidth: 360,
+  boxSizing: "border-box",
   background: "#fff",
   border: "1px solid #cbd5e1",
   borderRadius: 8,
@@ -52,16 +53,18 @@ export default async function LoginPage({
           flexWrap: "wrap",
           gap: 16,
           justifyContent: "center",
+          width: "100%",
+          maxWidth: 360 * 2 + 16,
         }}
       >
         <form action="/login/email" method="post" style={card}>
-          <h1 style={{ margin: 0, fontSize: 18 }}>Đăng nhập</h1>
+          <h1 style={{ margin: 0, fontSize: 18 }}>Sign in</h1>
           <p style={{ margin: 0, color: "#64748b", fontSize: 13 }}>
-            Email và mật khẩu (admin / sửa / xem).
+            Email and password (admin / editor / viewer).
           </p>
           {q.e === "1" ? (
             <p style={{ margin: 0, color: "#dc2626", fontSize: 13 }}>
-              Sai email hoặc mật khẩu.
+              Wrong email or password.
             </p>
           ) : null}
           <label style={{ display: "grid", gap: 4, fontSize: 13 }}>
@@ -69,7 +72,7 @@ export default async function LoginPage({
             <input name="email" type="email" required autoComplete="username" style={field} />
           </label>
           <label style={{ display: "grid", gap: 4, fontSize: 13 }}>
-            Mật khẩu
+            Password
             <input
               name="password"
               type="password"
@@ -79,22 +82,22 @@ export default async function LoginPage({
             />
           </label>
           <button type="submit" style={btn}>
-            Đăng nhập
+            Sign in
           </button>
         </form>
 
         <form action="/login/quick" method="post" style={card}>
-          <h1 style={{ margin: 0, fontSize: 18 }}>Đăng nhập nhanh</h1>
+          <h1 style={{ margin: 0, fontSize: 18 }}>Quick access</h1>
           <p style={{ margin: 0, color: "#64748b", fontSize: 13 }}>
-            Không cần tài khoản. Vào tab mặt bằng, chỉ tick căn.
+            No account needed. Opens the Layout tab only, to mark units.
           </p>
           {q.e === "2" ? (
             <p style={{ margin: 0, color: "#dc2626", fontSize: 13 }}>
-              Không vào được, thử lại.
+              Could not sign in, try again.
             </p>
           ) : null}
           <button type="submit" style={{ ...btn, background: "#0f766e" }}>
-            Vào mặt bằng
+            Open layout
           </button>
         </form>
       </div>

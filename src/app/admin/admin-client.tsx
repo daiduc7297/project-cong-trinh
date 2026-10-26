@@ -23,11 +23,11 @@ function RoleSelect({
 }) {
   return (
     <select value={value} onChange={(e) => onChange(e.target.value as Role | "")}>
-      <option value="">Không gán</option>
+      <option value="">Not assigned</option>
       <option value="xem">xem</option>
-      <option value="member">member (chỉ mặt bằng)</option>
-      <option value="sua">sửa</option>
-      <option value="admin">admin dự án</option>
+      <option value="member">member (layout only)</option>
+      <option value="sua">editor</option>
+      <option value="admin">project admin</option>
     </select>
   );
 }
@@ -46,7 +46,7 @@ export default function AdminClient() {
   async function load() {
     const r = await fetch("/api/users");
     if (!r.ok) {
-      setErr("Không tải được danh sách");
+      setErr("Could not load the list");
       return;
     }
     const d = await r.json();
@@ -68,11 +68,11 @@ export default function AdminClient() {
     e.preventDefault();
     setErr("");
     if (!email.trim() && !pin.trim()) {
-      setErr("Cần email+mật khẩu hoặc PIN");
+      setErr("Email + password or PIN required");
       return;
     }
     if (pin.trim() && !name.trim()) {
-      setErr("Member đăng nhập nhanh cần tên");
+      setErr("Quick-access members need a name");
       return;
     }
     const r = await fetch("/api/users", {
@@ -89,7 +89,7 @@ export default function AdminClient() {
     });
     const d = await r.json().catch(() => ({}));
     if (!r.ok) {
-      setErr(d.error || "Tạo user thất bại");
+      setErr(d.error || "Could not create user");
       return;
     }
     setEmail("");
@@ -102,11 +102,11 @@ export default function AdminClient() {
   }
 
   async function delUser(u: UserRow) {
-    if (!confirm("Xóa " + (u.name || u.email) + "?")) return;
+    if (!confirm("Delete " + (u.name || u.email) + "?")) return;
     setErr("");
     const r = await fetch("/api/users/" + u.id, { method: "DELETE" });
     const d = await r.json().catch(() => ({}));
-    if (!r.ok) setErr(d.error || "Không xóa được");
+    if (!r.ok) setErr(d.error || "Could not delete");
     else load();
   }
 
@@ -127,16 +127,16 @@ export default function AdminClient() {
       }),
     });
     const d = await r.json().catch(() => ({}));
-    if (!r.ok) setErr(d.error || "Không lưu được");
+    if (!r.ok) setErr(d.error || "Could not save");
     else load();
   }
 
   return (
     <main style={{ maxWidth: 880, margin: "0 auto", padding: 24, color: "#1a202c" }}>
       <p style={{ marginTop: 0 }}>
-        <a href="/tien-do">← Tiến độ</a>
+        <a href="/tien-do">← Schedule</a>
       </p>
-      <h1 style={{ fontSize: 20 }}>Quản trị người dùng</h1>
+      <h1 style={{ fontSize: 20 }}>User administration</h1>
       {err ? <p style={{ color: "#dc2626" }}>{err}</p> : null}
 
       <form
@@ -150,29 +150,29 @@ export default function AdminClient() {
           marginBottom: 24,
         }}
       >
-        <b>Thêm người</b>
+        <b>Add user</b>
         <p style={{ margin: 0, color: "#64748b", fontSize: 13 }}>
-          Member: đặt tên + PIN (4–8 số), gán dự án role <b>member</b>. Họ đăng nhập
-          nhanh, chỉ tick mặt bằng. Hoặc email + mật khẩu cho xem/sửa/admin.
+          Member: set a name + PIN (4–8 digits) and assign projects with role <b>member</b>. They use
+          quick access and can only mark the layout. Or use email + password for viewer / editor / admin.
         </p>
-        <input placeholder="Tên" value={name} onChange={(e) => setName(e.target.value)} />
+        <input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
         <input
           type="email"
-          placeholder="Email (bỏ trống nếu chỉ PIN)"
+          placeholder="Email (leave blank for PIN only)"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
           minLength={6}
-          placeholder="Mật khẩu (≥ 6, bỏ trống nếu chỉ PIN)"
+          placeholder="Password (min. 6, leave blank for PIN only)"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <input
           inputMode="numeric"
           pattern="\d{4,8}"
-          placeholder="PIN đăng nhập nhanh (4–8 số)"
+          placeholder="Quick-access PIN (4–8 digits)"
           value={pin}
           onChange={(e) => setPin(e.target.value)}
         />
@@ -182,7 +182,7 @@ export default function AdminClient() {
             checked={isAdmin}
             onChange={(e) => setIsAdmin(e.target.checked)}
           />{" "}
-          Admin hệ thống (thấy mọi dự án)
+          System admin (sees all projects)
         </label>
         {projects.map((p) => (
           <label key={p.id} style={{ display: "flex", gap: 8, alignItems: "center" }}>
@@ -193,7 +193,7 @@ export default function AdminClient() {
             />
           </label>
         ))}
-        <button type="submit">Tạo</button>
+        <button type="submit">Create</button>
       </form>
 
       {users.map((u) => (
@@ -241,7 +241,7 @@ function UserCard({
     >
       <b>{user.name}</b> <span style={{ color: "#64748b" }}>{user.email}</span>
       {user.hasPin ? (
-        <span style={{ marginLeft: 8, color: "#0f766e", fontSize: 12 }}>có PIN</span>
+        <span style={{ marginLeft: 8, color: "#0f766e", fontSize: 12 }}>has PIN</span>
       ) : null}
       <div style={{ margin: "8px 0" }}>
         <label>
@@ -250,7 +250,7 @@ function UserCard({
             checked={admin}
             onChange={(e) => setAdmin(e.target.checked)}
           />{" "}
-          Admin hệ thống
+          System admin
         </label>
       </div>
       {projects.map((p) => (
@@ -265,7 +265,7 @@ function UserCard({
       <input
         inputMode="numeric"
         pattern="\d{4,8}"
-        placeholder={user.hasPin ? "PIN mới (trống = giữ)" : "Đặt PIN (4–8 số)"}
+        placeholder={user.hasPin ? "New PIN (blank = keep)" : "Set PIN (4–8 digits)"}
         value={pin}
         onChange={(e) => setPin(e.target.value)}
         style={{ marginTop: 8, display: "block" }}
@@ -275,10 +275,10 @@ function UserCard({
         style={{ marginTop: 8 }}
         onClick={() => onSave(user, map, admin, pin)}
       >
-        Lưu
+        Save
       </button>{" "}
       <button type="button" style={{ marginTop: 8 }} onClick={() => onDelete(user)}>
-        Xóa
+        Delete
       </button>
     </section>
   );

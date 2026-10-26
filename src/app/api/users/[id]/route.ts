@@ -25,17 +25,17 @@ export async function PUT(req: Request, ctx: Ctx) {
   if (typeof body.isAdmin === "boolean") set.isAdmin = body.isAdmin;
   if (body.password) {
     if (String(body.password).length < 6) {
-      return NextResponse.json({ error: "Mật khẩu tối thiểu 6 ký tự" }, { status: 400 });
+      return NextResponse.json({ error: "Password must be at least 6 characters" }, { status: 400 });
     }
     set.passwordHash = await bcrypt.hash(String(body.password), 10);
   }
   if (body.pin != null && String(body.pin).trim()) {
     const pin = String(body.pin).trim();
     if (!validPin(pin)) {
-      return NextResponse.json({ error: "PIN phải là 4–8 chữ số" }, { status: 400 });
+      return NextResponse.json({ error: "PIN must be 4–8 digits" }, { status: 400 });
     }
     if (await pinTaken(db, pin, id)) {
-      return NextResponse.json({ error: "PIN đã dùng" }, { status: 409 });
+      return NextResponse.json({ error: "PIN already in use" }, { status: 409 });
     }
     set.pinHash = await bcrypt.hash(pin, 10);
   }
@@ -59,7 +59,7 @@ export async function DELETE(_req: Request, ctx: Ctx) {
   if ("error" in r) return r.error;
   const { id } = await ctx.params;
   if (id === r.user.id) {
-    return NextResponse.json({ error: "Không xóa chính mình" }, { status: 400 });
+    return NextResponse.json({ error: "You cannot delete yourself" }, { status: 400 });
   }
   const db = await getDb();
   let oid: ObjectId;

@@ -31,11 +31,11 @@ export async function PUT(req: Request, ctx: Ctx) {
   const db = await getDb();
   const role = await roleFor(db, r.user.id, r.user.isAdmin, id, r.user.quickLogin);
   if (!canWrite(role)) {
-    return NextResponse.json({ error: "Chỉ xem, không có quyền sửa" }, { status: 403 });
+    return NextResponse.json({ error: "View only, no edit permission" }, { status: 403 });
   }
   const body = await req.json().catch(() => null);
   if (!body || body.json == null) {
-    return NextResponse.json({ error: "Thiếu json" }, { status: 400 });
+    return NextResponse.json({ error: "Missing json" }, { status: 400 });
   }
   const col = db.collection<ProjectDoc>("projects");
   const current = await col.findOne({ _id: id });
@@ -67,7 +67,7 @@ export async function DELETE(_req: Request, ctx: Ctx) {
   const db = await getDb();
   const role = await roleFor(db, r.user.id, r.user.isAdmin, id, r.user.quickLogin);
   if (!canDelete(role)) {
-    return NextResponse.json({ error: "Chỉ admin được xóa dự án" }, { status: 403 });
+    return NextResponse.json({ error: "Only admins can delete projects" }, { status: 403 });
   }
   const del = await db.collection<ProjectDoc>("projects").deleteOne({ _id: id });
   if (!del.deletedCount) {
