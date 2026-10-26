@@ -16,8 +16,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Credentials({
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Mật khẩu", type: "password" },
-        name: { label: "Tên", type: "text" },
+        password: { label: "Password", type: "password" },
+        name: { label: "Name", type: "text" },
         pin: { label: "PIN", type: "password" },
         quick: { label: "Quick", type: "text" },
       },

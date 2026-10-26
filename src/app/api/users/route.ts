@@ -59,28 +59,28 @@ export async function POST(req: Request) {
   const isAdmin = !!body?.isAdmin;
   const access = Array.isArray(body?.access) ? body.access : [];
   if (pin && !validPin(pin)) {
-    return NextResponse.json({ error: "PIN phải là 4–8 chữ số" }, { status: 400 });
+    return NextResponse.json({ error: "PIN must be 4–8 digits" }, { status: 400 });
   }
   if (!email && !pin) {
-    return NextResponse.json({ error: "Cần email+mật khẩu hoặc PIN" }, { status: 400 });
+    return NextResponse.json({ error: "Email + password or PIN required" }, { status: 400 });
   }
   if (password && password.length < 6) {
     return NextResponse.json(
-      { error: "Mật khẩu tối thiểu 6 ký tự" },
+      { error: "Password must be at least 6 characters" },
       { status: 400 },
     );
   }
   if (email && !password && !pin) {
-    return NextResponse.json({ error: "Cần mật khẩu hoặc PIN" }, { status: 400 });
+    return NextResponse.json({ error: "Password or PIN required" }, { status: 400 });
   }
   if (!email) email = `quick.${slug(name)}.${Date.now().toString(36)}@member.local`;
   const db = await getDb();
   const exists = await db.collection("users").findOne({ email });
   if (exists) {
-    return NextResponse.json({ error: "Email đã tồn tại" }, { status: 409 });
+    return NextResponse.json({ error: "Email already exists" }, { status: 409 });
   }
   if (pin && (await pinTaken(db, pin))) {
-    return NextResponse.json({ error: "PIN đã dùng" }, { status: 409 });
+    return NextResponse.json({ error: "PIN already in use" }, { status: 409 });
   }
   const doc: Record<string, unknown> = {
     email,
@@ -91,7 +91,7 @@ export async function POST(req: Request) {
   if (password.length >= 6) doc.passwordHash = await bcrypt.hash(password, 10);
   if (pin) doc.pinHash = await bcrypt.hash(pin, 10);
   if (!doc.passwordHash && !doc.pinHash) {
-    return NextResponse.json({ error: "Cần mật khẩu hoặc PIN" }, { status: 400 });
+    return NextResponse.json({ error: "Password or PIN required" }, { status: 400 });
   }
   const ins = await db.collection("users").insertOne(doc);
   const userId = String(ins.insertedId);
