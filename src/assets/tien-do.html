@@ -47,7 +47,7 @@ body:not([data-tab="1"]):not([data-tab="4"]) #row2{display:none}body[data-tab="2
 body[data-ro="v"] #pn_,body[data-ro="v"] #pr_,body[data-ro="v"] #ix,body[data-ro="v"] #rs,body[data-ro="v"] #bl,body[data-ro="v"] #bm,body[data-ro="v"] #bla,body[data-ro="v"] [data-op],body[data-ro="v"] [data-add],body[data-ro="v"] [data-mk],body[data-ro="v"] [data-cv],body[data-ro="v"] #sv,body[data-ro="v"] td input,body[data-ro="v"] .pt input,body[data-ro="v"] #pn,body[data-ro="v"] #ps,body[data-ro="v"] #pb{pointer-events:none!important;opacity:.65}
 body[data-ro="v"] #pd_,body[data-ro="w"] #pd_{display:none!important}
 body.fld #su,body.fld #fmn,body.fld #iu{display:none!important}
-#fsv{font-weight:700;min-width:92px}#fsv.dirty{background:#f59e0b;color:#fff;border-color:#d97706}#fsv.busy{opacity:.6}#fsv.ok{color:#15803d}body:not(.fld) #fsv{display:none}
+#fsv{font-weight:700;min-width:92px}#fsv.dirty{background:#f59e0b;color:#fff;border-color:#d97706}#fsv.busy{opacity:.6}#fsv.ok{color:#15803d}body:not(.fld) #fsv{display:inline-block}#fsv.nw{display:none!important}
 .mvonly{display:none}.mvbr{display:none}
 body.mv .mvonly{display:inline-block}
 body.mv .mvbr{display:block;flex-basis:100%;order:1;height:0;padding:0}
@@ -97,16 +97,16 @@ async function api(path,opt){const r=await fetch(path,{credentials:'include',...
 function applyRole(){document.body.dataset.ro=canDel()?'a':ROLE==='member'?'m':canWrite()?'w':'v';document.body.classList.toggle('fld',FIELD||ROLE==='member');if(ROLE==='member'&&V.tab!=3)V.tab=2;const ad=$('#adm');if(ad)ad.style.display=(ME&&ME.isAdmin)?'':'none'}
 function applyP(p){if(!p||!p.id)return;const json=asStr(p.json);ALL[p.id]={name:p.name,json,rev:p.rev||0,role:p.role||(ALL[p.id]&&ALL[p.id].role)||ROLE};if(p.id===CUR){REV=p.rev||REV;if(p.role)ROLE=p.role;applyRole()}}
 function ingest(list){ALL={};(list||[]).forEach(p=>applyP(p))}
-function takeRemote(d){DIRTY=false;applyP(d);S=JSON.parse(asStr(d.json));lastSaved=asStr(d.json);HIST=[];FUT=[];fillPj();render()}
+function takeRemote(d){DIRTY=false;applyP(d);S=JSON.parse(asStr(d.json));lastSaved=asStr(d.json);HIST=[];FUT=[];fillPj();render();DIRTY=false;svBtn()}
 const slimOf=x=>{const o=typeof x==='string'?JSON.parse(x||'{}'):(x||{});return JSON.stringify({done:o.done||{},dd:o.dd||{},piles:o.piles||[]})};
 const isMem=()=>ROLE==='member';
 let DIRTY=false,EV=0;
 const normS=x=>{try{return JSON.stringify(typeof x==='string'?JSON.parse(x||'{}'):x,(k,v)=>k==='sum'||k==='mile'?undefined:v)}catch(e){return String(x)}};
 const isDirty=()=>!!CUR&&canWrite()&&(isMem()?slimOf(S)!==slimOf(lastSaved||'{}'):DIRTY);
 let SVST='';
-function svBtn(){const b=document.getElementById('fsv');if(!b)return;const dirty=isDirty();b.disabled=!dirty&&SVST!=='err';b.className='fldonly '+(SVST==='busy'?'busy':dirty?'dirty':SVST==='err'?'dirty':'ok');b.textContent=SVST==='busy'?'Saving…':dirty?'💾 Save':SVST==='err'?'⚠ Retry save':'✓ Saved'+(SVST?' '+SVST:'')}
+function svBtn(){const b=document.getElementById('fsv');if(!b)return;const dirty=isDirty();b.classList.toggle('nw',!CUR||!canWrite());b.disabled=!dirty&&SVST!=='err';b.className=(b.classList.contains('nw')?'nw ':'')+'fldonly '+(SVST==='busy'?'busy':dirty?'dirty':SVST==='err'?'dirty':'ok');b.textContent=SVST==='busy'?'Saving…':dirty?'💾 Save':SVST==='err'?'⚠ Retry save':'✓ Saved'+(SVST?' '+SVST:'')}
 function saveNow(){if(!CUR||!canWrite())return;if(saveT){clearTimeout(saveT);saveT=0}if(!isDirty()&&SVST!=='err'){svBtn();return}SVST='busy';svBtn();flushSave(CUR,(ALL[CUR]&&ALL[CUR].name)||'Project',JSON.stringify(S),REV,0)}
-function save(){if(!CUR||!canWrite())return;EV++;DIRTY=true;const j=JSON.stringify(S);ALL[CUR]={...(ALL[CUR]||{}),name:(ALL[CUR]&&ALL[CUR].name)||'Project',json:j};lsSet();if(isMem()){SVST='';svBtn();return}qPut({id:CUR,name:ALL[CUR].name,j,rev:REV});clearTimeout(saveT);saveT=setTimeout(flushPend,700)}
+function save(){if(!CUR||!canWrite())return;EV++;DIRTY=true;const j=JSON.stringify(S);ALL[CUR]={...(ALL[CUR]||{}),name:(ALL[CUR]&&ALL[CUR].name)||'Project',json:j};lsSet();SVST='';svBtn()}
 function qPut(it){PEND=PEND.filter(x=>x.id!==it.id);PEND.push(it)}
 function flushPend(){clearTimeout(saveT);saveT=0;const q=PEND;PEND=[];q.forEach(p=>flushSave(p.id,p.name,p.j,p.id===CUR?REV:p.rev))}
 function rebaseMember(remote,mine,base){const r=JSON.parse(JSON.stringify(remote||{})),m=mine||{},b=base||{};r.done=r.done||{};r.dd=r.dd||{};
@@ -117,14 +117,15 @@ function rebaseMember(remote,mine,base){const r=JSON.parse(JSON.stringify(remote
  (m.piles||[]).forEach((arr,z)=>{r.piles[z]=r.piles[z]||[];const R=r.piles[z],B=(b.piles||[])[z]||[];arr.forEach(x=>{const n=nm(x[0]);if(!n)return;const bx=B.find(y=>nm(y[0])==n),rx=R.find(y=>nm(y[0])==n);
   if(!bx){if(!rx)R.push([String(x[0]).trim(),x[1]||'']);else if(x[1]&&!rx[1])rx[1]=x[1]}else if((x[1]||'')!==(bx[1]||'')){if(rx)rx[1]=x[1]||'';else R.push([String(x[0]).trim(),x[1]||''])}})});
  return r}
-async function flushSave(id,name,j,rev,tries){const ev=EV;if(saveBusy){qPut({id,name,j,rev});clearTimeout(saveT);saveT=setTimeout(flushPend,400);return}saveBusy=true;saveT=0;const mem=((ALL[id]&&ALL[id].role)||ROLE)==='member';try{const {ok,status,d}=await api('/api/projects/'+encodeURIComponent(id),{method:'PUT',body:JSON.stringify(mem?{json:JSON.parse(slimOf(j)),rev}:{name,json:JSON.parse(j),rev})});if(status===403){stat('View only, no edit permission');SVST='err';return}if(status===409){if(id!==CUR){applyP(d);stat('Another user changed this project; reopen it to see the update');return}if(ROLE==='member'&&(tries||0)<3){const mj=rebaseMember(typeof d.json==='string'?JSON.parse(d.json):d.json,JSON.parse(j),lastSaved?JSON.parse(lastSaved):null);applyP(d);REV=d.rev||REV;S=mj;lastSaved=asStr(d.json);saveBusy=false;render();return await flushSave(id,name,JSON.stringify(mj),REV,(tries||0)+1)}takeRemote(d);return}if(!ok){stat(d.error||('Save error '+status));SVST='err';return}if(id===CUR){lastSaved=j;if(EV===ev)DIRTY=false}applyP(d);{const n=new Date();SVST=('0'+n.getHours()).slice(-2)+':'+('0'+n.getMinutes()).slice(-2)}if(isMem())stat('Saved')}catch(e){SVST='err';if(e.message!=='login')stat('Sync error: '+e.message)}finally{saveBusy=false;svBtn()}}
-async function refreshList(){if(saveT||saveBusy)return;const {ok,d}=await api('/api/projects');if(!ok)return;const prev=CUR,rev0=REV,dirty=isDirty();ingest(d.projects);REV=rev0;const keys=Object.keys(ALL);if(!keys.length){stat('No projects yet');return}if(!ALL[CUR])CUR=keys[0];const cur=ALL[CUR];if(CUR===prev&&cur&&cur.rev!==REV&&!dirty){S=JSON.parse(cur.json);REV=cur.rev||0;lastSaved=cur.json;HIST=[];FUT=[]}else if(cur&&CUR===prev&&dirty&&cur.rev!==REV&&cur.role==='member'){const mj=rebaseMember(JSON.parse(cur.json),S,lastSaved?JSON.parse(lastSaved):null);S=mj;lastSaved=cur.json;REV=cur.rev||0;ROLE=cur.role}else if(cur){ROLE=cur.role||ROLE;if(!(CUR===prev&&dirty&&cur.rev!==REV))REV=cur.rev||REV}fillPj();applyRole();render();lsSet();svBtn()}
+async function flushSave(id,name,j,rev,tries){const ev=EV;if(saveBusy){qPut({id,name,j,rev});clearTimeout(saveT);saveT=setTimeout(flushPend,400);return}saveBusy=true;saveT=0;const mem=((ALL[id]&&ALL[id].role)||ROLE)==='member';try{const {ok,status,d}=await api('/api/projects/'+encodeURIComponent(id),{method:'PUT',body:JSON.stringify(mem?{json:JSON.parse(slimOf(j)),rev}:{name,json:JSON.parse(j),rev})});if(status===403){stat('View only, no edit permission');SVST='err';return}if(status===409){if(id!==CUR){applyP(d);stat('Another user changed this project; reopen it to see the update');return}if(ROLE==='member'&&(tries||0)<3){const mj=rebaseMember(typeof d.json==='string'?JSON.parse(d.json):d.json,JSON.parse(j),lastSaved?JSON.parse(lastSaved):null);applyP(d);REV=d.rev||REV;S=mj;lastSaved=asStr(d.json);saveBusy=false;render();return await flushSave(id,name,JSON.stringify(mj),REV,(tries||0)+1)}if(confirm('Another user saved this project meanwhile.\nOK = load their version (your unsaved changes are discarded).\nCancel = keep your version and overwrite theirs.')){takeRemote(d);return}saveBusy=false;return await flushSave(id,name,j,d.rev||rev,(tries||0)+1)}if(!ok){stat(d.error||('Save error '+status));SVST='err';return}if(id===CUR){lastSaved=j;if(EV===ev)DIRTY=false}applyP(d);{const n=new Date();SVST=('0'+n.getHours()).slice(-2)+':'+('0'+n.getMinutes()).slice(-2)}if(isMem())stat('Saved')}catch(e){SVST='err';if(e.message!=='login')stat('Sync error: '+e.message)}finally{saveBusy=false;svBtn()}}
+async function refreshList(){if(saveT||saveBusy)return;const {ok,d}=await api('/api/projects');if(!ok)return;const prev=CUR,rev0=REV,dirty=isDirty();ingest(d.projects);REV=rev0;const keys=Object.keys(ALL);if(!keys.length){stat('No projects yet');return}if(!ALL[CUR])CUR=keys[0];const cur=ALL[CUR];if(CUR===prev&&cur&&cur.rev!==REV&&!dirty){S=JSON.parse(cur.json);REV=cur.rev||0;lastSaved=cur.json;HIST=[];FUT=[]}else if(cur&&CUR===prev&&dirty&&cur.rev!==REV&&cur.role==='member'){const mj=rebaseMember(JSON.parse(cur.json),S,lastSaved?JSON.parse(lastSaved):null);S=mj;lastSaved=cur.json;REV=cur.rev||0;ROLE=cur.role}else if(cur){ROLE=cur.role||ROLE;if(!(CUR===prev&&dirty&&cur.rev!==REV))REV=cur.rev||REV}fillPj();applyRole();render();if(!dirty)DIRTY=false;lsSet();svBtn()}
 const snap=()=>{if(!canWrite())return;HIST.push(JSON.stringify(S));if(HIST.length>100)HIST.shift();FUT=[]};
 function undo(){if(!HIST.length)return;FUT.push(JSON.stringify(S));S=JSON.parse(HIST.pop());save();render()}
 function redo(){if(!FUT.length)return;HIST.push(JSON.stringify(S));S=JSON.parse(FUT.pop());save();render()}
 const fillPj=()=>{$('#pj').innerHTML=Object.keys(ALL).map(k=>`<option value="${esc(k)}"${k==CUR?' selected':''}>${esc(ALL[k].name)}</option>`).join('')};
-function loadProj(id){if(!ALL[id])return;ib0();CUR=id;DIRTY=false;S=JSON.parse(ALL[id].json);lastSaved=asStr(ALL[id].json);SVST='';REV=ALL[id].rev||0;ROLE=ALL[id].role||ROLE;HIST=[];FUT=[];V.sel=0;lsSet();fillPj();applyRole();render();svBtn()}
-async function createRemote(nm,d){if(!d)return;flushPend();const {ok,status,d:p}=await api('/api/projects',{method:'POST',body:JSON.stringify({name:nm,json:d})});if(!ok){stat((p&&p.error)||('Could not create '+status));alert((p&&p.error)||'Could not create project');return}applyP(p);CUR=p.id;S=typeof p.json==='string'?JSON.parse(p.json):p.json;REV=p.rev||1;ROLE=p.role||'sua';lastSaved=asStr(p.json);DIRTY=false;lsSet();fillPj();applyRole();render();stat('Created')}
+const leaveOk=()=>{if(!isDirty())return true;return confirm('You have unsaved changes in this project. Leave without saving?')};
+function loadProj(id){if(!ALL[id])return;ib0();CUR=id;DIRTY=false;S=JSON.parse(ALL[id].json);lastSaved=asStr(ALL[id].json);SVST='';REV=ALL[id].rev||0;ROLE=ALL[id].role||ROLE;HIST=[];FUT=[];V.sel=0;lsSet();fillPj();applyRole();render();DIRTY=false;svBtn()}
+async function createRemote(nm,d){if(!d)return;if(!leaveOk())return;const {ok,status,d:p}=await api('/api/projects',{method:'POST',body:JSON.stringify({name:nm,json:d})});if(!ok){stat((p&&p.error)||('Could not create '+status));alert((p&&p.error)||'Could not create project');return}applyP(p);CUR=p.id;S=typeof p.json==='string'?JSON.parse(p.json):p.json;REV=p.rev||1;ROLE=p.role||'sua';lastSaved=asStr(p.json);DIRTY=false;lsSet();fillPj();applyRole();render();DIRTY=false;svBtn();stat('Created')}
 function setF(r,f,v,inp){if(f=='as'||f=='af'){const s=pd(v);if(!isNaN(s))r[f=='as'?'bs':'bf']=s}else if(f=='pct'){let n=parseFloat(String(v).replace('%','').replace(',','.'));if(isNaN(n))return;r.pct=Math.min(1,Math.max(0,inp||n>1?n/100:n))}else if(f=='dur')r.dur=Math.max(0,+v||0);else r[f]=v}
 const today=()=>Math.floor(Date.now()/864e5);
 function blank(nm){const t=today();return{info:{name:nm,start:t,wd:6,status:t,mode:'a'},hol:[],R:[{id:1,lv:1,name:'Task 1',dur:5,pred:'',res:'',pct:0,note:'',bs:0,bf:0,ins:0,as:0,af:0,link:null}],piles:[[],[],[]],done:{},res:JSON.parse(JSON.stringify(D.res)),plan:null}}
@@ -332,11 +333,11 @@ async function boot(){try{
  ingest(list.d.projects);const keys=Object.keys(ALL);
  if(!keys.length){stat('No projects yet — admin: run npm run seed or press ＋ Add project');fillPj();applyRole();return}
  CUR=(l&&l.CUR&&ALL[l.CUR])?l.CUR:keys[0];S=JSON.parse(ALL[CUR].json);REV=ALL[CUR].rev||0;ROLE=ALL[CUR].role||(ME.isAdmin?'admin':'xem');lastSaved=ALL[CUR].json;
- fillPj();applyRole();render();lsSet();
+ fillPj();applyRole();render();DIRTY=false;lsSet();svBtn();
  clearInterval(pollT);pollT=setInterval(refreshList,5000);
- const bgSave=()=>{if(!CUR||!canWrite()||!isDirty())return;const j=JSON.stringify(S);fetch('/api/projects/'+encodeURIComponent(CUR),{method:'PUT',credentials:'include',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify(isMem()?{json:JSON.parse(slimOf(j)),rev:REV}:{name:ALL[CUR].name,json:JSON.parse(j),rev:REV})})};
- window.addEventListener('beforeunload',e=>{if(isMem()&&isDirty()){bgSave();e.preventDefault();e.returnValue=''}else bgSave()});
- document.addEventListener('visibilitychange',()=>{if(document.hidden){if(isMem())bgSave()}else refreshList()});
+ window.addEventListener('beforeunload',e=>{if(isDirty()){e.preventDefault();e.returnValue=''}});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshList()});
+ document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();saveNow()}});
  document.getElementById('fsv').onclick=saveNow;
 }catch(e){stat('Load error: '+(e.message||e));const er=$('#err');if(er)er.textContent='Load error: '+(e.message||e)}}
 
@@ -469,7 +470,7 @@ function pileHTML(){const t=dayNow();return`<div class="pl pile"><div class="row
 <table class="pt"><tr><th>No.</th><th>Pile ID</th><th>Date driven</th></tr>${a.map((x,i)=>`<tr><td>${i+1}</td><td><input data-pz="${z}" data-pi="${i}" data-k="0" value="${esc(x[0])}" style="width:90px"></td><td><input data-pz="${z}" data-pi="${i}" data-k="1" placeholder="dd/mm/yyyy" value="${fd(x[1])}" style="width:92px"></td></tr>`).join('')}</table><button data-add="${z}">+ Add empty row</button></div>`).join('')+'</div></div>'}
 /* ---- sự kiện ---- */
 document.addEventListener('change',e=>{const t=e.target;
- if(t.id=='pj'){flushPend();loadProj(t.value);return}
+ if(t.id=='pj'){if(!leaveOk()){fillPj();return}loadProj(t.value);return}
  if(!canWrite())return;
  if(ROLE==='member'&&t.dataset.pz==null){if(t.id=='sw'){V.pw=+t.value;save();render()}return}
  if(t.dataset.f||t.dataset.pz!=null||['pn','ps','pw','pb','pm'].includes(t.id))snap();
@@ -493,7 +494,7 @@ document.addEventListener('click',e=>{if(SWALLOW){SWALLOW=false;return}const t=e
  const tr=t.closest('tr[data-r]');if(tr&&t.tagName=='TD'){V.sel=+tr.dataset.r;render();return}
  if(t.dataset.add!=null){if(!canWriteFull())return;snap();S.piles[+t.dataset.add].push(['','']);save();render();return}
  const g=t.closest('g[data-i]');if(g&&V.tab==2){snap();const w=V.pw||0,i=+g.dataset.i,d=new Set(S.done[w]||[]);d.has(i)?d.delete(i):d.add(i);S.done[w]=[...d];save();render()}});
-$('#t1').onclick=()=>{if(ROLE==='member')return;V.tab=1;save();render()};$('#t2').onclick=()=>{V.tab=2;save();render()};$('#t3').onclick=()=>{V.tab=3;save();render()};
+$('#t1').onclick=()=>{if(ROLE==='member')return;V.tab=1;render()};$('#t2').onclick=()=>{V.tab=2;render()};$('#t3').onclick=()=>{V.tab=3;render()};
 $('#bla').onclick=()=>{if(!(S.bls||[]).length){alert('No baseline yet. Press “Copy schedule” first.');return}cal();const wk=x=>ID(DI(x))==x,L=S.R.filter(r=>!r.sum),has=L.filter(r=>r.bs&&r.bf&&r.bf>=r.bs);
  if(!has.length){if(!confirm('No Baseline dates yet. Copy the current schedule (Start/Finish) into the two Baseline columns?'))return;const c=compute();if(c.err.length)return;snap();S.R.forEach((r,i)=>{r.bs=c.sd[i];r.bf=c.fn[i]});save();render();stat('Current schedule copied to Baseline');return}
  if(!confirm('Apply Baseline dates: '+has.length+' tasks with both Baseline start/finish will take these dates as Start/Finish. Blank rows are still auto-calculated. Continue?'))return;
@@ -610,7 +611,7 @@ function mergeUpdate(up){const r={tick:0,date:0,pile:0,pdate:0,skip:0},ids=isG()
 function importUpdate(){if(!canWriteFull()){stat('View only');return}const f=document.createElement('input');f.type='file';f.accept='.json,application/json';
  f.onchange=async()=>{try{const up=JSON.parse(await f.files[0].text());if(!up||up.kind!='td-update')throw new Error('This is not a “Send update” file from the field');
   if(up.pid&&up.pid!=CUR&&ALL[up.pid]&&!confirm('This file belongs to project “'+ALL[up.pid].name+'”.\nSwitch to that project and merge?'))return;
-  if(up.pid&&up.pid!=CUR&&ALL[up.pid]){flushPend();loadProj(up.pid)}
+  if(up.pid&&up.pid!=CUR&&ALL[up.pid]){if(!leaveOk())return;loadProj(up.pid)}
   else if(!confirm('Merge update “'+(up.pj||'')+'” ('+fd(up.date)+') into project “'+S.info.name+'”?'))return;
   snap();const r=mergeUpdate(up);save();render();
   const m='Merged: +'+r.tick+' newly marked units'+(r.date?', '+r.date+' units moved to an earlier date':'')+', +'+r.pile+' new piles'+(r.pdate?', '+r.pdate+' piles with updated date':'')+(r.skip?'. Skipped '+r.skip+' units not in this layout':'')+'.';stat(m);alert(m)}
