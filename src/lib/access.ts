@@ -78,7 +78,7 @@ export function asProjectJson(json: unknown): Record<string, unknown> {
   return {};
 }
 
-/** Member chỉ được ghi tick mặt bằng (`done`), ngày xong (`dd`) và bảng ép cọc (`piles`); không đụng Gantt. */
+/** Member chỉ được ghi tick mặt bằng (`done`), ngày xong (`dd`) và bảng ép cọc (`piles`) và số cọc lũy kế từng lô (`pl[].d`); không đụng Gantt. */
 export function mergeMemberJson(current: unknown, incoming: unknown) {
   const cur = asProjectJson(current);
   const inc = asProjectJson(incoming);
@@ -87,7 +87,22 @@ export function mergeMemberJson(current: unknown, incoming: unknown) {
     done: inc.done ?? cur.done,
     dd: inc.dd ?? cur.dd,
     piles: inc.piles ?? cur.piles,
+    pl: mergeLotCumulative(cur.pl, inc.pl),
   };
+}
+
+/** Member chỉ cập nhật số cọc lũy kế (`d`) của các lô đã có; tên lô và tổng cọc giữ nguyên. */
+function mergeLotCumulative(current: unknown, incoming: unknown) {
+  if (!Array.isArray(current) || !Array.isArray(incoming)) return current;
+  const key = (v: unknown) => String(v ?? "").trim().toLowerCase();
+  return current.map((lot) => {
+    const l = lot as { n?: unknown; t?: unknown; d?: unknown };
+    const m = (incoming as { n?: unknown; d?: unknown }[]).find((x) => x && key(x.n) === key(l.n));
+    const d = Number(m?.d);
+    if (!m || !Number.isFinite(d) || d < 0) return lot;
+    const t = Number(l.t);
+    return { ...l, d: Math.round(t > 0 ? Math.min(d, t) : d) };
+  });
 }
 
 export function canDelete(role: Role | null): boolean {
