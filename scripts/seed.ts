@@ -41,6 +41,10 @@ async function main() {
   const password = process.env.ADMIN_PASSWORD || "doi-mat-khau";
   const name = process.env.ADMIN_NAME || "Quản trị";
   const reset = process.argv.includes("--reset");
+  // npm run seed -- --reset --only=pkg3,pkg4   (chỉ ghi đè các dự án được chọn)
+  const onlyArg = process.argv.find((x) => x.startsWith("--only="));
+  const only = onlyArg ? onlyArg.slice(7).split(",").map((x) => x.trim()).filter(Boolean) : null;
+  const list = FILES.filter((f) => !only || only.includes(f.id));
 
   patchDnsForAtlas();
   const client = new MongoClient(uri);
@@ -66,7 +70,7 @@ async function main() {
   console.log("Admin:", email, "id=", adminId);
 
   const projects = db.collection<{ _id: string }>("projects");
-  for (const f of FILES) {
+  for (const f of list) {
     const raw = await readFile(path.join(process.cwd(), f.file), "utf8");
     const json = JSON.parse(raw);
     const exists = await projects.findOne({ _id: f.id });
