@@ -640,7 +640,8 @@ function mvInfo(c){const R=S.R,n=R.length,rdI=DI(S.info.status)+1,par=[],st=[];
  const crit=i=>!R[i].sum&&c.TF[i]<=0,late=i=>!R[i].sum&&!R[i].mile&&c.pc[i]<1&&pl(i)-c.pc[i]>=.1,doing=i=>!R[i].sum&&c.pc[i]>0&&c.pc[i]<1;
  return{R,n,par,pl,crit,late,doing}}
 function mvTasks(c){const I=mvInfo(c),{R,n,par}=I,VP=visPos(c,true),f=V.mvf||'all';
- const CI=colInfo(c),isOpen=CI.isOpen,hidden=CI.hid;
+ const CI=colInfo(c,true),isOpen=CI.isOpen,hidden=CI.hid;
+ const qty=r=>{const q=lp(r);return q?` (${q[0]}/${q[1]})`:''};
  const bar=i=>`<div class="mvb"><i style="width:${Math.round(c.pc[i]*100)}%"></i><u style="left:${Math.round(I.pl(i)*100)}%"></u></div>`;
  const tag=i=>(I.crit(i)?'<span class="mvg2 r">Critical</span>':'')+(I.late(i)?'<span class="mvg2 o">Late</span>':'');
  let o=`<div class="mvw"><div class="mvbar"><div class="mvf">${[['all','All'],['doing','In progress'],['late','Late'],['crit','Critical']].map(([k,t])=>`<button data-mvf="${k}" class="${f==k?'on':''}">${t}</button>`).join('')}</div><button id="mvx" data-mvfs="g" class="on">⛶ Expand</button></div>`;
@@ -648,9 +649,9 @@ function mvTasks(c){const I=mvInfo(c),{R,n,par}=I,VP=visPos(c,true),f=V.mvf||'al
  for(let i=0;i<n;i++){const r=R[i];if(VP[i]<0)continue;
   if(f=='all'){if(r.lv<2||hidden(i))continue;
    if(r.sum){o+=`<div class="mvh" data-mvg="${i}" style="margin-left:${(r.lv-2)*8}px"><span>${isOpen(i)?'▾':'▸'} ${esc(r.name)}</span><b>${mvPct(c.pc[i])}</b></div>`;cnt++}
-   else{cnt++;o+=`<div class="mvc" style="margin-left:${(r.lv-2)*8}px"><div class="mvt">${esc(r.name)}</div>${bar(i)}<div class="mvm">${fd(c.sd[i])} → ${fd(c.fn[i])} · <b>${mvPct(c.pc[i])}</b> · Plan ${mvPct(I.pl(i))} ${tag(i)}</div></div>`}}
+   else{cnt++;o+=`<div class="mvc" style="margin-left:${(r.lv-2)*8}px"><div class="mvt">${esc(r.name)}</div>${bar(i)}<div class="mvm">${fd(c.sd[i])} → ${fd(c.fn[i])} · <b>${mvPct(c.pc[i])}</b>${qty(R[i])} · Plan ${mvPct(I.pl(i))} ${tag(i)}</div></div>`}}
   else{if(r.sum||r.mile)continue;const ok=f=='doing'?I.doing(i):f=='late'?I.late(i):I.crit(i)&&c.pc[i]<1;if(!ok)continue;cnt++;
-   const p=par[i]>=0?R[par[i]].name:'';o+=`<div class="mvc"><div class="mvs">${esc(p)}</div><div class="mvt">${esc(r.name)}</div>${bar(i)}<div class="mvm">${fd(c.sd[i])} → ${fd(c.fn[i])} · <b>${mvPct(c.pc[i])}</b> · Plan ${mvPct(I.pl(i))} ${tag(i)}</div></div>`}}
+   const p=par[i]>=0?R[par[i]].name:'';o+=`<div class="mvc"><div class="mvs">${esc(p)}</div><div class="mvt">${esc(r.name)}</div>${bar(i)}<div class="mvm">${fd(c.sd[i])} → ${fd(c.fn[i])} · <b>${mvPct(c.pc[i])}</b>${qty(R[i])} · Plan ${mvPct(I.pl(i))} ${tag(i)}</div></div>`}}
  if(!cnt)o+='<p class="mvn">No items.</p>';
  return o+'<p class="mvn">Blue bar: actual · black tick: planned at report date.</p></div>'}
 function mvReportView(c){const D=rptData(),rd=S.info.status,I=mvInfo(c);
@@ -692,7 +693,7 @@ document.addEventListener('click',e=>{const g=e.target.closest&&e.target.closest
  if(MVFS)mvFsDraw();else render();return}
  const t=e.target.closest&&e.target.closest('[data-mvf],[data-mvg],[data-mvfs],[data-mvz]');if(!t)return;
  if(t.dataset.mvf){V.mvf=t.dataset.mvf;render();return}
- if(t.dataset.mvg!=null){const i=+t.dataset.mvg,CI=colInfo(compute());V.mvo=V.mvo||{};V.mvo[S.R[i].id]=!CI.isOpen(i);render();return}
+ if(t.dataset.mvg!=null){const i=+t.dataset.mvg,CI=colInfo(compute(),true);V.mvo=V.mvo||{};V.mvo[S.R[i].id]=!CI.isOpen(i);render();return}
  if(t.dataset.mvfs){mvOpen(t.dataset.mvfs);return}
  const z=t.dataset.mvz;if(!MVFS)return;
  if(z=='x'){mvClose();return}
@@ -782,10 +783,10 @@ $('#bl').onclick=copyBL;$('#bm').onclick=blMgr;
 $('#bsel').onchange=e=>{const L=S.bls||[],j=+e.target.value;V.bv=j>=L.length-1?null:j;render()};
 $('#tgd').onclick=()=>{V.ld=!V.ld;vSave();render()};$('#tgq').onclick=()=>{V.lq=!V.lq;vSave();render()};
 
-function colInfo(c){const R=S.R,n=R.length,par=[],st=[],act=new Array(n).fill(false),O=V.mvo=V.mvo||{},rdI=DI(S.info.status)+1;
+function colInfo(c,cl){const R=S.R,n=R.length,par=[],st=[],act=new Array(n).fill(false),O=V.mvo=V.mvo||{},rdI=DI(S.info.status)+1;
  R.forEach((r,i)=>{st[r.lv]=i;par[i]=r.lv>1?(st[r.lv-1]??-1):-1});
  for(let i=0;i<n;i++){const r=R[i];if(r.sum||r.mile||!(c.pc[i]<1))continue;if(c.pc[i]>0||rdI>c.tS[i]){let p=par[i];while(p>=0){act[p]=true;p=par[p]}}}
- const can=i=>!!R[i].sum&&R[i].lv>1,isOpen=i=>!can(i)||(O[R[i].id]!=null?!!O[R[i].id]:(R[i].lv<=2||act[i]));
+ const can=i=>!!R[i].sum&&R[i].lv>1,isOpen=i=>!can(i)||(O[R[i].id]!=null?!!O[R[i].id]:(cl?false:(R[i].lv<=2||act[i])));
  const hid=i=>{let p=par[i];while(p>=0){if(!isOpen(p))return true;p=par[p]}return false};
  return{par,can,isOpen,hid}}
 function setAllOpen(v){const c=compute(),CI=colInfo(c);V.mvo=V.mvo||{};S.R.forEach((r,i)=>{if(CI.can(i))V.mvo[r.id]=v})}
