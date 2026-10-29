@@ -10,7 +10,7 @@ button{cursor:pointer}button.on{background:var(--ac);color:#fff;border-color:var
 #sum{padding:4px 10px;background:var(--card);border-bottom:1px solid var(--bd);font-weight:600}#err{color:#dc2626;padding:0 10px}
 .split{display:flex;height:calc(100% - 150px)}.pane{overflow:auto}.pw{display:flex;flex-direction:column;min-width:0;min-height:0}#lw{flex:0 0 auto}#rw{flex:1 1 0}.pw>.pane{flex:1 1 auto;min-height:0}.sbt{flex:none;height:14px;overflow-x:auto;overflow-y:hidden}.sbt>div{height:1px}.pw>.pane::-webkit-scrollbar:horizontal{height:0}#gut{flex:0 0 7px;cursor:col-resize;background:var(--bd);opacity:.8}#gut:hover,#gut.dr{background:var(--ac);opacity:1}
 table.t{border-collapse:separate;border-spacing:0;white-space:nowrap}table.t th{position:sticky;top:0;background:var(--card);height:40px;box-sizing:border-box;z-index:2;border-right:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:0 4px;line-height:16px}
-table.t td{height:24px;max-height:24px;padding:0 3px;border-right:1px solid var(--bd);border-bottom:1px solid var(--bd);box-sizing:border-box;line-height:20px;overflow:hidden}table.t tr.s td{background:var(--card);font-weight:700}table.t tr.sel td{outline:1px solid var(--ac)}
+table.t td{height:24px;max-height:24px;padding:0 3px;border-right:1px solid var(--bd);border-bottom:1px solid var(--bd);box-sizing:border-box;line-height:20px;overflow:hidden}button.cgl{cursor:pointer;border:0;background:none;color:var(--fg);padding:0 3px 0 0;width:16px;flex:none;font-size:11px;height:20px}table.t tr.s td{background:var(--card);font-weight:700}table.t tr.sel td{outline:1px solid var(--ac)}
 td input{border:0;background:var(--in);width:100%;padding:0 2px;box-sizing:border-box;height:20px;line-height:18px;display:block}td input.nm{width:260px}.nc{display:flex;align-items:center;gap:4px;height:20px;white-space:nowrap}.nc input{flex:1;min-width:90px;width:auto}.nc span{flex:none}table.t tr{height:24px}td input.n{width:50px}td input.d{width:112px}td input.p{width:100px}
 .ro{background:var(--card)}.pl{padding:8px 12px;overflow:auto;height:calc(100% - 150px)}
 .u{fill:var(--bg);stroke:var(--mut);stroke-width:1;cursor:pointer}.u.on{fill:var(--ok)}.pl svg.pg text{fill:var(--fg);font-size:9px;text-anchor:middle;dominant-baseline:central;pointer-events:none}
@@ -126,7 +126,7 @@ function undo(){if(!HIST.length)return;FUT.push(JSON.stringify(S));S=JSON.parse(
 function redo(){if(!FUT.length)return;HIST.push(JSON.stringify(S));S=JSON.parse(FUT.pop());save();render()}
 const fillPj=()=>{$('#pj').innerHTML=Object.keys(ALL).map(k=>`<option value="${esc(k)}"${k==CUR?' selected':''}>${esc(ALL[k].name)}</option>`).join('')};
 const leaveOk=()=>{if(!isDirty())return true;return confirm('You have unsaved changes in this project. Leave without saving?')};
-function loadProj(id){if(!ALL[id])return;ib0();CUR=id;DIRTY=false;S=JSON.parse(ALL[id].json);lastSaved=asStr(ALL[id].json);SVST='';REV=ALL[id].rev||0;ROLE=ALL[id].role||ROLE;HIST=[];FUT=[];V.sel=0;lsSet();fillPj();applyRole();render();DIRTY=false;svBtn()}
+function loadProj(id){if(!ALL[id])return;ib0();CUR=id;DIRTY=false;S=JSON.parse(ALL[id].json);lastSaved=asStr(ALL[id].json);SVST='';REV=ALL[id].rev||0;ROLE=ALL[id].role||ROLE;HIST=[];FUT=[];V.sel=0;V.mvo={};lsSet();fillPj();applyRole();render();DIRTY=false;svBtn()}
 async function createRemote(nm,d){if(!d)return;if(!leaveOk())return;const {ok,status,d:p}=await api('/api/projects',{method:'POST',body:JSON.stringify({name:nm,json:d})});if(!ok){stat((p&&p.error)||('Could not create '+status));alert((p&&p.error)||'Could not create project');return}applyP(p);CUR=p.id;S=typeof p.json==='string'?JSON.parse(p.json):p.json;REV=p.rev||1;ROLE=p.role||'sua';lastSaved=asStr(p.json);DIRTY=false;lsSet();fillPj();applyRole();render();DIRTY=false;svBtn();stat('Created')}
 function setF(r,f,v,inp){if(f=='as'||f=='af'){const s=pd(v);if(!isNaN(s))r[f=='as'?'bs':'bf']=s}else if(f=='pct'){let n=parseFloat(String(v).replace('%','').replace(',','.'));if(isNaN(n))return;r.pct=Math.min(1,Math.max(0,inp||n>1?n/100:n))}else if(f=='dur')r.dur=Math.max(0,+v||0);else r[f]=v}
 const today=()=>Math.floor(Date.now()/864e5);
@@ -290,7 +290,7 @@ async function makePdf(o){stat('Creating PDF…');await need('https://cdnjs.clou
  const page=async(html,w,fmt)=>{box.style.width=w=='auto'?'max-content':w+'px';box.innerHTML=html;const cv=await html2canvas(box,{scale:fmt=='a3'?3:1.8,backgroundColor:'#fff'});let pw,ph,or;if(fmt=='a3'){pw=1190.55;ph=841.89;or='landscape'}else if(cv.height>cv.width*1.05){pw=595.28;ph=841.89;or='portrait'}else{pw=841.89;ph=595.28;or='landscape'}doc.addPage(fmt=='a3'?'a3':'a4',or);const m=15,r=Math.min((pw-2*m)/cv.width,(ph-2*m)/cv.height);doc.addImage(cv.toDataURL('image/jpeg',.92),'JPEG',m,m,cv.width*r,cv.height*r)};
 
  const c=compute(),ttl=(t)=>`<h2 style="margin:0 0 6px">${t} – ${esc(S.info.name)} (${fd(S.info.status)})</h2>`;
- if(o.a){cal();const R=S.R,w=wbs(),vis=COLS.map(x=>x[0]).filter(k=>!hid().includes(k)),dw0=+V.dw;let gsv=gantt(c);const VP0=visPos(c),VI=R.map((_,i)=>i).filter(i=>VP0[i]>=0),bli=blIdx(),bn=(S.bls||[])[bli]?'BL'+S.bls[bli].n:'none';
+ if(o.a){cal();const R=S.R,w=wbs(),vis=COLS.map(x=>x[0]).filter(k=>!hid().includes(k)),dw0=+V.dw;let gsv=gantt(c,true);const VP0=visPos(c,true),VI=R.map((_,i)=>i).filter(i=>VP0[i]>=0),bli=blIdx(),bn=(S.bls||[])[bli]?'BL'+S.bls[bli].n:'none';
   let colw=null,tw=0,PH=0,PWc=0;
   const hdr=()=>`<div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #1f6f8b;margin-bottom:6px;padding-bottom:3px"><h2 style="margin:0;font-size:18px">CONSTRUCTION SCHEDULE</h2><div style="font-size:13px"><b>${esc(S.info.name)}</b> &nbsp;·&nbsp; Report date: <b>${fd(S.info.status)}</b> &nbsp;·&nbsp; Baseline: <b>${bn}</b></div></div>`;
   const sw=(st)=>`<span style="display:inline-block;vertical-align:middle;${st}"></span>`,LEG='<div style="display:flex;gap:16px;align-items:center">'+[[sw('width:22px;height:9px;background:#93c5fd;border:1px solid #2563eb'),'Planned'],[sw('width:22px;height:9px;background:#2563eb'),'Actual'],[sw('width:22px;height:9px;background:#fca5a5;border:1px solid #dc2626'),'Critical'],[sw('width:22px;height:5px;background:#64748b'),'Baseline'],[sw('height:13px;border-left:2px dashed #dc2626'),'Report date']].map(([a,b])=>`<span>${a} ${b}</span>`).join('')+'</div>';
@@ -305,7 +305,7 @@ async function makePdf(o){stat('Creating PDF…');await need('https://cdnjs.clou
   /* 1) đo bề rộng tự nhiên rồi chốt cột tên cố định (cắt bằng “…”) */
   box.style.width='max-content';box.innerHTML=chunk(0,VI.length);await new Promise(r=>setTimeout(r,30));
   {const CAP={name:340,note:240,res:150,pred:130},ths=[...box.querySelectorAll('table tr:first-child th')].map(t=>t.offsetWidth);colw=ths.map((x,i)=>Math.min(x+8,CAP[vis[i]]||x+8));tw=colw.reduce((a,b)=>a+b,0);window.__dbg=1}
-  {const days=GM.mx-GM.mn,dn=Math.max(2.2,(2000-tw)/days);if(dn<dw0){V.dw=dn;gsv=gantt(c)}}
+  {const days=GM.mx-GM.mn,dn=Math.max(2.2,(2000-tw)/days);if(dn<dw0){V.dw=dn;gsv=gantt(c,true)}}
   box.innerHTML=chunk(0,1,true);await new Promise(r=>setTimeout(r,30));
   const Wc=box.offsetWidth,hh=(box.firstElementChild.offsetHeight||30)+6,RB=box.lastElementChild.offsetHeight,FH=26,AW=1160.5,AH=811.9,k=AW/Wc,pageH=Math.floor(AH/k),per=Math.max(6,Math.floor((pageH-hh-40-FH-8)/RH)),lastCap=Math.floor((pageH-hh-40-RB-FH-8)/RH),N=VI.length;
   PH=pageH;PWc=Wc;
@@ -318,7 +318,7 @@ async function makePdf(o){stat('Creating PDF…');await need('https://cdnjs.clou
   const extra=lastCap<3,TOT=pgs.length+(extra?1:0);let pn=0;
   for(const[p,q,rs]of pgs)await page(chunk(p,q,rs,++pn,TOT),'auto','a3');
   if(extra)await page(wrap(hdr()+`<div style="margin-left:${tw}px;height:40px;overflow:hidden;width:${GM.W}px">${gsv}</div>`+RES(),++pn,TOT),'auto','a3');
-  V.dw=dw0;gantt(c)}
+  V.dw=dw0;gantt(c,true)}
   if(o.b){const cc=compute();for(const h of reportPages(cc))await page(h,'auto')}
  if(o.c){const strip=s=>s.replace(/<button.*?<\/button>/g,'').replace(/<div class="row"><b>Task.*?<\/div>/,'');
   if(S.plan==='p3'){D.W.forEach((n,i)=>{});for(let i=0;i<D.W.length;i++){if(o.d&&!(S.done[i]||[]).length)continue;V.pw=i;await page(`<h3>${i+1}. ${esc(D.W[i])}</h3>`+strip(planHTML()),900)}}
@@ -430,7 +430,7 @@ function compute(){cal();const R=S.R,n=R.length,err=[],man=S.info.mode=='m';
 const wbs=()=>{const c=[],o=[];S.R.forEach(r=>{c[r.lv]=(c[r.lv]||0)+1;c.length=r.lv+1;o.push(c.slice(1).join('.'))});return o};
 /* ---- vẽ ---- */
 const RH=24,HH=40;
-function gantt(c){GM={};const R=S.R,VP=visPos(c),n=VP.n,dw=+V.dw,mn=Math.min(...c.sd)-4,mx=Math.max(...c.fn)+12,x=d=>(d-mn)*dw,W=x(mx);GM={mn,dw,W,mx};
+function gantt(c,all){GM={};const R=S.R,VP=visPos(c,all),n=VP.n,dw=+V.dw,mn=Math.min(...c.sd)-4,mx=Math.max(...c.fn)+12,x=d=>(d-mn)*dw,W=x(mx);GM={mn,dw,W,mx};
  let o=`<svg width="${W}" height="${n*RH+HH}"><defs><marker id="ah" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6z" fill="#475569"/></marker></defs>`;
  for(let d=mn;d<=mx;d++){const t=new Date(d*864e5);if(t.getUTCDate()==1)o+=`<text x="${x(d)+2}" y="13" font-size="11" fill="currentColor">${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][t.getUTCMonth()]} ${t.getUTCFullYear()}</text><line x1="${x(d)}" x2="${x(d)}" y1="0" y2="${n*RH+HH}" stroke="#94a3b8" stroke-opacity=".5"/>`;if(t.getUTCDay()==1&&dw>=3.2)o+=`<text x="${x(d)+1}" y="32" font-size="9" fill="#94a3b8">${t.getUTCDate()}/${t.getUTCMonth()+1}</text>`}
  R.forEach((r,i)=>{if(VP[i]>=0&&VP[i]%2)o+=`<rect x="0" y="${HH+VP[i]*RH}" width="${W}" height="${RH}" fill="#94a3b8" opacity=".08"/>`});
@@ -451,8 +451,8 @@ function gantt(c){GM={};const R=S.R,VP=visPos(c),n=VP.n,dw=+V.dw,mn=Math.min(...
   });
  const sx=x(S.info.status+1);o+=`<line x1="${sx}" x2="${sx}" y1="${HH}" y2="${n*RH+HH}" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 3"/>`;return o+'</svg>'}
 function table(c){const R=S.R,w=wbs();let o='<table class="t"><tr><th>No.</th><th>WBS</th><th>Task name</th><th>Type</th><th>Duration</th><th>Start</th><th>Finish</th><th>Predecessors</th><th>Resources</th><th>% Complete</th><th>Note</th><th>Float</th><th>BL variance</th><th>Baseline start</th><th>Baseline finish</th></tr>';
- R.forEach((r,i)=>{if(V.hd&&c.pc[i]>=.9999)return;const q=lp(r),inp=(f,v,cl,t)=>`<input class="${cl||''}" type="${t||'text'}" data-i="${i}" data-f="${f}" value="${esc(v)}">`;
-  o+=`<tr class="${r.sum?'s':''}${i==V.sel?' sel':''}" data-r="${i}"><td>${r.id}</td><td>${w[i]}</td><td style="padding-left:${3+(r.lv-1)*10}px">${inp('name',r.name,'nm')}</td><td>${r.sum?'Summary':r.mile?'Milestone':'Task'}</td>
+ const VPt=visPos(c),CIt=colInfo(c);R.forEach((r,i)=>{if(VPt[i]<0)return;const q=lp(r),inp=(f,v,cl,t)=>`<input class="${cl||''}" type="${t||'text'}" data-i="${i}" data-f="${f}" value="${esc(v)}">`;
+  o+=`<tr class="${r.sum?'s':''}${i==V.sel?' sel':''}" data-r="${i}"><td>${r.id}</td><td>${w[i]}</td><td style="padding-left:${3+(r.lv-1)*10}px"><div style="display:flex;align-items:center">${CIt.can(i)?`<button class="cgl" data-tg="${i}" title="Collapse / expand">${CIt.isOpen(i)?'▾':'▸'}</button>`:''}${inp('name',r.name,'nm')}</div></td><td>${r.sum?'Summary':r.mile?'Milestone':'Task'}</td>
   <td>${r.sum?`<span class="ro">${c.ds[i]}</span>`:inp('dur',r.dur,'n')}</td><td>${fd(c.sd[i])}</td><td>${fd(c.fn[i])}</td><td>${r.sum?'':inp('pred',r.pred,'p')}</td><td>${r.sum?'':inp('res',r.res,'p')}</td>
   <td>${r.sum||q?Math.round(c.pc[i]*100)+'%'+(q?` (${q[0]}/${q[1]})`:''):inp('pct',Math.round((+r.pct||0)*100),'n')}</td><td><div class="nc">${c.vio[i]?'<span style="color:#dc2626;font-size:11px">⚠ Link violated </span>':''}${warn(r,i,c)?'<span style="color:#dc2626;font-size:11px">⚠ Delayed: no progress after 3 days </span>':''}${(c.vio[i]||warn(r,i,c))?'':inp('note',r.note,'p')}</div></td><td>${c.TF[i]}</td><td>${blVar(r,i,c)}</td><td>${blCell(r,0,inp)}</td><td>${blCell(r,1,inp)}</td></tr>`});return tagCols(blH(o+'</table>'))}
 const SCR='#v .pl,#v #gwrap';
@@ -462,7 +462,7 @@ function render0(){if((FIELD||ROLE==='member')&&(V.tab==1||V.tab==4))V.tab=2;doc
  $('#err').innerHTML=c.err.length?'⚠ '+c.err.slice(0,5).map(esc).join(' · '):'';
  if(!c.err.length)$('#sum').innerHTML=chips([['Finish',fd(c.pFin)],['Duration',(c.pF-c.pS)+' working days'],['Actual',(c.pa*100).toFixed(1)+'%'],['Planned',(c.pp*100).toFixed(1)+'%'],['Actual/Plan',c.pp?(c.pa/c.pp).toFixed(2):'-',c.pp&&c.pa/c.pp<.95?'bad':''],['Critical tasks',c.crit]]);
  if(V.tab==1){if(c.err.length){v.innerHTML='';return}const a=$('#lp'),b=$('#rp'),sl=a?a.scrollTop:0,sx=b?b.scrollLeft:0,sxl=a?a.scrollLeft:0;const GS=gantt(c);
-  v.innerHTML=`<div class="top"><button data-op="add">+ Add row</button><button data-op="del">Delete row</button><button data-op="in">Indent →</button><button data-op="out">← Outdent</button>${colMenu()}<button data-op="up">↑</button><button data-op="dn">↓</button><span class="hint" title="Yellow cell = input · click the No. cell to select a row · Ctrl+Z / Ctrl+Y · paste multiple cells from Excel">ⓘ</span></div><div class="split"><div class="pw" id="lw"><div class="sbt" id="lt"><div></div></div><div class="pane" id="lp">${table(c)}${leftBottom(c)}</div></div><div id="gut" title="Drag to resize · double-click for auto"></div><div class="pw" id="rw"><div class="sbt" id="rt"><div></div></div><div class="pane" id="rp">${GS}${rightBottom(c)}</div></div></div>`;
+  v.innerHTML=`<div class="top"><button data-op="add">+ Add row</button><button data-op="del">Delete row</button><button data-op="in">Indent →</button><button data-op="out">← Outdent</button>${colMenu()}<button data-op="up">↑</button><button data-op="dn">↓</button><button data-cl="cx" title="Collapse all groups">Collapse all</button><button data-cl="ex" title="Expand all groups">Expand all</button><span class="hint" title="Yellow cell = input · click the No. cell to select a row · Ctrl+Z / Ctrl+Y · paste multiple cells from Excel">ⓘ</span></div><div class="split"><div class="pw" id="lw"><div class="sbt" id="lt"><div></div></div><div class="pane" id="lp">${table(c)}${leftBottom(c)}</div></div><div id="gut" title="Drag to resize · double-click for auto"></div><div class="pw" id="rw"><div class="sbt" id="rt"><div></div></div><div class="pane" id="rp">${GS}${rightBottom(c)}</div></div></div>`;
   const l=$('#lp'),r=$('#rp'),lt=$('#lt'),rt=$('#rt'),dd=l.scrollHeight-r.scrollHeight;if(dd>0)$('#sp').style.height=dd+'px';layoutSplit();l.scrollTop=r.scrollTop=sl;r.scrollLeft=sx;l.scrollLeft=sxl;lt.scrollLeft=sxl;rt.scrollLeft=sx;l.onscroll=()=>{r.scrollTop=l.scrollTop;lt.scrollLeft=l.scrollLeft};r.onscroll=()=>{l.scrollTop=r.scrollTop;rt.scrollLeft=r.scrollLeft};lt.onscroll=()=>{l.scrollLeft=lt.scrollLeft};rt.onscroll=()=>{r.scrollLeft=rt.scrollLeft}}
  else if(V.tab==2)v.innerHTML=planHTML();else if(V.tab==4)v.innerHTML='<div class="pl">'+(c.err.length?'':reportHTML(c))+'</div>';else v.innerHTML=pileHTML()}
 /* ---- mặt bằng / cọc ---- */
@@ -639,10 +639,8 @@ function mvInfo(c){const R=S.R,n=R.length,rdI=DI(S.info.status)+1,par=[],st=[];
  const pl=i=>{const a=c.tS[i],b=c.tf[i];return b>a?Math.min(1,Math.max(0,(rdI-a)/(b-a))):(rdI>=b?1:0)};
  const crit=i=>!R[i].sum&&c.TF[i]<=0,late=i=>!R[i].sum&&!R[i].mile&&c.pc[i]<1&&pl(i)-c.pc[i]>=.1,doing=i=>!R[i].sum&&c.pc[i]>0&&c.pc[i]<1;
  return{R,n,par,pl,crit,late,doing}}
-function mvTasks(c){const I=mvInfo(c),{R,n,par}=I,VP=visPos(c),f=V.mvf||'all',O=V.mvo=V.mvo||{};
- const hasDoing=new Array(n).fill(false);for(let i=0;i<n;i++)if(I.doing(i)||I.late(i)){let p=par[i];while(p>=0){hasDoing[p]=true;p=par[p]}}
- const isOpen=i=>O[i]!=null?O[i]:hasDoing[i];
- const hidden=i=>{let p=par[i];while(p>=0){if(R[p].lv>1&&!isOpen(p))return true;p=par[p]}return false};
+function mvTasks(c){const I=mvInfo(c),{R,n,par}=I,VP=visPos(c,true),f=V.mvf||'all';
+ const CI=colInfo(c),isOpen=CI.isOpen,hidden=CI.hid;
  const bar=i=>`<div class="mvb"><i style="width:${Math.round(c.pc[i]*100)}%"></i><u style="left:${Math.round(I.pl(i)*100)}%"></u></div>`;
  const tag=i=>(I.crit(i)?'<span class="mvg2 r">Critical</span>':'')+(I.late(i)?'<span class="mvg2 o">Late</span>':'');
  let o=`<div class="mvw"><div class="mvbar"><div class="mvf">${[['all','All'],['doing','In progress'],['late','Late'],['crit','Critical']].map(([k,t])=>`<button data-mvf="${k}" class="${f==k?'on':''}">${t}</button>`).join('')}</div><button id="mvx" data-mvfs="g" class="on">⛶ Expand</button></div>`;
@@ -674,13 +672,13 @@ function mvFit(){const el=document.getElementById('mvfs');if(!el)return;const w=
 const MVCOLS=[['start','Start',74],['fin','Finish',74],['dur','Dur.',42],['pct','% Complete',84],['pred','Predecessors',90],['res','Resources',90],['note','Note',160],['tf','Float',44],['var','BL var.',56],['as','Baseline start',78],['af','Baseline finish',78]];
 const mvSel=()=>{try{const a=JSON.parse(localStorage.getItem('mvcols')||'null');if(Array.isArray(a))return a}catch(e){}return['pct']};
 const mvSetSel=a=>{try{localStorage.setItem('mvcols',JSON.stringify(a))}catch(e){}};
-function mvGantt(c){const I=mvInfo(c),{R}=I,VP=visPos(c),vi=R.map((_,i)=>i).filter(i=>VP[i]>=0),gs=gantt(c),sel=mvSel(),cols=MVCOLS.filter(x=>sel.includes(x[0])),NW=170,LW=NW+cols.reduce((a,x)=>a+x[2],0),w=wbs();
+function mvGantt(c){const I=mvInfo(c),{R}=I,VP=visPos(c),CIg=colInfo(c),vi=R.map((_,i)=>i).filter(i=>VP[i]>=0),gs=gantt(c),sel=mvSel(),cols=MVCOLS.filter(x=>sel.includes(x[0])),NW=170,LW=NW+cols.reduce((a,x)=>a+x[2],0),w=wbs();
  const cell=(wd,h,st)=>`<div style="width:${wd}px;flex:none;box-sizing:border-box;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 3px;${st||''}">${h}</div>`;
- const left=vi.map(i=>{const r=R[i],cr=I.crit(i)&&c.pc[i]<1;return`<div style="display:flex;height:${RH}px;line-height:${RH}px;box-sizing:border-box;border-bottom:1px solid var(--bd);font-size:11px;${r.sum?'font-weight:700;background:var(--card)':''}${cr?';color:#dc2626':''}">${cell(NW,esc(r.name),'padding-left:'+(3+(r.lv-1)*7)+'px')}${cols.map(x=>cell(x[2],pcell(x[0],r,i,c,w),'border-left:1px solid var(--bd);color:var(--fg)')).join('')}</div>`}).join('');
+ const left=vi.map(i=>{const r=R[i],cr=I.crit(i)&&c.pc[i]<1;return`<div style="display:flex;height:${RH}px;line-height:${RH}px;box-sizing:border-box;border-bottom:1px solid var(--bd);font-size:11px;${r.sum?'font-weight:700;background:var(--card)':''}${cr?';color:#dc2626':''}">${cell(NW,(CIg.can(i)?`<span data-tg="${i}" style="cursor:pointer;display:inline-block;width:12px">${CIg.isOpen(i)?'▾':'▸'}</span>`:'')+esc(r.name),'padding-left:'+(3+(r.lv-1)*7)+'px')}${cols.map(x=>cell(x[2],pcell(x[0],r,i,c,w),'border-left:1px solid var(--bd);color:var(--fg)')).join('')}</div>`}).join('');
  const head=`<div style="display:flex">${cell(NW,'Task')}${cols.map(x=>cell(x[2],x[1],'border-left:1px solid var(--bd)')).join('')}</div>`;
  return`<div style="display:flex;min-width:max-content"><div style="position:sticky;left:0;z-index:3;width:${LW}px;flex:none;background:var(--bg);border-right:2px solid var(--bd)"><div style="position:sticky;top:0;z-index:2;height:${HH}px;background:var(--card);border-bottom:1px solid var(--bd);box-sizing:border-box;font-size:11px;padding-top:12px;font-weight:700">${head}</div>${left}</div><div><div style="position:sticky;top:0;z-index:2;height:${HH}px;overflow:hidden;background:var(--bg)">${gs}</div><div style="height:${vi.length*RH}px;overflow:hidden"><div style="margin-top:-${HH}px">${gs}</div></div></div></div>`}
 function mvFsDraw(){const el=document.getElementById('mvfs');if(!el)return;let c;try{c=compute()}catch(e){return}const sc=el.querySelector('.mvsc2'),sx=sc?sc.scrollLeft:0,sy=sc?sc.scrollTop:0,kind=MVFS.kind;
- const bar=`<div class="mvtb"><b>${kind=='g'?'Schedule':'Report'} · ${esc(S.info.name)}</b><span style="flex:1"></span>${kind=='g'?'<button data-mvz="cols" class="'+(MVFS.cp?'on':'')+'">Columns</button><button data-mvz="hd" class="'+(V.hd?'on':'')+'">Hide completed</button>':''}<button data-mvz="-">−</button><button data-mvz="+">＋</button><button data-mvz="x">✕</button></div>`;
+ const bar=`<div class="mvtb"><b>${kind=='g'?'Schedule':'Report'} · ${esc(S.info.name)}</b><span style="flex:1"></span>${kind=='g'?'<button data-mvz="cx">Collapse</button><button data-mvz="ex">Expand</button><button data-mvz="cols" class="'+(MVFS.cp?'on':'')+'">Columns</button><button data-mvz="hd" class="'+(V.hd?'on':'')+'">Hide completed</button>':''}<button data-mvz="-">−</button><button data-mvz="+">＋</button><button data-mvz="x">✕</button></div>`;
  let body;if(kind=='g'){if(!MVFS.dw0)MVFS.dw0=+V.dw;body=mvGantt(c)}
  else{const z=MVFS.z||Math.min(1,(Math.max(innerWidth,innerHeight)-16)/960);MVFS.z=z;body=`<div style="width:960px;zoom:${z};padding:6px" class="pl mvrb"><h3>PROGRESS REPORT – ${esc(S.info.name)}</h3>${statsHTML(c)}${cumTable()}${resSection(c)}${scSection(c,0)}</div>`}
  const cp=kind=='g'&&MVFS.cp?`<div id="mvcp">${MVCOLS.map(x=>`<label><input type="checkbox" data-mvcc="${x[0]}"${mvSel().includes(x[0])?' checked':''}> ${x[1]}</label>`).join('')}</div>`:'';el.innerHTML=bar+cp+`<div class="mvsc2">${body}</div>`;mvFit();const n=el.querySelector('.mvsc2');n.scrollLeft=sx;n.scrollTop=sy}
@@ -689,9 +687,12 @@ async function mvOpen(kind){if(MVFS)return;MVFS={kind};const el=document.createE
 function mvClose(fromPop){if(!MVFS)return;if(!fromPop&&history.state&&history.state.mvfs){try{history.back()}catch(e){}}const dw0=MVFS.dw0;if(dw0)V.dw=dw0;MVFS=null;const el=document.getElementById('mvfs');try{if(document.fullscreenElement)document.exitFullscreen()}catch(e){}try{screen.orientation.unlock()}catch(e){}if(el)el.remove();document.body.classList.remove('mvlock');render()}
 ['resize','orientationchange'].forEach(ev=>window.addEventListener(ev,()=>{mvApply();if(MVFS)setTimeout(mvFit,60);else if(isMV()!==document.body.classList.contains('mv'))render()}));
 window.addEventListener('popstate',()=>{if(MVFS)mvClose(true)});
-document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-mvf],[data-mvg],[data-mvfs],[data-mvz]');if(!t)return;
+document.addEventListener('click',e=>{const g=e.target.closest&&e.target.closest('[data-tg],[data-cl],[data-mvz="cx"],[data-mvz="ex"]');if(g){e.preventDefault();V.mvo=V.mvo||{};
+ if(g.dataset.tg!=null){const i=+g.dataset.tg,CI=colInfo(compute());V.mvo[S.R[i].id]=!CI.isOpen(i)}else setAllOpen((g.dataset.cl||g.dataset.mvz)=='ex');
+ if(MVFS)mvFsDraw();else render();return}
+ const t=e.target.closest&&e.target.closest('[data-mvf],[data-mvg],[data-mvfs],[data-mvz]');if(!t)return;
  if(t.dataset.mvf){V.mvf=t.dataset.mvf;render();return}
- if(t.dataset.mvg!=null){const i=+t.dataset.mvg,c=compute(),I=mvInfo(c),cur=(V.mvo||{})[i];let cl;{let any=false;for(let j=i+1;j<I.n&&S.R[j].lv>S.R[i].lv;j++)if(I.doing(j)||I.late(j)){any=true;break}cl=cur!=null?cur:any}V.mvo=V.mvo||{};V.mvo[i]=!cl;render();return}
+ if(t.dataset.mvg!=null){const i=+t.dataset.mvg,CI=colInfo(compute());V.mvo=V.mvo||{};V.mvo[S.R[i].id]=!CI.isOpen(i);render();return}
  if(t.dataset.mvfs){mvOpen(t.dataset.mvfs);return}
  const z=t.dataset.mvz;if(!MVFS)return;
  if(z=='x'){mvClose();return}
@@ -781,7 +782,14 @@ $('#bl').onclick=copyBL;$('#bm').onclick=blMgr;
 $('#bsel').onchange=e=>{const L=S.bls||[],j=+e.target.value;V.bv=j>=L.length-1?null:j;render()};
 $('#tgd').onclick=()=>{V.ld=!V.ld;vSave();render()};$('#tgq').onclick=()=>{V.lq=!V.lq;vSave();render()};
 
-function visPos(c){let k=0;const P=S.R.map((r,i)=>V.hd&&c.pc[i]>=.9999?-1:k++);P.n=k;return P}
+function colInfo(c){const R=S.R,n=R.length,par=[],st=[],act=new Array(n).fill(false),O=V.mvo=V.mvo||{},rdI=DI(S.info.status)+1;
+ R.forEach((r,i)=>{st[r.lv]=i;par[i]=r.lv>1?(st[r.lv-1]??-1):-1});
+ for(let i=0;i<n;i++){const r=R[i];if(r.sum||r.mile||!(c.pc[i]<1))continue;if(c.pc[i]>0||rdI>c.tS[i]){let p=par[i];while(p>=0){act[p]=true;p=par[p]}}}
+ const can=i=>!!R[i].sum&&R[i].lv>1,isOpen=i=>!can(i)||(O[R[i].id]!=null?!!O[R[i].id]:(R[i].lv<=2||act[i]));
+ const hid=i=>{let p=par[i];while(p>=0){if(!isOpen(p))return true;p=par[p]}return false};
+ return{par,can,isOpen,hid}}
+function setAllOpen(v){const c=compute(),CI=colInfo(c);V.mvo=V.mvo||{};S.R.forEach((r,i)=>{if(CI.can(i))V.mvo[r.id]=v})}
+function visPos(c,all){let k=0;const CI=all?null:colInfo(c),P=S.R.map((r,i)=>(V.hd&&c.pc[i]>=.9999)||(CI&&CI.hid(i))?-1:k++);P.n=k;return P}
 function vSave(){try{localStorage.setItem('tdw_v',JSON.stringify({ld:V.ld,lq:V.lq,hd:V.hd}))}catch(e){}}
 $('#tgh').onclick=()=>{V.hd=!V.hd;vSave();render()};
 try{const p=JSON.parse(localStorage.getItem('tdw_v')||'{}');if(p.ld||p.lq||p.hd){Object.assign(V,p);render()}}catch(e){}
