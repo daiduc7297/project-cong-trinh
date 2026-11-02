@@ -258,16 +258,16 @@ function cumTable(a0,b0,more){const D=rptData(),{rd,ms}=D,mm=new Date(rd*864e5).
  const rows=D.items.slice(a0==null?0:a0,b0==null?1e9:b0).map((it,ii)=>{const i=ii+(a0||0);let o=`<tr><td>${i+1}</td><td class="l">${esc(it.name)}</td>`;const T={p:0,m:0,t:0};D.Zs.forEach(z=>{const e=it.zs[z];if(!e)return;const a=cn(e);T.p+=a.p;T.m+=a.m;T.t+=a.t});return o+cell(T,1,it.pl)+'</tr>'}).join('');
  return`<h3>A. CUMULATIVE QUANTITIES${more?' (cont.)':''} <span style="font-weight:400;font-size:11px">(units / piles done ÷ total, as of ${fd(rd)}; units without a date count in the previous cumulative; planned = per baseline)</span></h3><table class="pt rt rfx"><colgroup><col style="width:44px"><col><col style="width:96px"><col style="width:96px"><col style="width:110px"><col style="width:96px"></colgroup>${h}${rows}</table>`}
 const lotAct=lot=>{const D=rptData();let a=false;D.items.forEach(it=>{const e=it.lots&&it.lots[lot];if(e){const n=e.dates.length;if(n>0&&n<e.tot)a=true}});return a};
-function lotTable(all){const D=rptData(),{rd,ms}=D;if(!D.items.some(it=>it.lots&&Object.keys(it.lots).length))return'';
+function lotTable(all,only){const D=rptData(),{rd,ms}=D;if(!D.items.some(it=>it.lots&&Object.keys(it.lots).length))return'';
  const cn=e=>({p:e.dates.filter(d=>d==null||d<ms).length,m:e.dates.filter(d=>d!=null&&d>=ms&&d<=rd).length,t:e.tot});V.rl=V.rl||{};
  const cell=(a,pl)=>{const cur=a.p+a.m,pn=pl==null?null:Math.round(pl);return`<td>${a.p||'–'}</td><td>${a.m||'–'}</td><td class="cur${a.t&&cur>=a.t?' full':''}">${a.t?cur+'/'+a.t:'–'}</td><td class="${pn!=null&&cur<pn?'over':''}">${pn==null?'–':pn}</td>`};
- let body='';LOTS().forEach(lot=>{const its=D.items.filter(it=>it.lots&&it.lots[lot]);if(!its.length)return;
+ let body='';LOTS().forEach(lot=>{if(only&&lot!=only)return;const its=D.items.filter(it=>it.lots&&it.lots[lot]);if(!its.length)return;
   let sw=0,sp=0,nd=0,act=false;its.forEach(it=>{const e=it.lots[lot],a=cn(e),f=a.t?Math.min(1,(a.p+a.m)/a.t):0;sw+=e.w;sp+=e.w*f;if(f>=1)nd++;if(a.p+a.m>0&&a.p+a.m<a.t)act=true});const pct=sw?Math.round(sp/sw*100):0;
   const open=all||(V.rl[lot]!=null?V.rl[lot]:act);
   body+=`<tr class="lh"><td colspan="6" style="text-align:left;background:var(--card);color:var(--fg);font-weight:700">${all?'':`<button class="cgl" data-rl="${esc(lot)}">${open?'▾':'▸'}</button> `}${esc(lot)} <span style="font-weight:400;font-size:11px">· ${pct}% <span style="opacity:.7">(${nd}/${its.length} items done · weighted by duration)</span></span></td></tr>`;
   if(open)its.forEach((it,k)=>{const e=it.lots[lot];body+=`<tr><td>${k+1}</td><td class="l">${esc(it.name)}</td>${cell(cn(e),e.pl)}</tr>`})});
  const pm=(new Date(rd*864e5).getUTCMonth()+10)%12+1,mm=new Date(rd*864e5).getUTCMonth()+1,ds=fd(rd).slice(0,5);
- return`<h3>A2. QUANTITIES BY LOT ${all?'':'<span class="no-pdf" style="font-weight:400"><button style="position:static;width:auto;padding:2px 8px;margin-left:6px" data-rlx="1">Collapse all</button><button style="position:static;width:auto;padding:2px 8px;margin-left:4px" data-rlx="0">Expand all</button></span>'}</h3><table class="pt rt rfx"><colgroup><col style="width:44px"><col><col style="width:96px"><col style="width:96px"><col style="width:110px"><col style="width:96px"></colgroup><tr><th>No.</th><th>Work item</th><th>Cumulative<br>to end of M${pm}</th><th>Added<br>M${mm} (to ${ds})</th><th>Cumulative<br>to date</th><th>Planned<br>to date</th></tr>${body}</table>`}
+ return`<h3>A2. QUANTITIES BY LOT${only?' – '+esc(only):''} ${all?'':'<span class="no-pdf" style="font-weight:400"><button style="position:static;width:auto;padding:2px 8px;margin-left:6px" data-rlx="1">Collapse all</button><button style="position:static;width:auto;padding:2px 8px;margin-left:4px" data-rlx="0">Expand all</button></span>'}</h3><table class="pt rt rfx"><colgroup><col style="width:44px"><col><col style="width:96px"><col style="width:96px"><col style="width:110px"><col style="width:96px"></colgroup><tr><th>No.</th><th>Work item</th><th>Cumulative<br>to end of M${pm}</th><th>Added<br>M${mm} (to ${ds})</th><th>Cumulative<br>to date</th><th>Planned<br>to date</th></tr>${body}</table>`}
 /* ---- nhân lực – máy móc: 4 tuần gần nhất ---- */
 function wkList(){const ws=wkStart(S.info.status);return[-21,-14,-7,0].map(o=>({a:ws+o,b:ws+o+6}))}
 function resTable(tt,k,c){const u=U0(c),W=wkList(),mach=k=='M',rs=mach?msel():kres(k),d5=d=>fd(d).slice(0,5),sub=mach?'<th>SL</th>':'<th>Man-days</th>';
@@ -287,7 +287,7 @@ function scSection(c,edit){const A=(S.hist||[]).slice().sort((a,b)=>a.d-b.d),AS=
 function reportHTML(c){return`<h3>PROGRESS REPORT – ${esc(S.info.name)}</h3>`+statsHTML(c)+cumTable()+lotTable()+scSection(c,1)}
 function reportPages(c){const D=rptData(),n=D.items.length,hd=`<h2 style="margin:0 0 6px">PROGRESS REPORT – ${esc(S.info.name)} (${fd(S.info.status)})</h2>`,pg=[];
  if(!n){pg.push(hd+statsHTML(c)+cumTable())}else{const f1=Math.min(n,14),rest=n-f1,pr=rest?Math.ceil(rest/26):0,per=pr?Math.ceil(rest/pr):0;pg.push(hd+statsHTML(c)+cumTable(0,f1));for(let i=0;i<pr;i++)pg.push(hd+cumTable(f1+i*per,Math.min(n,f1+(i+1)*per),1))}
- {const lt=lotTable(1);if(lt)pg.push(hd+lt)}
+ D.items.length&&LOTS().forEach(l=>{if(D.items.some(it=>it.lots&&it.lots[l])){const lt=lotTable(1,l);if(lt)pg.push(hd+lt)}});
  pg.push(hd+scSection(c,0));return pg}
 
 /* ---- mặt bằng riêng cho từng dự án ---- */
