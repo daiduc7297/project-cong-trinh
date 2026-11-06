@@ -18,6 +18,7 @@ td input{border:0;background:var(--in);width:100%;padding:0 2px;box-sizing:borde
 .pt{border-collapse:collapse}.pt td,.pt th{border:1px solid var(--bd);padding:1px 4px}
 #sv{user-select:none;-webkit-user-select:none}
 .tg.on{background:var(--ac);color:#fff}.pdfbox button,.pdfbox select{display:none!important}
+.pdfbox .rpg table{width:100%!important;margin-left:0!important;margin-right:0!important}.pdfbox .rpg .rt td.l{max-width:none}.pdfbox .rpg h3{margin:14px 0 6px}
 
 html,body{height:100%}body{display:flex;flex-direction:column;overflow:hidden}
 #v{flex:1 1 0;min-height:0;display:flex;flex-direction:column;overflow:hidden}#v>.top{flex:none}
@@ -288,7 +289,7 @@ function scSection(c,edit){const A=(S.hist||[]).slice().sort((a,b)=>a.d-b.d),AS=
  return`<h3>B. S-CURVE</h3>${edit?'<div class="row"><button data-chot="1">Lock weekly progress (save actual % at the report date)</button></div>':''}${scChart(c)}<p style="color:var(--mut);font-size:11px;margin:4px 0">The actual line is built from each unit / pile completion date; tasks with a manually entered % are estimated from the plan (not above the current %); units without a date only count at the report date.</p><table class="pt rfx" style="margin-top:8px"><colgroup><col style="width:25%"><col style="width:25%"><col style="width:25%"><col style="width:25%"></colgroup><tr><th>Month</th><th>Planned % in month<br>Planned in month</th><th>Planned % cumulative<br>Planned cumulative</th><th>Actual % cumulative<br>Actual cumulative</th></tr>${sc.map(s=>`<tr><td>${s.m}</td><td>${(s.mo*100).toFixed(1)}%</td><td>${(s.cum*100).toFixed(1)}%</td><td>${s.act!=null?(s.act*100).toFixed(1)+'%':''}</td></tr>`).join('')}</table>`+(edit?`<div class="no-pdf"><h4>Locked actual % history (optional – if present the actual line uses these points)</h4><table class="pt"><tr><th>Date</th><th>Actual %</th><th></th></tr>${hrows}</table><button data-sha="1">+ Add point</button></div>`:'')}
 function reportHTML(c){return`<h3>PROGRESS REPORT – ${esc(S.info.name)}</h3>`+statsHTML(c)+cumTable()+lotTable()+scSection(c,1)+mpSection(c)+trendSection()}
 function reportPages(c){const D=rptData(),n=D.items.length,hd=`<h2 style="margin:0 0 6px">PROGRESS REPORT – ${esc(S.info.name)} (${fd(S.info.status)})</h2>`,pg=[];
- if(!n){pg.push(hd+statsHTML(c)+cumTable())}else{const f1=Math.min(n,14),rest=n-f1,pr=rest?Math.ceil(rest/26):0,per=pr?Math.ceil(rest/pr):0;pg.push(hd+statsHTML(c)+cumTable(0,f1));for(let i=0;i<pr;i++)pg.push(hd+cumTable(f1+i*per,Math.min(n,f1+(i+1)*per),1))}
+ if(!n){pg.push(hd+statsHTML(c)+cumTable())}else{const f1=Math.min(n,40),rest=n-f1,pr=rest?Math.ceil(rest/60):0,per=pr?Math.ceil(rest/pr):0;pg.push(hd+statsHTML(c)+cumTable(0,f1));for(let i=0;i<pr;i++)pg.push(hd+cumTable(f1+i*per,Math.min(n,f1+(i+1)*per),1))}
  D.items.length&&LOTS().forEach(l=>{if(D.items.some(it=>it.lots&&it.lots[l])){const lt=lotTable(1,l);if(lt)pg.push(hd+lt)}});
  pg.push(hd+scSection(c,0));pg.push(hd+mpSection(c)+trendSection());return pg}
 
@@ -318,10 +319,11 @@ function gHTML(){const P=S.plan,us=gU(),n=us.length;let key,head;
  return`<div class="pl gp"><div class="row gh">${head}<button data-multi="1" class="${V.multi?'on':''}" title="Turn on, then drag with a finger or mouse to mark many units; two fingers to zoom">Multi-mark</button></div><div id="gwrap" class="${V.multi?'multi':''}">${gplan(key,1)}</div><details id="gt" class="gtools"${V.gt?' open':''}><summary>⋯ Edit layout</summary>${tools}</details></div>`}
 /* ---- xuất PDF ---- */
 const need=(url,g)=>window[g]?Promise.resolve():new Promise((ok,no)=>{const s=document.createElement('script');s.src=url;s.onload=ok;s.onerror=no;document.head.appendChild(s)});
+const RPW=1000; /* PDF báo cáo: mọi trang cùng khổ A4 dọc, cùng bề rộng → các bảng đều nhau, full khổ giấy */
 async function makePdf(o){stat('Creating PDF…');await need('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js','jspdf');await need('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js','html2canvas');
  const{jsPDF}=window.jspdf,doc=new jsPDF({orientation:'landscape',unit:'pt',format:'a4'}),box=document.createElement('div');box.className='pdfbox';
  box.style.cssText='position:fixed;left:-99999px;top:0;background:#fff;color:#000;font:12px Arial;--bg:#fff;--fg:#000;--mut:#64748b;--card:#f1f5f9;--bd:#999;--ok:#22a85a;--ac:#1f6f8b;--in:#fff';document.body.appendChild(box);
- const page=async(html,w,fmt)=>{box.style.width=w=='auto'?'max-content':w+'px';box.innerHTML=html;const cv=await html2canvas(box,{scale:fmt=='a3'?3:1.8,backgroundColor:'#fff'});let pw,ph,or;if(fmt=='a3'){pw=1190.55;ph=841.89;or='landscape'}else if(cv.height>cv.width*1.05){pw=595.28;ph=841.89;or='portrait'}else{pw=841.89;ph=595.28;or='landscape'}doc.addPage(fmt=='a3'?'a3':'a4',or);const m=15,r=Math.min((pw-2*m)/cv.width,(ph-2*m)/cv.height);doc.addImage(cv.toDataURL('image/jpeg',.92),'JPEG',m,m,cv.width*r,cv.height*r)};
+ const page=async(html,w,fmt)=>{box.style.width=w=='auto'?'max-content':w+'px';box.innerHTML=html;const cv=await html2canvas(box,{scale:fmt=='a3'?3:1.8,backgroundColor:'#fff'});let pw,ph,or;if(fmt=='a3'){pw=1190.55;ph=841.89;or='landscape'}else if(fmt=='a4p'||cv.height>cv.width*1.05){pw=595.28;ph=841.89;or='portrait'}else{pw=841.89;ph=595.28;or='landscape'}doc.addPage(fmt=='a3'?'a3':'a4',or);const m=15,r=Math.min((pw-2*m)/cv.width,(ph-2*m)/cv.height);doc.addImage(cv.toDataURL('image/jpeg',.92),'JPEG',m,m,cv.width*r,cv.height*r)};
 
  const c=compute(),ttl=(t)=>`<h2 style="margin:0 0 6px">${t} – ${esc(S.info.name)} (${fd(S.info.status)})</h2>`;
  if(o.a){cal();const R=S.R,w=wbs(),vis=COLS.map(x=>x[0]).filter(k=>!hid().includes(k)),dw0=+V.dw;let gsv=gantt(c,true);const VP0=visPos(c,true),VI=R.map((_,i)=>i).filter(i=>VP0[i]>=0),bli=blIdx(),bn=(S.bls||[])[bli]?'BL'+S.bls[bli].n:'none';
@@ -353,12 +355,12 @@ async function makePdf(o){stat('Creating PDF…');await need('https://cdnjs.clou
   for(const[p,q,rs]of pgs)await page(chunk(p,q,rs,++pn,TOT),'auto','a3');
   if(extra)await page(wrap(hdr()+`<div style="margin-left:${tw}px;height:40px;overflow:hidden;width:${GM.W}px">${gsv}</div>`+RES(),++pn,TOT),'auto','a3');
   V.dw=dw0;gantt(c,true)}
-  if(o.b){const cc=compute();for(const h of reportPages(cc))await page(h,'auto')}
+  if(o.b){const cc=compute();for(const h of reportPages(cc))await page('<div class="rpg">'+h+'</div>',RPW,'a4p')}
  if(o.c){const strip=s=>s.replace(/<button.*?<\/button>/g,'').replace(/<div class="row"><b>Task.*?<\/div>/,'');
   if(S.plan==='p3'){D.W.forEach((n,i)=>{});for(let i=0;i<D.W.length;i++){if(o.d&&!(S.done[i]||[]).length)continue;V.pw=i;await page(`<h3>${i+1}. ${esc(D.W[i])}</h3>`+strip(planHTML()),900)}}
   else if(isG()&&S.W){for(let i=0;i<S.W.length;i++){const k='w'+i;if(o.d&&!(S.done[k]||[]).length)continue;const us=gU(),dd=new Set(S.done[k]||[]),zs='Total: '+us.filter(u=>dd.has(u.id)).length+'/'+us.length;await page('<h3>'+(i+1)+'. '+esc(S.W[i])+'</h3><div style="margin:2px 0 4px"><b>'+zs+'</b></div>'+gplan(k,0),Math.max(S.plan.W,700))}}
   else if(isG())S.R.forEach(()=>{}),await(async()=>{for(const r of S.R){if(r.sum)continue;const k='t'+r.id;if(o.d&&!(S.done[k]||[]).length)continue;const n=gU().length,dn=(S.done[k]||[]).length;await page(`<h3>${r.id}. ${esc(r.name)} – ${dn}/${n}</h3>`+gplan(k,0),Math.max(S.plan.W,700))}})();
-  await page(ttl('PILING')+strip(pileHTML()),900)}
+  await page('<div class="rpg">'+ttl('PILING')+strip(pileHTML())+'</div>',RPW,'a4p')}
  box.remove();if(doc.getNumberOfPages()>1)doc.deletePage(1);const blob=doc.output('blob'),fn=(S.info.name||'bao-cao').replace(/[^\w\-]+/g,'_')+'.pdf';
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fn;a.click();stat('PDF created')}
 function pdfDlg(){const m=document.createElement('div');m.style.cssText='position:fixed;inset:0;background:#0007;display:flex;align-items:center;justify-content:center;z-index:99';
