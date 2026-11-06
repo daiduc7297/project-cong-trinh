@@ -11,7 +11,8 @@ Phạm vi **chỉ có tiến độ**. KHÔNG làm: hồ sơ nghiệm thu, QAQC, 
 Yêu cầu nào thuộc các mảng đó → nhắc người dùng là ngoài phạm vi, không tự làm.
 
 - Người dùng chính: Nguyễn Đại Đức (trợ lý giám đốc dự án bên tổng thầu) — admin, theo dõi và báo cáo tất cả dự án cho giám đốc.
-- Kỹ sư hiện trường: cập nhật số liệu thực tế của dự án được giao (tick căn trên mặt bằng, số cọc, nhân công, máy móc).
+- Kỹ sư hiện trường: cập nhật số liệu thực tế của dự án được giao (tick căn trên mặt bằng, số cọc).
+- Admin tự nhập **tổng công nhân + thời tiết hằng ngày**. Không theo dõi kỹ sư thực tế, không theo dõi máy móc thực tế.
 
 ## Mô hình: Kế hoạch → Thực tế → So sánh → Dự báo
 
@@ -31,9 +32,8 @@ Mọi tính năng phải nằm ở một trong 4 bước dưới đây. Tính n�
 |---|---|
 | Khối lượng / % hoàn thành theo đầu mục | Tick căn trên mặt bằng (`done`, `dd`), bảng ép cọc (`piles`, `pl`), hoặc nhập `pct` |
 | Ngày bắt đầu / kết thúc thực tế | `as`, `af` của từng công tác |
-| Nhân công thực tế (công nhân, kỹ sư) | Theo tuần (`lab[code][ngày đầu tuần]`) |
-| Máy móc thực tế | Theo tuần — cần tách rõ kế hoạch và thực tế (xem "Việc cần làm") |
-| Khác (thời tiết, ngày dừng thi công…) | Chưa có — chỉ thêm khi người dùng yêu cầu |
+| Tổng công nhân thực tế + thời tiết | Hằng ngày qua nút **＋ Daily** (`daily`). `lab` theo tuần là dữ liệu cũ, chỉ dùng khi tuần đó chưa có số liệu ngày |
+| Máy móc, kỹ sư thực tế | **Không theo dõi** (người dùng đã quyết định) |
 
 ### 3. So sánh (tại ngày báo cáo `info.status`)
 
@@ -114,7 +114,10 @@ Document `projects`: `{ _id, name, json, rev, lockedBy, lockedByName, lockedAt, 
 | `W` | Danh sách đầu mục công việc (song ngữ) — gốc từ BOQ | Kế hoạch |
 | `res` | Tài nguyên: `code, name, type, unit, lim (giới hạn), price` | Kế hoạch |
 | `mq`, `mrows` | Máy móc theo tuần (`mq[code][ngày đầu tuần]=số lượng`) | Kế hoạch |
-| `lab` | Nhân công thực tế theo tuần (`lab[code][ngày đầu tuần]=số người`) | Thực tế |
+| `daily` | `{ngày: {w: tổng công nhân, wx: 0 bình thường / 1 mưa một phần / 2 mưa dừng thi công, n: ghi chú}}` | Thực tế |
+| `wk` | Chốt tuần, tự ghi khi bấm Save: `{thứ Hai: {pa, pp, fin, w (TB công nhân/ngày), r1, r2 (ngày mưa)}}` | So sánh |
+| `lab` | (cũ) công nhân thực tế theo tuần — fallback khi tuần chưa có `daily` | Thực tế |
+| `hideRes` | `true` → ẩn biểu đồ kỹ sư + máy móc dưới Gantt (màn hình và PDF) | — |
 | `plan` | Mặt bằng: `W, H, bg, rows[]` — mỗi dãy `{b (lô), n (số căn), z (zone), A/B/C (tọa độ)}` | — |
 | `done`, `dd` | Căn đã xong theo đầu mục, ngày xong | Thực tế |
 | `piles`, `pl` | Ép cọc; `pl[] = {n (lô), t (tổng cọc), d (lũy kế)}` | Thực tế |
@@ -144,10 +147,13 @@ Người dùng gửi **BOQ hợp đồng, mặt bằng, mốc khởi công / h�
 4. Nhập qua "Import JSON (as new project)". Chỉ thêm vào `scripts/seed.ts` khi người dùng yêu cầu.
 5. Kiểm tra dự án mới hiển thị đúng ở cả 4 tab và không ảnh hưởng dự án khác.
 
-## Việc cần làm (theo thứ tự ưu tiên — đề xuất cho người dùng duyệt trước khi code)
+## Đã quyết định KHÔNG làm (đừng đề xuất lại)
 
-1. **Máy móc thực tế**: hiện `mq` mới là kế hoạch; thêm số liệu thực tế theo tuần, so với kế hoạch như nhân công.
-2. **Màn hình nhập thực tế cho kỹ sư**: nhân công + máy móc theo ngày/tuần, gọn trên điện thoại.
-3. **Dự báo theo năng suất**: ngày xong dự báo của từng đầu mục = khối lượng còn lại / tốc độ thực tế gần đây.
-4. **Bảng tổng hợp nhiều dự án**: mỗi dự án một dòng — % KH, % TT, chỉ số tiến độ, trễ dự báo (ngày), nguyên nhân chính.
-5. **Báo cáo tuần** song ngữ Việt–Anh cho giám đốc, xuất PDF.
+Màn hình tổng quan nhiều dự án (xem từng dự án trên điện thoại là đủ) · máy móc thực tế · kỹ sư thực tế ·
+báo cáo tuần riêng (tab Report đã đủ) · gán thầu phụ/tổ đội · nhật ký thay đổi · ảnh hiện trường · danh sách việc 2 tuần tới ·
+tách tiến độ hợp đồng riêng (BL1 = tiến độ chốt với CĐT, coi là tiến độ hợp đồng).
+
+## Việc có thể cân nhắc sau
+
+- Nhắc việc (quên nhập công nhân trong ngày, cảnh báo trễ).
+- Dự báo ngày xong theo năng suất cho từng đầu mục.
