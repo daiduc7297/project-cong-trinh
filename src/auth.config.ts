@@ -2,6 +2,13 @@ import type { NextAuthConfig } from "next-auth";
 
 /** Vercel: AUTH_URL thiếu https:// hoặc còn localhost sẽ làm Auth.js ném Invalid URL. */
 function ensureAuthUrl() {
+  // Vercel Preview: không dùng AUTH_URL (thường là URL bản chính) — để Auth.js lấy theo host đang mở (trustHost),
+  // nếu không, đăng nhập xong sẽ bị chuyển về bản chính và không thấy thay đổi của PR.
+  if (process.env.VERCEL_ENV === "preview") {
+    delete process.env.AUTH_URL;
+    delete process.env.NEXTAUTH_URL;
+    return;
+  }
   const asOrigin = (value: string) => {
     const raw = value.trim();
     if (!raw) return null;
