@@ -1,6 +1,10 @@
 # Tiến độ thi công
 
-App HTML hiện tại (Gantt / mặt bằng / ép cọc) chạy trên **Next.js + Vercel**. Dữ liệu chung nằm trên **MongoDB Atlas** — một document một dự án.
+Website **so sánh tiến độ thực tế với kế hoạch** cho nhiều dự án xây dựng cùng lúc, để theo dõi và **dự đoán trễ**.
+Kế hoạch lập từ BOQ hợp đồng; thực tế cập nhật từ công trường (khối lượng theo mặt bằng, ép cọc, nhân công, máy móc).
+Chỉ phạm vi tiến độ — không có hồ sơ nghiệm thu, QAQC, đệ trình hay thanh toán. Chi tiết: xem `CLAUDE.md`.
+
+App HTML (Gantt / mặt bằng / ép cọc / báo cáo) chạy trên **Next.js + Vercel**. Dữ liệu chung nằm trên **MongoDB Atlas** — một document một dự án.
 
 ## Việc bạn làm trên Atlas
 
