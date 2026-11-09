@@ -141,7 +141,7 @@ async function refreshList(){if(saveT||saveBusy)return;const {ok,d}=await api('/
 const snap=()=>{if(!canWrite())return;HIST.push(JSON.stringify(S));if(HIST.length>100)HIST.shift();FUT=[]};
 function undo(){if(!HIST.length)return;FUT.push(JSON.stringify(S));S=JSON.parse(HIST.pop());save();render()}
 function redo(){if(!FUT.length)return;HIST.push(JSON.stringify(S));S=JSON.parse(FUT.pop());save();render()}
-const fillPj=()=>{$('#pj').innerHTML=Object.keys(ALL).map(k=>`<option value="${esc(k)}"${k==CUR?' selected':''}>${esc(ALL[k].name)}</option>`).join('')};
+const fillPj=()=>{$('#pj').innerHTML=Object.keys(ALL).map(k=>`<option value="${esc(k)}"${k==CUR?' selected':''}>${esc(ALL[k].name)}</option>`).join('')+((ME&&ME.isAdmin)?'<option value="__hr">High-rise preview: LC1.1</option>':'')};
 const leaveOk=()=>{if(!isDirty())return true;return confirm('You have unsaved changes in this project. Leave without saving?')};
 function loadProj(id){if(!ALL[id])return;ib0();CUR=id;DIRTY=false;S=JSON.parse(ALL[id].json);lastSaved=asStr(ALL[id].json);SVST='';REV=ALL[id].rev||0;ROLE=ALL[id].role||ROLE;HIST=[];FUT=[];V.sel=0;V.rl={};V.mvo={};lsSet();fillPj();applyRole();render();DIRTY=false;svBtn()}
 async function createRemote(nm,d){if(!d)return;if(!leaveOk())return;const {ok,status,d:p}=await api('/api/projects',{method:'POST',body:JSON.stringify({name:nm,json:d})});if(!ok){stat((p&&p.error)||('Could not create '+status));alert((p&&p.error)||'Could not create project');return}applyP(p);CUR=p.id;S=typeof p.json==='string'?JSON.parse(p.json):p.json;REV=p.rev||1;ROLE=p.role||'sua';lastSaved=asStr(p.json);DIRTY=false;lsSet();fillPj();applyRole();render();DIRTY=false;svBtn();stat('Created')}
@@ -538,7 +538,7 @@ function pileHTML(ro){S.pl=S.pl||[];const full=!ro&&canWriteFull(),w=!ro&&canWri
 +`<tr><td></td><td><b>Total</b></td><td><b>${nf0(q[1])}</b></td><td><b>${nf0(q[0])}</b></td><td><b>${nf0(q[1]-q[0])}</b></td><td><b>${pc(q[0],q[1])}</b></td>${full?'<td></td>':''}</tr></table>${full?'<button data-pla="1">+ Add lot</button>':''}</div>`}
 /* ---- sự kiện ---- */
 document.addEventListener('change',e=>{const t=e.target;
- if(t.id=='pj'){if(!leaveOk()){fillPj();return}loadProj(t.value);return}
+ if(t.id=='pj'){if(!leaveOk()){fillPj();return}if(t.value=='__hr'){fillPj();location.href='/high-rise';return}loadProj(t.value);return}
  if(!canWrite())return;
  if(ROLE==='member'&&t.dataset.pz==null&&!(t.dataset.pl!=null&&t.dataset.k=='d')){if(t.id=='sw'){V.pw=+t.value;save();render()}return}
  if(t.dataset.f||t.dataset.pz!=null||t.dataset.pl!=null||['pn','ps','pw','pb','pm'].includes(t.id))snap();
