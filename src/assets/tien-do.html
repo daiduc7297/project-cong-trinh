@@ -187,8 +187,9 @@ warnInfo=(r,i,c)=>{if(r.sum||r.mile||!(c.ds[i]>0))return null;const q=lp(r);if(!
  const el=wkd(st,rd)+1,dn=q[0],tot=q[1];if(dn>=tot)return null;
  let last=st;const k=(r.wt!=null&&S.W)?'w'+r.wt:('t'+r.id),dm=(S.dd||{})[k];if(dm)Object.values(dm).forEach(d=>{if(d!=null&&d>last&&d<=rd)last=d});
  const hasD=dn==0||(dm&&Object.keys(dm).length);
- if(hasD&&wkd(last,rd)>WG)return['stall','no progress after '+WG+' days'];
- if(el>WG){const need=Math.ceil(tot/c.ds[i]*Math.min(el,c.ds[i]));if(dn<need*WTOL)return['slow','Scheduled '+need+'/'+tot]}
+ const need=Math.ceil(tot/c.ds[i]*Math.min(el,c.ds[i])),u=r.hf?' m²':r.hl?' items':(r.link&&(r.link[0]=='L'||r.link[0]=='P'))?' piles':' units',pt='plan today '+need.toLocaleString('en-US')+u+' ('+Math.round(need/tot*100)+'%)';
+ if(hasD&&wkd(last,rd)>WG)return['stall',pt];
+ if(el>WG){if(dn<need*WTOL)return['slow',pt]}
  return null},
 warn=(r,i,c)=>!!warnInfo(r,i,c);
 function fixS(){blMig();if(!S.hols){const a=(S.hol||[]).slice().sort((x,y)=>x-y),o=[];a.forEach(d=>{const l=o[o.length-1];if(l&&d==l.b+1)l.b=d;else o.push({a:d,b:d,n:'Holiday'})});S.hols=o}
@@ -330,7 +331,7 @@ function hState(X,r,i){if(!r)return'na';const ti=X.ix[r.id];if(!r.hf)return X.c.
  if(((S.done||{})['t'+r.id]||[]).includes(String(i)))return'done';const exp=Math.round(X.pl(ti)*m.length);if(k<exp)return'late';if(X.rdI>X.c.tS[ti]&&X.rdI<=X.c.tf[ti])return'due';return'todo'}
 const hPct=x=>(Math.round(x*1000)/10).toFixed(1)+'%';
 function hHead(X){const A=S.hr.acts||[];if(!A.some(a=>a.k==V.hk))V.hk=(A[0]||{}).k;const v=V.hv||'elev',ed=!!(V.he||{})[v];
- const tabs=[['elev','Elevation'],['plan','Floor plan'],['3d','3D'],['wide','Building-wide']].map(([k,t])=>`<button data-hzv="${k}" class="${v==k?'on':''}">${t}</button>`).join('');
+ const tabs=[['elev','Elevation'],['plan','Floor plan'],['3d','3D'],['wide','Other items']].map(([k,t])=>`<button data-hzv="${k}" class="${v==k?'on':''}">${t}</button>`).join('');
  const act=v=='wide'?'':`<b>Activity</b><select id="hzk" style="max-width:340px">${A.map(a=>`<option value="${esc(a.k)}"${a.k==V.hk?' selected':''}>${esc(a.n)}</option>`).join('')}</select>`;
  const fl=v=='plan'?`<b>Floor</b><select id="hzf">${S.hr.floors.map(f=>`<option value="${esc(f.id)}"${f.id==V.hfl?' selected':''}>${esc(f.n)}</option>`).join('')}</select>`:'';
  const eb=(v=='3d'||!canWrite())?'':`<button data-hze="${v}" class="${ed?'on':''}" title="Turn on to tick / untick on this view">Edit: ${ed?'ON':'OFF'}</button>`;
@@ -368,7 +369,7 @@ function hPlan(X,fid,k,live){const f=hF()[fid],r=hLine(X,fid,k),I=(S.hr.imgs||{}
  const tasks=S.R.filter(x=>x.hf==fid||(!x.hf&&!x.hl&&!x.sum&&false)).map(x=>{const i=X.ix[x.id],a=X.c.pc[i],p=X.pl(i);return`<tr data-hzk="${esc(x.hk||'')}" style="cursor:pointer${x.hk==k?';background:var(--card)':''}"><td>${esc(x.name)}</td><td>${fd(X.c.sd[i])}</td><td>${fd(X.c.fn[i])}</td><td><span class="hzb"><i style="width:${a*100}%"></i><u style="left:${p*100}%"></u></span> <span style="color:${a+1e-6<p?'#dc2626':'#16a34a'}">${Math.round(a*100)}%</span></td></tr>`}).join('');
  return`<div class="hzs">${info}</div><div class="hzg"><div class="hzw${ed?' hze':''}">${o}${chips}</div><div class="hzt"><table class="pt"><tr><th>Activities on this floor</th><th>Start</th><th>Finish</th><th>Actual vs plan</th></tr>${tasks}</table></div></div>`}
 function hWide(X){const ed=!!(V.he||{}).wide,L=S.R.filter(r=>r.hl);
- return`<p style="color:var(--mut);margin:4px 0">Building-wide items are ticked by item (floor, technical room, lift, zone).</p><div class="${ed?'hze':''}">`+L.map(r=>{const i=X.ix[r.id],a=X.c.pc[i],p=X.pl(i),d=new Set((S.done||{})['t'+r.id]||[]),exp=Math.round(p*r.hl.length),win=X.rdI>X.c.tS[i]&&X.rdI<=X.c.tf[i];
+ return`<p style="color:var(--mut);margin:4px 0">Other items: systems, lifts, staircases and external works – tick each floor, technical room, lift or zone.</p><div class="${ed?'hze':''}">`+L.map(r=>{const i=X.ix[r.id],a=X.c.pc[i],p=X.pl(i),d=new Set((S.done||{})['t'+r.id]||[]),exp=Math.round(p*r.hl.length),win=X.rdI>X.c.tS[i]&&X.rdI<=X.c.tf[i];
   return`<div class="hzcd"><b>${esc(r.name)}</b> <span style="color:var(--mut)">· ${fd(X.c.sd[i])} – ${fd(X.c.fn[i])}</span> · <span style="color:${a+1e-6<p?'#dc2626':'#16a34a'}">${hPct(a)}</span> <span style="color:var(--mut)">/ plan ${hPct(p)}</span><div class="hzc">${r.hl.map((n,j)=>`<span data-hzl="${r.id}|${j}" class="hzch ${d.has(String(j))?'done':j<exp?'late':win?'due':''}">${esc(n)}</span>`).join('')}</div></div>`}).join('')+'</div>'}
 /* 3D */
 function h3dInit(){const cv=document.getElementById('h3d');if(!cv)return;const X=hCtx();if(!X)return;const cx=cv.getContext('2d'),cam=V.h3=V.h3||{yaw:-.75,pitch:.38,dist:290};let FACES=[],drag=null,pinch=null;
@@ -416,7 +417,7 @@ function hrRep(c,live){const rd=S.info.status,ms=monthStart(rd),rdI=DI(rd)+1,ix=
  const AN={};(S.hr.acts||[]).forEach(a=>AN[a.k]=a.n);
  let h=`<h3>A. CUMULATIVE QUANTITIES BY WORK ITEM</h3><p style="color:var(--mut);font-size:11px;margin:2px 0">Floor items in m² (ticked area), building-wide items by count; % weighted by BOQ value.</p><table class="pt rt">${hd}`+GO.map((k,n)=>{const ls=G[k],r0=ls[0],nm=k[0]=='k'?esc(AN[k.slice(2)]||r0.hk):esc(r0.name);return row(n+1,nm,ls,ls.every(r=>!hIs(r)&&c.pc[ix[r.id]]>=1&&r.as))}).join('')+'</table>';
  V.hro=V.hro||{};let body='';
- [{id:'',n:'Building-wide / Toàn công trình'},...S.hr.floors].forEach(f=>{const ls=L.filter(r=>(r.hf||'')==f.id);if(!ls.length)return;let vv=0,va=0,vp=0,nd=0;ls.forEach(r=>{const i=ix[r.id],w=+r.v||0;vv+=w;va+=w*c.pc[i];vp+=w*pl(i);if(c.pc[i]>=1)nd++});
+ [{id:'',n:'Other items'},...S.hr.floors].forEach(f=>{const ls=L.filter(r=>(r.hf||'')==f.id);if(!ls.length)return;let vv=0,va=0,vp=0,nd=0;ls.forEach(r=>{const i=ix[r.id],w=+r.v||0;vv+=w;va+=w*c.pc[i];vp+=w*pl(i);if(c.pc[i]>=1)nd++});
   const open=!live||V.hro[f.id||'_'];body+=`<tr class="lh"><td colspan="8" style="text-align:left;background:var(--card);font-weight:700">${live?`<button class="cgl" data-hro="${esc(f.id||'_')}">${open?'▾':'▸'}</button> `:''}${esc(f.n)} · <span style="color:${va+1e-6<vp?'#dc2626':'#16a34a'}">${vv?hPct(va/vv):'–'}</span> <span style="font-weight:400;font-size:11px">/ plan ${vv?hPct(vp/vv):'–'} · ${nd}/${ls.length} items done</span></td></tr>`;
   if(open)ls.forEach((r,k)=>{body+=row(k+1,esc(r.name),[r],!hIs(r)&&c.pc[ix[r.id]]>=1)})});
  h+=`<h3>A2. QUANTITIES BY FLOOR</h3><table class="pt rt">${hd}${body}</table>`;
