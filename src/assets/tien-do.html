@@ -87,6 +87,7 @@ body.mv #sum{display:none!important}
 .mvtb b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:45%}.mvtb{display:flex;gap:6px;align-items:center;padding:4px 8px;background:var(--card);border-bottom:1px solid var(--bd);flex:none;font-size:13px}.mvtb button{padding:6px 12px;font-size:15px}.mvtb button.on{background:#1f6f8b;color:#fff}.mvsc{display:inline-flex;gap:2px}
 .mvtb{flex-wrap:wrap}#mvcp{display:flex;flex-wrap:wrap;gap:6px 14px;padding:6px 10px;background:var(--card);border-bottom:1px solid var(--bd);font-size:13px}#mvcp label{display:flex;align-items:center;gap:4px;white-space:nowrap}#mvcp input{padding:0;width:18px;height:18px}.mvsc2{flex:1 1 0;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch}
 body.mvlock{overflow:hidden}
+.hzh{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.hzh button.on{background:var(--ac);color:#fff;border-color:var(--ac)}.hzl{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--mut);margin:4px 0}.hzl i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:4px;vertical-align:-1px}.hzs{margin:4px 0;font-size:12px}.hzw{overflow:auto;border:1px solid var(--bd);border-radius:8px;background:#fff;padding:4px}.hze [data-hzc]{cursor:pointer}.hze rect[data-hzc]:hover,.hze g[data-hzc]:hover polygon{stroke:#111;stroke-width:2}.hzg{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:10px}.hzt{overflow:auto}.hzt td,.hzt th{font-size:12px;text-align:left}.hzc{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.hzch{border:1px solid #cbd5e1;border-radius:14px;padding:4px 10px;font-size:12px;background:#fff}.hze .hzch{cursor:pointer}.hzch.done{background:#dcfce7;border-color:#16a34a;color:#166534}.hzch.late{background:#fee2e2;border-color:#dc2626;color:#991b1b}.hzch.due{background:#fef3c7;border-color:#d97706}.hzcd{border:1px solid var(--bd);border-radius:8px;padding:8px 10px;margin-bottom:8px}.hzb{display:inline-block;width:90px;height:6px;background:#e2e8f0;border-radius:3px;position:relative;vertical-align:middle}.hzb>i{position:absolute;left:0;top:0;bottom:0;background:#16a34a;border-radius:3px}.hzb>u{position:absolute;top:-3px;bottom:-3px;width:2px;background:#111}.hz3 canvas{width:100%;display:block;touch-action:none;background:linear-gradient(#eef4fb,#fff);border:1px solid var(--bd);border-radius:8px}.hzi{font-size:12px;margin-top:4px;color:var(--mut)}@media(max-width:760px){.hzg{grid-template-columns:1fr}}
 </style><style id="hc"></style><style>#rp svg,#lp svg{display:block}</style></head><body>
 <div class="top" id="row1"><select id="pj" title="Project"></select>
 <details class="mn mgr" id="mmn"><summary title="Project menu">⋯</summary><div class="mpp"><button id="pn_">＋ Add project</button><button id="pr_">Rename project</button><button id="pd_">Delete project</button><button id="pset">Project settings…</button><hr><button id="ex">Export JSON</button><button id="ix">Import JSON (as new project)</button><button id="iu">Import field update (merge)</button><hr><button id="rs">Restore original data</button><button id="up" style="display:none">Share project</button></div></details>
@@ -141,7 +142,7 @@ async function refreshList(){if(saveT||saveBusy)return;const {ok,d}=await api('/
 const snap=()=>{if(!canWrite())return;HIST.push(JSON.stringify(S));if(HIST.length>100)HIST.shift();FUT=[]};
 function undo(){if(!HIST.length)return;FUT.push(JSON.stringify(S));S=JSON.parse(HIST.pop());save();render()}
 function redo(){if(!FUT.length)return;HIST.push(JSON.stringify(S));S=JSON.parse(FUT.pop());save();render()}
-const fillPj=()=>{$('#pj').innerHTML=Object.keys(ALL).map(k=>`<option value="${esc(k)}"${k==CUR?' selected':''}>${esc(ALL[k].name)}</option>`).join('')+((ME&&ME.isAdmin)?'<option value="__hr">High-rise preview: LC1.1</option>':'')};
+const fillPj=()=>{$('#pj').innerHTML=Object.keys(ALL).map(k=>`<option value="${esc(k)}"${k==CUR?' selected':''}>${esc(ALL[k].name)}</option>`).join('')};
 const leaveOk=()=>{if(!isDirty())return true;return confirm('You have unsaved changes in this project. Leave without saving?')};
 function loadProj(id){if(!ALL[id])return;ib0();CUR=id;DIRTY=false;S=JSON.parse(ALL[id].json);lastSaved=asStr(ALL[id].json);SVST='';REV=ALL[id].rev||0;ROLE=ALL[id].role||ROLE;HIST=[];FUT=[];V.sel=0;V.rl={};V.mvo={};lsSet();fillPj();applyRole();render();DIRTY=false;svBtn()}
 async function createRemote(nm,d){if(!d)return;if(!leaveOk())return;const {ok,status,d:p}=await api('/api/projects',{method:'POST',body:JSON.stringify({name:nm,json:d})});if(!ok){stat((p&&p.error)||('Could not create '+status));alert((p&&p.error)||'Could not create project');return}applyP(p);CUR=p.id;S=typeof p.json==='string'?JSON.parse(p.json):p.json;REV=p.rev||1;ROLE=p.role||'sua';lastSaved=asStr(p.json);DIRTY=false;lsSet();fillPj();applyRole();render();DIRTY=false;svBtn();stat('Created')}
@@ -167,7 +168,7 @@ const COLH=Object.fromEntries(COLS.map(x=>[x[0],x[2]])),hid=()=>S.hide||[];
 function tagCols(t){return t.replace(/<tr[^>]*>.*?<\/tr>/gs,tr=>{let i=0;return tr.replace(/<(th|td)(?=[ >])/g,(m,g)=>`<${g} data-c="${COLS[i++][0]}"`)})}
 function applyHide(){const e=document.getElementById('hc');if(e)e.textContent=hid().length?hid().map(k=>`[data-c="${k}"]`).join(',')+'{display:none!important}':''}
 const colMenu=()=>`<details style="display:inline-block;position:relative"><summary style="cursor:pointer;padding:3px 6px;border:1px solid var(--bd);border-radius:5px">Show/hide columns</summary><div style="position:absolute;z-index:9;background:var(--bg);border:1px solid var(--bd);padding:6px;width:180px;box-shadow:0 4px 12px #0003">${COLS.map(x=>`<label style="display:block"><input type="checkbox" data-col="${x[0]}"${hid().includes(x[0])?'':' checked'}> ${x[1]}</label>`).join('')}</div></details>`;
-function pcell(k,r,i,c,w){const q=lp(r);switch(k){case'id':return r.id;case'wbs':return w[i];case'name':return`<span style="padding-left:${(r.lv-1)*8}px;white-space:nowrap">${esc(r.name)}</span>`;case'type':return r.sum?'Summary':r.mile?'Milestone':'Task';case'dur':return c.ds[i];case'start':return fd(c.sd[i]);case'fin':return fd(c.fn[i]);case'pred':return r.sum?'':esc(r.pred||'');case'res':return r.sum?'':esc(r.res||'');case'pct':return Math.round(c.pc[i]*100)+'%'+(q?` (${q[0]}/${q[1]})`:'');case'note':return (c.vio[i]?'⚠ Link violated. ':'')+(warn(r,i,c)?'⚠ Delayed: '+warnInfo(r,i,c)[1]+'. ':'')+((c.vio[i]||warn(r,i,c))?'':esc(r.note||''));case'tf':return c.TF[i];case'bs':case'as':{const b=BL(r);return b?fd(b.s):''}case'bf':case'af':{const b=BL(r);return b?fd(b.f):''}case'var':{const b=BL(r);return b&&b.f?DI(c.fn[i])-DI(b.f):''}}return''}
+function pcell(k,r,i,c,w){const q=lp(r);switch(k){case'id':return r.id;case'wbs':return w[i];case'name':return`<span style="padding-left:${(r.lv-1)*8}px;white-space:nowrap">${esc(r.name)}</span>`;case'type':return r.sum?'Summary':r.mile?'Milestone':'Task';case'dur':return c.ds[i];case'start':return fd(c.sd[i]);case'fin':return fd(c.fn[i]);case'pred':return r.sum?'':esc(r.pred||'');case'res':return r.sum?'':esc(r.res||'');case'pct':return Math.round(c.pc[i]*100)+'%'+(q?` (${q[0]}/${q[1]}${r.hf?' m²':''})`:'');case'note':return (c.vio[i]?'⚠ Link violated. ':'')+(warn(r,i,c)?'⚠ Delayed: '+warnInfo(r,i,c)[1]+'. ':'')+((c.vio[i]||warn(r,i,c))?'':esc(r.note||''));case'tf':return c.TF[i];case'bs':case'as':{const b=BL(r);return b?fd(b.s):''}case'bf':case'af':{const b=BL(r);return b?fd(b.f):''}case'var':{const b=BL(r);return b&&b.f?DI(c.fn[i])-DI(b.f):''}}return''}
 const isNC=r=>r.type=='Nhân công';
 function usage(c){const U={},k0=c.pS,N=c.pF-c.pS+1;S.R.forEach((r,i)=>{if(r.sum||!r.res||c.tf[i]<=c.tS[i])return;String(r.res).split(/[;,]/).forEach(tok=>{tok=tok.trim();if(!tok)return;const m=tok.match(/^([A-Za-z0-9_]+)\s*[:=]\s*([\d.,]+)$/);let code,q;if(m){code=m[1].toUpperCase();q=parseFloat(m[2].replace(',','.'))}else if(/^[\d.,]+$/.test(tok)){code='NC';q=parseFloat(tok.replace(',','.'))}else return;(U[code]=U[code]||new Float64Array(N));for(let k=c.tS[i];k<c.tf[i];k++)U[code][k-k0]+=q})});return{U,k0,N}}
 function series(u,sel){const a=new Float64Array(u.N);let lim=0;(S.res||[]).forEach(r=>{const g=sel=='NC_ALL'?isNC(r):sel=='MAY_ALL'?!isNC(r):r.code==sel;if(!g)return;lim+=+r.lim||0;const x=u.U[r.code];if(x)for(let k=0;k<u.N;k++)a[k]+=x[k]});return{a,lim}}
@@ -176,8 +177,8 @@ const histL=()=>`<div style="height:170px;padding:6px;box-sizing:border-box;bord
 function hist(c,sel){const u=usage(c),{a,lim}=series(u,sel||V.hs||'NC_ALL'),{mn,dw,W}=GM,H=170,mx=Math.max(lim,...a,1),sy=(H-40)/mx;let o=`<svg width="${W}" height="${H}"><text x="4" y="14" font-size="11" fill="currentColor">Peak: ${Math.max(0,...a)} · Limit: ${lim||'-'}</text>`;
  for(let k=0;k<u.N;k++){if(!a[k])continue;const x=(ID(u.k0+k)-mn)*dw,hh=a[k]*sy;o+=`<rect x="${x}" y="${H-10-hh}" width="${Math.max(dw*.9,1)}" height="${hh}" fill="${lim&&a[k]>lim?'#dc2626':'#2563eb'}"/>`}
  if(lim)o+=`<line x1="0" x2="${W}" y1="${H-10-lim*sy}" y2="${H-10-lim*sy}" stroke="#dc2626" stroke-dasharray="4 3"/>`;return o+'</svg>'}
-function scurve(c){const R=S.R,L=R.map((r,i)=>i).filter(i=>!R[i].sum&&c.tf[i]>c.tS[i]),tot=L.reduce((a,i)=>a+c.tf[i]-c.tS[i],0),out=[],d0=new Date(ID(c.pS)*864e5),fe=new Date(c.pFin*864e5);let y=d0.getUTCFullYear(),m=d0.getUTCMonth(),prev=0;
- while(y<fe.getUTCFullYear()||(y==fe.getUTCFullYear()&&m<=fe.getUTCMonth())){const end=Date.UTC(y,m+1,0)/864e5,ei=DI(end)+1;let s=0;L.forEach(i=>{const w=c.tf[i]-c.tS[i];s+=w*Math.min(1,Math.max(0,(ei-c.tS[i])/w))});const cum=tot?s/tot:0,st=S.info.status;out.push({m:String(m+1).padStart(2,'0')+'/'+y,mo:cum-prev,cum,act:(st<=end&&st>=Date.UTC(y,m,1)/864e5)?c.pa:null});prev=cum;if(++m>11){m=0;y++}}return out}
+function scurve(c){const R=S.R,WW=i=>c.wv?c.wv[i]:c.tf[i]-c.tS[i],L=R.map((r,i)=>i).filter(i=>!R[i].sum&&c.tf[i]>c.tS[i]),tot=L.reduce((a,i)=>a+WW(i),0),out=[],d0=new Date(ID(c.pS)*864e5),fe=new Date(c.pFin*864e5);let y=d0.getUTCFullYear(),m=d0.getUTCMonth(),prev=0;
+ while(y<fe.getUTCFullYear()||(y==fe.getUTCFullYear()&&m<=fe.getUTCMonth())){const end=Date.UTC(y,m+1,0)/864e5,ei=DI(end)+1;let s=0;L.forEach(i=>{const w=c.tf[i]-c.tS[i];s+=WW(i)*Math.min(1,Math.max(0,(ei-c.tS[i])/w))});const cum=tot?s/tot:0,st=S.info.status;out.push({m:String(m+1).padStart(2,'0')+'/'+y,mo:cum-prev,cum,act:(st<=end&&st>=Date.UTC(y,m,1)/864e5)?c.pa:null});prev=cum;if(++m>11){m=0;y++}}return out}
 const nf=n=>(Math.round(n*10)/10).toLocaleString('vi-VN');
 
 const RT=['Công nhân','Kỹ sư','Máy móc'],RTL={'Công nhân':'Workers','Kỹ sư':'Engineers','Máy móc':'Equipment'},HH3=130,isMon=d=>((d-4)%7+7)%7==0,WG=5,WTOL=.95,wkd=(a,b)=>{try{return Math.max(0,DI(b)-DI(a))}catch(e){return 0}},
@@ -219,23 +220,23 @@ function leftBottom0(c){const ms=msel(),box=(t,k)=>{const v=colVals(c,k,cols());
 function rightBottom(c){const ms=msel(),cl=cols(),{mn,dw,W}=GM;let hd=`<svg width="${W}" height="28">`;cl.forEach(x=>{const x0=Math.max(0,(x.a-mn)*dw);hd+=`<line x1="${x0}" x2="${x0}" y1="0" y2="28" stroke="#94a3b8" stroke-opacity=".5"/><text x="${x0+2}" y="17" font-size="9" fill="currentColor">${x.l}</text>`});hd+='</svg>';
  let ib='';ms.forEach((m,i)=>cl.forEach(x=>{let v=0;for(let d=x.a;d<=x.b;d++)if(isMon(d))v=Math.max(v,+((S.mq[m.code]||{})[d])||0);const x0=Math.max(0,(x.a-mn)*dw),w=(x.b+1-mn)*dw-x0;ib+=`<input data-mq="${esc(m.code)}" data-a="${x.a}" data-b="${x.b}" value="${v||''}" style="position:absolute;left:${x0+1}px;top:${i*24+1}px;width:${Math.max(w-3,8)}px;height:21px;padding:0;text-align:center;background:var(--in)">`}));
  return hk(c,'W')+(S.hideRes?'':hk(c,'K')+hk(c,'M')+`<div style="border-top:2px solid var(--bd);height:28px">${hd}</div><div style="position:relative;height:${ms.length*24+32}px;width:${W}px">${ib}</div>`)+'<div id="sp"></div>'}
-function planCurve(c){const R=S.R,L=R.map((r,i)=>i).filter(i=>!R[i].sum&&c.tf[i]>c.tS[i]),tot=L.reduce((a,i)=>a+c.tf[i]-c.tS[i],0),p=[],d0=ID(c.pS),d1=c.pFin;for(let d=d0;;d+=7){const e=Math.min(d,d1),ei=DI(e)+1;let s=0;L.forEach(i=>{const w=c.tf[i]-c.tS[i];s+=w*Math.min(1,Math.max(0,(ei-c.tS[i])/w))});p.push([e,tot?s/tot:0]);if(e>=d1)break}return p}
+function planCurve(c){const R=S.R,WW=i=>c.wv?c.wv[i]:c.tf[i]-c.tS[i],L=R.map((r,i)=>i).filter(i=>!R[i].sum&&c.tf[i]>c.tS[i]),tot=L.reduce((a,i)=>a+WW(i),0),p=[],d0=ID(c.pS),d1=c.pFin;for(let d=d0;;d+=7){const e=Math.min(d,d1),ei=DI(e)+1;let s=0;L.forEach(i=>{const w=c.tf[i]-c.tS[i];s+=WW(i)*Math.min(1,Math.max(0,(ei-c.tS[i])/w))});p.push([e,tot?s/tot:0]);if(e>=d1)break}return p}
 function monthStart(d){const t=new Date(d*864e5);return Date.UTC(t.getUTCFullYear(),t.getUTCMonth(),1)/864e5}
 const wkStart=d=>d-(((d-4)%7)+7)%7;
 /* % thực tế tại ngày d (theo ngày xong từng căn / cọc); null nếu công việc không có ngày */
-function lpD(r,d){const l=r.link;
+function lpD(r,d){if(isH()&&hIs(r)){const q=hQ(r,d);return q&&q[1]?q[0]/q[1]:0}const l=r.link;
  if(l&&l[0]=='L'){const q=plSum(l[1]);return q[1]?(d>=S.info.status?q[0]/q[1]:0):0}
  if(l&&l[0]=='P'){const a=S.piles[l[1]]||[],t=a.filter(x=>x[0]).length;return t?a.filter(x=>x[0]&&x[1]&&x[1]<=d).length/t:0}
  if(isG()){if(r.sum)return null;const key=(r.wt!=null&&S.W)?'w'+r.wt:(S.done['t'+r.id]!==undefined?'t'+r.id:null);if(!key)return null;
   const us=gU().filter(u=>key[0]=='t'||(!r.zn||u.z==r.zn)&&lotF(r)(u)),dm=(S.dd||{})[key]||{},ids=new Set(us.map(u=>u.id)),n=(S.done[key]||[]).filter(id=>ids.has(id)&&dm[id]!=null&&dm[id]<=d).length;return us.length?n/us.length:0}
  return null}
-function actualAt(c,d){const rd=S.info.status;let sw=0,sa=0;S.R.forEach((r,i)=>{if(r.sum||!(c.ds[i]>0))return;const w=c.ds[i];let x=lpD(r,d);if(x==null){if(d>=rd)x=c.pc[i];else{let pl=0;try{pl=Math.min(1,Math.max(0,(DI(d)+1-c.tS[i])/w))}catch(e){}x=Math.min(c.pc[i],pl)}}sw+=w;sa+=w*x});return sw?sa/sw:0}
+function actualAt(c,d){const rd=S.info.status;let sw=0,sa=0;S.R.forEach((r,i)=>{if(r.sum||!(c.ds[i]>0))return;const w=c.ds[i],ww=c.wv?c.wv[i]:w;let x=lpD(r,d);if(x==null){if(d>=rd)x=c.pc[i];else{let pl=0;try{pl=Math.min(1,Math.max(0,(DI(d)+1-c.tS[i])/w))}catch(e){}x=Math.min(c.pc[i],pl)}}sw+=ww;sa+=ww*x});return sw?sa/sw:0}
 function actualSeries(c){const rd=S.info.status,H=(S.hist||[]).slice().sort((a,b)=>a.d-b.d);let A;
  if(H.length)A=H.map(a=>({d:a.d,p:a.p}));else{A=[];for(let d=ID(c.pS);d<rd;d+=7)A.push({d,p:actualAt(c,d)})}
  if(!A.length||A[A.length-1].d<rd)A.push({d:rd,p:c.pa});return A}
-function planCurveBL(c){try{const R=S.R,wk=x=>ID(DI(x))==x,L=[];R.forEach(r=>{if(r.sum)return;const b=BL(r);if(!b||!b.s||!b.f||b.f<b.s)return;const s=DI(b.s),f=wk(b.f)?DI(b.f)+1:DI(b.f);if(f>s)L.push([s,f])});
- if(!L.length)return null;const tot=L.reduce((a,x)=>a+x[1]-x[0],0),d0=Math.min(...L.map(x=>ID(x[0]))),d1=Math.max(...L.map(x=>ID(x[1]-1))),p=[];
- for(let d=d0;;d+=7){const e=Math.min(d,d1),ei=DI(e)+1;let s=0;L.forEach(([a,b])=>{s+=(b-a)*Math.min(1,Math.max(0,(ei-a)/(b-a)))});p.push([e,s/tot]);if(e>=d1)break}return p}catch(e){return null}}
+function planCurveBL(c){try{const R=S.R,wk=x=>ID(DI(x))==x,L=[];R.forEach(r=>{if(r.sum)return;const b=BL(r);if(!b||!b.s||!b.f||b.f<b.s)return;const s=DI(b.s),f=wk(b.f)?DI(b.f)+1:DI(b.f);if(f>s)L.push([s,f,+r.v||0])});const hv=L.some(x=>x[2]>0),WB=x=>hv?x[2]:x[1]-x[0];
+ if(!L.length)return null;const tot=L.reduce((a,x)=>a+WB(x),0),d0=Math.min(...L.map(x=>ID(x[0]))),d1=Math.max(...L.map(x=>ID(x[1]-1))),p=[];
+ for(let d=d0;;d+=7){const e=Math.min(d,d1),ei=DI(e)+1;let s=0;L.forEach(x=>{const[a,b]=x;s+=WB(x)*Math.min(1,Math.max(0,(ei-a)/(b-a)))});p.push([e,s/tot]);if(e>=d1)break}return p}catch(e){return null}}
 function scChart(c){const P=planCurve(c),PB=planCurveBL(c),A=actualSeries(c),W=900,H=360,L=54,R=24,T=46,B=44,d0=Math.min(P[0][0],PB?PB[0][0]:1e9),d1=Math.max(P[P.length-1][0],PB?PB[PB.length-1][0]:0,...A.map(a=>a.d)),X=d=>L+(d-d0)/(d1-d0||1)*(W-L-R),Y=v=>H-B-v*(H-T-B);
  const bl=blIdx(),bn=(S.bls||[])[bl]?'BL'+S.bls[bl].n:'Baseline';
  let o=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;background:#fff;border:1px solid #cbd5e1;border-radius:8px"><defs><linearGradient id="gp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2563eb" stop-opacity=".22"/><stop offset="1" stop-color="#2563eb" stop-opacity=".02"/></linearGradient></defs><text x="${L}" y="22" font-size="15" font-weight="bold" fill="#0f172a">S-curve</text>`;
@@ -301,16 +302,130 @@ function scSection(c,edit){const A=(S.hist||[]).slice().sort((a,b)=>a.d-b.d),AS=
  const sc=scurve(c).map(s=>{const[mm,yy]=s.m.split('/').map(Number),a0=Date.UTC(yy,mm-1,1)/864e5,end=Date.UTC(yy,mm,0)/864e5,p=a0>rd?null:(end<=rd?(AS.filter(x=>x.d<=end).pop()||{}).p:c.pa);return{...s,act:p==null?null:p}});
  const hrows=A.map((a,i)=>`<tr><td><input data-sh="${i}" data-k="d" value="${fd(a.d)}" style="width:86px"></td><td><input data-sh="${i}" data-k="p" value="${(a.p*100).toFixed(1)}" style="width:60px">%</td><td><button data-shd="${i}">Delete</button></td></tr>`).join('');
  return`<h3>B. S-CURVE</h3>${edit?'<div class="row"><button data-chot="1">Lock weekly progress (save actual % at the report date)</button></div>':''}${scChart(c)}<p style="color:var(--mut);font-size:11px;margin:4px 0">The actual line is built from each unit / pile completion date; tasks with a manually entered % are estimated from the plan (not above the current %); units without a date only count at the report date.</p><table class="pt rfx" style="margin-top:8px"><colgroup><col style="width:25%"><col style="width:25%"><col style="width:25%"><col style="width:25%"></colgroup><tr><th>Month</th><th>Planned % in month<br>Planned in month</th><th>Planned % cumulative<br>Planned cumulative</th><th>Actual % cumulative<br>Actual cumulative</th></tr>${sc.map(s=>`<tr><td>${s.m}</td><td>${(s.mo*100).toFixed(1)}%</td><td>${(s.cum*100).toFixed(1)}%</td><td>${s.act!=null?(s.act*100).toFixed(1)+'%':''}</td></tr>`).join('')}</table>`+(edit?`<div class="no-pdf"><h4>Locked actual % history (optional – if present the actual line uses these points)</h4><table class="pt"><tr><th>Date</th><th>Actual %</th><th></th></tr>${hrows}</table><button data-sha="1">+ Add point</button></div>`:'')}
-function reportHTML(c){return`<h3>PROGRESS REPORT – ${esc(S.info.name)}</h3>`+statsHTML(c)+cumTable()+lotTable()+scSection(c,1)+mpSection(c)+trendSection()}
+function reportHTML(c){return`<h3>PROGRESS REPORT – ${esc(S.info.name)}</h3>`+statsHTML(c)+(isH()?hrRep(c,1):cumTable()+lotTable())+scSection(c,1)+mpSection(c)+trendSection()}
 /* các khối báo cáo để ghép liền trang khi xuất PDF */
-function reportBlocks(c){const D=rptData(),n=D.items.length,B=[statsHTML(c)],CH=60;
+function reportBlocks(c){const D=rptData(),n=D.items.length,B=[statsHTML(c)],CH=60;if(isH()){B.push(hrRep(c,0),scSection(c,0),mpSection(c),trendSection());return B}
  if(!n)B.push(cumTable());else for(let a=0;a<n;a+=CH)B.push(cumTable(a,Math.min(n,a+CH),a>0?1:0));
  D.items.length&&LOTS().forEach(l=>{if(D.items.some(it=>it.lots&&it.lots[l])){const lt=lotTable(1,l);if(lt)B.push(lt)}});
  B.push(scSection(c,0),mpSection(c),trendSection());return B}
-function reportPages(c){const D=rptData(),n=D.items.length,hd=`<h2 style="margin:0 0 6px">PROGRESS REPORT – ${esc(S.info.name)} (${fd(S.info.status)})</h2>`,pg=[];
+function reportPages(c){const D=rptData(),n=D.items.length,hd=`<h2 style="margin:0 0 6px">PROGRESS REPORT – ${esc(S.info.name)} (${fd(S.info.status)})</h2>`,pg=[];if(isH()){pg.push(hd+statsHTML(c)+hrRep(c,0));pg.push(hd+scSection(c,0));pg.push(hd+mpSection(c)+trendSection());return pg}
  if(!n){pg.push(hd+statsHTML(c)+cumTable())}else{const f1=Math.min(n,40),rest=n-f1,pr=rest?Math.ceil(rest/60):0,per=pr?Math.ceil(rest/pr):0;pg.push(hd+statsHTML(c)+cumTable(0,f1));for(let i=0;i<pr;i++)pg.push(hd+cumTable(f1+i*per,Math.min(n,f1+(i+1)*per),1))}
  D.items.length&&LOTS().forEach(l=>{if(D.items.some(it=>it.lots&&it.lots[l])){const lt=lotTable(1,l);if(lt)pg.push(hd+lt)}});
  pg.push(hd+scSection(c,0));pg.push(hd+mpSection(c)+trendSection());return pg}
+
+/* ---- high-rise layout (data in S.hr): elevation, floor plan, 3D; ticks in done['t'+task id] by cell index / list item index ---- */
+const isH=()=>!!(S&&S.hr&&S.hr.floors);
+let _hfm=null,_hfk=null;
+function hF(){if(_hfk!==S.hr){_hfm={};S.hr.floors.forEach(f=>_hfm[f.id]=f);_hfk=S.hr}return _hfm}
+const hIs=r=>!!(r&&(r.hf||r.hl));
+function hQ(r,day){const k='t'+r.id,d=new Set((S.done||{})[k]||[]),dm=(S.dd||{})[k]||{},ok=id=>d.has(id)&&(day==null||(dm[id]!=null&&dm[id]<=day));
+ if(r.hl)return[r.hl.filter((_,i)=>ok(String(i))).length,r.hl.length];
+ const f=hF()[r.hf];if(!f)return null;let a=0,t=0;(r.hm||[]).forEach(i=>{const c=f.c[i];if(!c)return;t+=c.a;if(ok(String(i)))a+=c.a});return[Math.round(a),Math.round(t)]}
+const hFL=id=>{const f=hF()[id];return f?f.n:id},hFS=id=>{const f=hF()[id];return f?f.s:id};
+const HCOL={done:'#16a34a',late:'#dc2626',due:'#f59e0b',todo:'#e2e8f0',na:'#f8fafc'};
+function hCtx(){const c=compute();if(c.err&&c.err.length)return null;const rdI=DI(S.info.status)+1,ix={},line={};S.R.forEach((r,i)=>{ix[r.id]=i;if(r.hf&&r.hk)line[r.hf+'|'+r.hk]=r});
+ const pl=i=>{const a=c.tS[i],b=c.tf[i];return b>a?Math.min(1,Math.max(0,(rdI-a)/(b-a))):(rdI>=b?1:0)};return{c,ix,line,pl,rdI}}
+const hLine=(X,f,k)=>X.line[f+'|'+k]||S.R.find(r=>r.hf==f&&r.hk==k&&!r.hl)||null;
+function hState(X,r,i){if(!r)return'na';const ti=X.ix[r.id];if(!r.hf)return X.c.pc[ti]>=1?'done':'na';const m=r.hm||[],k=m.indexOf(i);if(k<0)return'na';
+ if(((S.done||{})['t'+r.id]||[]).includes(String(i)))return'done';const exp=Math.round(X.pl(ti)*m.length);if(k<exp)return'late';if(X.rdI>X.c.tS[ti]&&X.rdI<=X.c.tf[ti])return'due';return'todo'}
+const hPct=x=>(Math.round(x*1000)/10).toFixed(1)+'%';
+function hHead(X){const A=S.hr.acts||[];if(!A.some(a=>a.k==V.hk))V.hk=(A[0]||{}).k;const v=V.hv||'elev',ed=!!(V.he||{})[v];
+ const tabs=[['elev','Elevation'],['plan','Floor plan'],['3d','3D'],['wide','Building-wide']].map(([k,t])=>`<button data-hzv="${k}" class="${v==k?'on':''}">${t}</button>`).join('');
+ const act=v=='wide'?'':`<b>Activity</b><select id="hzk" style="max-width:340px">${A.map(a=>`<option value="${esc(a.k)}"${a.k==V.hk?' selected':''}>${esc(a.n)}</option>`).join('')}</select>`;
+ const fl=v=='plan'?`<b>Floor</b><select id="hzf">${S.hr.floors.map(f=>`<option value="${esc(f.id)}"${f.id==V.hfl?' selected':''}>${esc(f.n)}</option>`).join('')}</select>`:'';
+ const eb=(v=='3d'||!canWrite())?'':`<button data-hze="${v}" class="${ed?'on':''}" title="Turn on to tick / untick on this view">Edit: ${ed?'ON':'OFF'}</button>`;
+ return`<div class="row hzh">${tabs}<span class="vsep"></span>${act}${fl}${eb}</div><div class="hzl"><span><i style="background:${HCOL.done}"></i>Done</span><span><i style="background:${HCOL.late}"></i>Behind plan</span><span><i style="background:${HCOL.due}"></i>In progress window</span><span><i style="background:${HCOL.todo}"></i>Not yet due</span><span><i style="background:${HCOL.na};border:1px solid #cbd5e1"></i>Not in this activity</span></div>`}
+function hrHTML(){if(!V.hfl||!hF()[V.hfl])V.hfl=(S.hr.floors.find(f=>f.k=='apt')||S.hr.floors[0]).id;const X=hCtx();if(!X)return'<div class="pl">Fix schedule errors first (Schedule tab).</div>';const v=V.hv||'elev';
+ let b='';if(v=='elev')b=hElev(X,V.hk,1);else if(v=='plan')b=hPlan(X,V.hfl,V.hk,1);else if(v=='3d')b=`<div class="hz3"><canvas id="h3d" width="1200" height="760"></canvas><div id="h3i" class="hzi">Drag = rotate · wheel / pinch = zoom · tap a floor = open its plan</div></div>`;else b=hWide(X);
+ return`<div class="pl hzp">${hHead(X)}${b}</div>`}
+function hElev(X,k,live){const t=X,S9=9,FS=S.hr.floors,g0=Math.max(0,FS.findIndex(f=>!/^B/.test(f.id))),top={};let y=0;FS.slice(g0).forEach(f=>{top[f.id]=y;y+=f.h});let yb=0;FS.slice(0,g0).reverse().forEach(f=>{yb-=f.h;top[f.id]=yb});
+ const M=S.hr.m2||.1,tw=760,ext=f=>{const xs=f.c.flatMap(c=>c.p.flat().map(q=>q[0]));return xs.length?Math.max(...xs)-Math.min(...xs):0},twr=FS.find(f=>f.k=='apt'),sc=twr?tw/ext(twr):1,wOf=f=>f.k=='apt'?tw:Math.max(200,ext(f)*sc),maxW=Math.max(...FS.map(wOf)),gx=70,W=gx+maxW+270,H=(y-yb)*S9+60,Y=e=>24+(y-e)*S9;
+ let o=`<svg viewBox="0 0 ${W} ${H}" width="${live?W:W*.72}" height="${live?H:H*.72}" xmlns="http://www.w3.org/2000/svg" style="font:10px Arial"><rect x="0" y="${Y(0)}" width="${W}" height="${H-Y(0)}" fill="#f5efe6"/><line x1="0" x2="${W}" y1="${Y(0)}" y2="${Y(0)}" stroke="#8b6b45" stroke-width="2"/><text x="${gx+maxW-120}" y="${Y(0)-4}" fill="#8b6b45">±0.00 Ground / Mặt đất</text>`;let dA=0,tA=0;
+ FS.forEach(f=>{const r=hLine(X,f.id,k),y1=Y(top[f.id]+f.h),hh=f.h*S9-2,w=wOf(f),x0=gx+(maxW-w)/2,cs=f.c.map((c,i)=>({c,i})).filter(z=>z.c.k!='hm'),A=cs.reduce((a,z)=>a+(f.k=='apt'&&z.c.k!='unit'?0:z.c.a),0);
+  o+=`<text data-hzf="${esc(f.id)}" x="${gx-8}" y="${y1+hh/2+3}" text-anchor="end" font-weight="700" style="cursor:pointer;fill:#1f6f8b">${esc(f.s)}</text><rect x="${x0-2}" y="${y1-1}" width="${w+4}" height="${hh+2}" fill="#cbd5e1"/>`;
+  let x=x0;const gap=f.k=='apt'?12:0,uw=f.k=='apt'?w-2*gap-2.4*w/32.4:w;
+  cs.forEach(({c,i},n)=>{let cw;if(f.k=='apt'){if(c.k=='unit'){cw=uw*c.a/A;if(n===f.t1)x+=gap}else{if(c.k=='hl')x+=gap;cw=1.2*w/32.4}}else cw=w*c.a/A;
+   const s=hState(X,r,i);if(r&&r.hf&&(r.hm||[]).includes(i)){tA+=c.a;if(s=='done')dA+=c.a}
+   o+=`<rect data-hzc="${esc(f.id)}|${i}" x="${(x+.5).toFixed(1)}" y="${y1}" width="${Math.max(1,cw-1).toFixed(1)}" height="${hh}" fill="${HCOL[s]}"><title>${esc(f.n)} · ${esc(c.n)} · ${Math.round(c.a)} m²</title></rect>`;
+   if(hh>14&&cw>16)o+=`<text x="${(x+cw/2).toFixed(1)}" y="${y1+hh/2+3}" text-anchor="middle" font-size="8" fill="${s=='todo'||s=='na'?'#64748b':'#fff'}" pointer-events="none">${esc(c.c)}</text>`;x+=cw});
+  if(r){const i=X.ix[r.id],a=X.c.pc[i],p=X.pl(i);o+=`<text x="${gx+maxW+12}" y="${y1+hh/2+3}" fill="${a+1e-6<p?'#dc2626':'#16a34a'}">${hPct(a)} / plan ${hPct(p)} · ${fd(X.c.sd[i]).slice(0,5)}–${fd(X.c.fn[i])}</text>`}});
+ o+='</svg>';const ed=live&&(V.he||{}).elev;
+ return`<div class="hzs">${tA?`<b>${Math.round(dA).toLocaleString('en-US')} / ${Math.round(tA).toLocaleString('en-US')} m² done (${hPct(dA/tA)})</b> · `:''}<span style="color:var(--mut)">Click a floor name to open its plan · cell width = area share</span></div><div class="hzw${ed?' hze':''}">${o}</div>`}
+function hPlan(X,fid,k,live){const f=hF()[fid],r=hLine(X,fid,k),I=(S.hr.imgs||{})[f.img]||null,ed=live&&(V.he||{}).plan;
+ let x0=0,y0=0,kk=1,W=1000,H=1000;if(I){[x0,y0]=I.win;kk=I.w/(I.win[2]-I.win[0]);W=I.w;H=I.h}else{const ps=f.c.flatMap(c=>c.p.flat());x0=Math.min(...ps.map(q=>q[0]))-20;y0=Math.min(...ps.map(q=>q[1]))-20;W=Math.max(...ps.map(q=>q[0]))-x0+20;H=Math.max(...ps.map(q=>q[1]))-y0+20}
+ const P=p=>p.map(q=>((q[0]-x0)*kk).toFixed(1)+','+((q[1]-y0)*kk).toFixed(1)).join(' '),fs=f.k=='apt'?15:13;
+ let o=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${f.k=='apt'?640:900}px" xmlns="http://www.w3.org/2000/svg">`+(I?`<image href="${esc(I.src)}" width="${W}" height="${H}"/>`:`<rect width="${W}" height="${H}" fill="#f8fafc"/>`);
+ let dA=0,tA=0;
+ f.c.forEach((c,i)=>{if(!c.p.length)return;const s=hState(X,r,i),op=s=='todo'?.35:s=='na'?.08:.6;if(r&&r.hf&&(r.hm||[]).includes(i)){tA+=c.a;if(s=='done')dA+=c.a}
+  o+=`<g data-hzc="${esc(fid)}|${i}" style="cursor:${ed?'pointer':'default'}">`+c.p.map(p=>`<polygon points="${P(p)}" fill="${HCOL[s]}" fill-opacity="${op}" stroke="${s=='na'||s=='todo'?'#64748b':HCOL[s]}" stroke-width="${c.k=='unit'||c.k=='zone'?2:1}"${c.k=='hl'||c.k=='kt'?' stroke-dasharray="4 3"':''}/>`).join('');
+  const bg=c.p.reduce((b,p)=>{const xs=p.map(q=>q[0]),ys=p.map(q=>q[1]),ar=(Math.max(...xs)-Math.min(...xs))*(Math.max(...ys)-Math.min(...ys));return ar>b.ar?{ar,p}:b},{ar:0,p:c.p[0]}).p,cx=bg.reduce((a,q)=>a+q[0],0)/bg.length,cy=bg.reduce((a,q)=>a+q[1],0)/bg.length;
+  o+=`<text x="${((cx-x0)*kk).toFixed(1)}" y="${((cy-y0)*kk).toFixed(1)}" text-anchor="middle" style="font-size:${fs}px;font-weight:700;fill:#0f172a" pointer-events="none">${esc(c.k=='unit'?f.s.replace(/^L/,'')+'-'+c.c:c.c)}</text><text x="${((cx-x0)*kk).toFixed(1)}" y="${((cy-y0)*kk+fs).toFixed(1)}" text-anchor="middle" style="font-size:${fs-3}px;fill:#334155" pointer-events="none">${Math.round(c.a)} m²</text><title>${esc(c.n)} · ${Math.round(c.a)} m²</title></g>`});
+ o+='</svg>';
+ const hm=f.c.map((c,i)=>({c,i})).filter(z=>!z.c.p.length);hm.forEach(({c,i})=>{if(r&&r.hf&&(r.hm||[]).includes(i)){tA+=c.a;if(hState(X,r,i)=='done')dA+=c.a}});
+ const chips=hm.length?`<div class="hzc">${hm.map(({c,i})=>`<span data-hzc="${esc(fid)}|${i}" class="hzch ${hState(X,r,i)}">${esc(c.n)} · ${Math.round(c.a)} m²</span>`).join('')}</div>`:'';
+ let info;if(r){const i=X.ix[r.id];info=`<b>${esc(f.n)}</b> · ${fd(X.c.sd[i])} – ${fd(X.c.fn[i])} · <b>${Math.round(dA).toLocaleString('en-US')} / ${Math.round(tA).toLocaleString('en-US')} m²</b> done (${tA?hPct(dA/tA):'–'}) · plan ${hPct(X.pl(i))}`}else info=`<b>${esc(f.n)}</b> · this activity is not on this floor`;
+ if(!live)return`<div class="hzs">${info}</div>${o}${chips}`;
+ const tasks=S.R.filter(x=>x.hf==fid||(!x.hf&&!x.hl&&!x.sum&&false)).map(x=>{const i=X.ix[x.id],a=X.c.pc[i],p=X.pl(i);return`<tr data-hzk="${esc(x.hk||'')}" style="cursor:pointer${x.hk==k?';background:var(--card)':''}"><td>${esc(x.name)}</td><td>${fd(X.c.sd[i])}</td><td>${fd(X.c.fn[i])}</td><td><span class="hzb"><i style="width:${a*100}%"></i><u style="left:${p*100}%"></u></span> <span style="color:${a+1e-6<p?'#dc2626':'#16a34a'}">${Math.round(a*100)}%</span></td></tr>`}).join('');
+ return`<div class="hzs">${info}</div><div class="hzg"><div class="hzw${ed?' hze':''}">${o}${chips}</div><div class="hzt"><table class="pt"><tr><th>Activities on this floor</th><th>Start</th><th>Finish</th><th>Actual vs plan</th></tr>${tasks}</table></div></div>`}
+function hWide(X){const ed=!!(V.he||{}).wide,L=S.R.filter(r=>r.hl);
+ return`<p style="color:var(--mut);margin:4px 0">Building-wide items are ticked by item (floor, technical room, lift, zone).</p><div class="${ed?'hze':''}">`+L.map(r=>{const i=X.ix[r.id],a=X.c.pc[i],p=X.pl(i),d=new Set((S.done||{})['t'+r.id]||[]),exp=Math.round(p*r.hl.length),win=X.rdI>X.c.tS[i]&&X.rdI<=X.c.tf[i];
+  return`<div class="hzcd"><b>${esc(r.name)}</b> <span style="color:var(--mut)">· ${fd(X.c.sd[i])} – ${fd(X.c.fn[i])}</span> · <span style="color:${a+1e-6<p?'#dc2626':'#16a34a'}">${hPct(a)}</span> <span style="color:var(--mut)">/ plan ${hPct(p)}</span><div class="hzc">${r.hl.map((n,j)=>`<span data-hzl="${r.id}|${j}" class="hzch ${d.has(String(j))?'done':j<exp?'late':win?'due':''}">${esc(n)}</span>`).join('')}</div></div>`}).join('')+'</div>'}
+/* 3D */
+function h3dInit(){const cv=document.getElementById('h3d');if(!cv)return;const X=hCtx();if(!X)return;const cx=cv.getContext('2d'),cam=V.h3=V.h3||{yaw:-.75,pitch:.38,dist:290};let FACES=[],drag=null,pinch=null;
+ const FS=S.hr.floors,g0=Math.max(0,FS.findIndex(f=>!/^B/.test(f.id))),zb={};let e=0;FS.slice(g0).forEach(f=>{zb[f.id]=e;e+=f.h});let eb=0;FS.slice(0,g0).reverse().forEach(f=>{eb-=f.h;zb[f.id]=eb});
+ const all=FS.flatMap(f=>f.c.flatMap(c=>c.p.flat())),CX=(Math.min(...all.map(q=>q[0]))+Math.max(...all.map(q=>q[0])))/2,CY=(Math.min(...all.map(q=>q[1]))+Math.max(...all.map(q=>q[1])))/2,M=S.hr.m2||.1;
+ const CLR={done:[22,163,74],late:[220,38,38],due:[245,158,11],todo:[226,232,240],na:[241,245,249],core:[148,163,184]};
+ const draw=()=>{const W=cv.width,H=cv.height;cx.clearRect(0,0,W,H);const pr=[];
+  FS.forEach(f=>{const r=hLine(X,f.id,V.hk),z0=zb[f.id],z1=z0+f.h*.9;f.c.forEach((c,i)=>{let s=hState(X,r,i);if((c.k=='hl'||c.k=='kt')&&(s=='todo'||s=='na'))s='core';c.p.forEach(p=>pr.push({p,z0,z1,s,fid:f.id,u:/^B/.test(f.id)}))})});
+  const cy=Math.cos(cam.yaw),sy=Math.sin(cam.yaw),cp=Math.cos(cam.pitch),sp=Math.sin(cam.pitch),fo=H*1.15;
+  const P=(x,y,z)=>{x=(x-CX)*M;y=(y-CY)*M;z-=40;const a=x*cy-y*sy,b=x*sy+y*cy,yc=b*cp-z*sp,zc=b*sp+z*cp,dd=cam.dist+yc;return[W/2+a*fo/dd,H/2-zc*fo/dd,dd]};
+  const F=[];pr.forEach(b=>{const n=b.p.length,bo=b.p.map(q=>P(q[0],q[1],b.z0)),tp=b.p.map(q=>P(q[0],q[1],b.z1)),base=CLR[b.s]||CLR.na,al=b.u?.85:1,col=k=>`rgba(${base.map(v=>Math.round(v*k)).join(',')},${al})`;
+   F.push({pts:tp,d:tp.reduce((a,q)=>a+q[2],0)/n,col:col(1),fid:b.fid});
+   for(let i=0;i<n;i++){const j=(i+1)%n,q=[bo[i],bo[j],tp[j],tp[i]],sh=.72+.16*Math.abs(Math.cos(Math.atan2(b.p[j][1]-b.p[i][1],b.p[j][0]-b.p[i][0])+cam.yaw));F.push({pts:q,d:q.reduce((a,r)=>a+r[2],0)/4,col:col(sh),fid:b.fid})}});
+  let a=1e9,b=-1e9,c=1e9,d=-1e9;F.forEach(f=>f.pts.forEach(p=>{a=Math.min(a,p[0]);b=Math.max(b,p[0]);c=Math.min(c,p[1]);d=Math.max(d,p[1])}));
+  const k=Math.min((W-40)/(b-a),(H-60)/(d-c)),ox=(W-(b-a)*k)/2-a*k,oy=45-c*k;F.forEach(f=>f.pts=f.pts.map(p=>[p[0]*k+ox,p[1]*k+oy,p[2]]));F.sort((x,y)=>y.d-x.d);
+  F.forEach(f=>{cx.beginPath();f.pts.forEach((p,i)=>i?cx.lineTo(p[0],p[1]):cx.moveTo(p[0],p[1]));cx.closePath();cx.fillStyle=f.col;cx.fill();cx.strokeStyle='rgba(255,255,255,.5)';cx.lineWidth=.5;cx.stroke()});FACES=F;
+  const an=(S.hr.acts.find(x=>x.k==V.hk)||{}).n||'';cx.fillStyle='#334155';cx.font='600 15px Arial';cx.fillText(an,16,24);cx.font='12px Arial';cx.fillStyle='#64748b';cx.fillText('Report date '+fd(S.info.status)+' · green done · red behind · amber in window · grey not due',16,42)};
+ const pip=(x,y,p)=>{let c=false;for(let i=0,j=p.length-1;i<p.length;j=i++){const[a,b]=p[i],[e,f]=p[j];if((b>y)!=(f>y)&&x<(e-a)*(y-b)/(f-b)+a)c=!c}return c};
+ const pick=ev=>{const r=cv.getBoundingClientRect(),x=(ev.clientX-r.left)*cv.width/r.width,y=(ev.clientY-r.top)*cv.height/r.height;for(let i=FACES.length-1;i>=0;i--)if(pip(x,y,FACES[i].pts))return FACES[i].fid;return null};
+ const info=fid=>{const el=document.getElementById('h3i');if(!el)return;if(!fid){el.textContent='Drag = rotate · wheel / pinch = zoom · tap a floor = open its plan';return}const r=hLine(X,fid,V.hk);if(!r){el.innerHTML=`<b>${esc(hFL(fid))}</b> · activity not on this floor`;return}const i=X.ix[r.id];el.innerHTML=`<b>${esc(hFL(fid))}</b> · actual ${hPct(X.c.pc[i])} · plan ${hPct(X.pl(i))} · ${fd(X.c.sd[i])} – ${fd(X.c.fn[i])}`};
+ cv.onpointerdown=ev=>{drag={x:ev.clientX,y:ev.clientY,yaw:cam.yaw,pitch:cam.pitch,mv:false};cv.setPointerCapture(ev.pointerId)};
+ cv.onpointermove=ev=>{if(drag){if(Math.abs(ev.clientX-drag.x)+Math.abs(ev.clientY-drag.y)>4)drag.mv=true;cam.yaw=drag.yaw+(ev.clientX-drag.x)*.008;cam.pitch=Math.max(.05,Math.min(1.35,drag.pitch+(ev.clientY-drag.y)*.005));draw();return}info(pick(ev))};
+ cv.onpointerup=ev=>{const d=drag;drag=null;if(d&&!d.mv){const f=pick(ev);if(f){V.hfl=f;V.hv='plan';render()}}};
+ cv.onwheel=ev=>{ev.preventDefault();cam.dist=Math.max(120,Math.min(900,cam.dist*(ev.deltaY>0?1.08:.93)));draw()};
+ cv.ontouchmove=ev=>{if(ev.touches.length==2){const d=Math.hypot(ev.touches[0].clientX-ev.touches[1].clientX,ev.touches[0].clientY-ev.touches[1].clientY);if(pinch)cam.dist=Math.max(120,Math.min(900,cam.dist*pinch/d));pinch=d;drag=null;draw();ev.preventDefault()}};cv.ontouchend=()=>{pinch=null};
+ draw()}
+/* events */
+document.addEventListener('click',e=>{if(!isH()||V.tab!=2)return;const t=e.target.closest&&e.target.closest('[data-hzv],[data-hze],[data-hzf],[data-hzc],[data-hzl],[data-hzk]');if(!t)return;const d=t.dataset;
+ if(d.hzv){V.hv=d.hzv;render();return}
+ if(d.hze){V.he=V.he||{};V.he[d.hze]=!V.he[d.hze];render();return}
+ if(d.hzf){V.hfl=d.hzf;V.hv='plan';render();return}
+ if(d.hzk!=null){if(d.hzk&&(S.hr.acts||[]).some(a=>a.k==d.hzk)){V.hk=d.hzk;render()}return}
+ if(!canWrite())return;
+ if(d.hzc){const v=V.hv||'elev';if(!(V.he||{})[v])return;const[f,i]=d.hzc.split('|'),r=S.R.find(x=>x.hf==f&&x.hk==V.hk&&!x.hl);if(!r||!(r.hm||[]).includes(+i))return;const k='t'+r.id;snap();setTick(k,i,!((S.done||{})[k]||[]).includes(i));save();render();return}
+ if(d.hzl){if(!(V.he||{}).wide)return;const[id,j]=d.hzl.split('|'),k='t'+id;snap();setTick(k,j,!((S.done||{})[k]||[]).includes(j));save();render()}});
+document.addEventListener('change',e=>{if(!isH())return;const t=e.target;if(t.id=='hzk'){V.hk=t.value;render()}else if(t.id=='hzf'){V.hfl=t.value;render()}});
+/* report */
+function hrRep(c,live){const rd=S.info.status,ms=monthStart(rd),rdI=DI(rd)+1,ix={};S.R.forEach((r,i)=>ix[r.id]=i);const pl=i=>{const a=c.tS[i],b=c.tf[i];return b>a?Math.min(1,Math.max(0,(rdI-a)/(b-a))):(rdI>=b?1:0)};
+ const mm=new Date(rd*864e5).getUTCMonth()+1,pm=(mm+10)%12+1,nf0=x=>Math.round(x).toLocaleString('en-US');
+ const qty=(r,day)=>{if(hIs(r)){const q=hQ(r,day);return q?{q:q[0],t:q[1],u:r.hl?'items':'m²'}:{q:0,t:0,u:''}}const i=ix[r.id];return{q:c.pc[i],t:1,u:''}};
+ const row=(no,nm,ls,lock)=>{let p0=0,cu=0,T=0,pq=0,vv=0,va=0,vp=0,u='';ls.forEach(r=>{const i=ix[r.id],A=qty(r,ms-1),B=qty(r,null);u=A.u;p0+=A.q;cu+=B.q;T+=B.t;pq+=pl(i)*B.t;const w=+r.v||0;vv+=w;va+=w*c.pc[i];vp+=w*pl(i)});
+  const a=vv?va/vv:(T?cu/T:0),p=vv?vp/vv:0,f=x=>u?nf0(x):'';return`<tr><td>${no}</td><td class="l">${nm}</td><td>${lock?'100%':f(p0)||'–'}</td><td>${lock?'–':f(cu-p0)||'–'}</td><td class="cur">${lock?'Completed':f(cu)+' / '+f(T)+' '+u}</td><td>${lock?'–':f(pq)}</td><td style="color:${a+1e-6<p?'#dc2626':'#16a34a'}">${hPct(a)}</td><td>${hPct(p)}</td></tr>`};
+ const hd=`<tr><th>No.</th><th>Work item</th><th>Cumulative<br>to end of M${pm}</th><th>Added<br>M${mm} (to ${fd(rd).slice(0,5)})</th><th>Cumulative<br>to date</th><th>Planned<br>to date</th><th>% Actual</th><th>% Plan</th></tr>`;
+ const L=S.R.filter(r=>!r.sum&&!r.mile&&(+r.v>0||r.hl)),G={},GO=[];L.forEach(r=>{const k=r.hk&&r.hf?'k:'+(r.hk=='LAT'?'OP':r.hk):'r'+r.id;if(!G[k]){G[k]=[];GO.push(k)}G[k].push(r)});
+ const AN={};(S.hr.acts||[]).forEach(a=>AN[a.k]=a.n);
+ let h=`<h3>A. CUMULATIVE QUANTITIES BY WORK ITEM</h3><p style="color:var(--mut);font-size:11px;margin:2px 0">Floor items in m² (ticked area), building-wide items by count; % weighted by BOQ value.</p><table class="pt rt">${hd}`+GO.map((k,n)=>{const ls=G[k],r0=ls[0],nm=k[0]=='k'?esc(AN[k.slice(2)]||r0.hk):esc(r0.name);return row(n+1,nm,ls,ls.every(r=>!hIs(r)&&c.pc[ix[r.id]]>=1&&r.as))}).join('')+'</table>';
+ V.hro=V.hro||{};let body='';
+ [{id:'',n:'Building-wide / Toàn công trình'},...S.hr.floors].forEach(f=>{const ls=L.filter(r=>(r.hf||'')==f.id);if(!ls.length)return;let vv=0,va=0,vp=0,nd=0;ls.forEach(r=>{const i=ix[r.id],w=+r.v||0;vv+=w;va+=w*c.pc[i];vp+=w*pl(i);if(c.pc[i]>=1)nd++});
+  const open=!live||V.hro[f.id||'_'];body+=`<tr class="lh"><td colspan="8" style="text-align:left;background:var(--card);font-weight:700">${live?`<button class="cgl" data-hro="${esc(f.id||'_')}">${open?'▾':'▸'}</button> `:''}${esc(f.n)} · <span style="color:${va+1e-6<vp?'#dc2626':'#16a34a'}">${vv?hPct(va/vv):'–'}</span> <span style="font-weight:400;font-size:11px">/ plan ${vv?hPct(vp/vv):'–'} · ${nd}/${ls.length} items done</span></td></tr>`;
+  if(open)ls.forEach((r,k)=>{body+=row(k+1,esc(r.name),[r],!hIs(r)&&c.pc[ix[r.id]]>=1)})});
+ h+=`<h3>A2. QUANTITIES BY FLOOR</h3><table class="pt rt">${hd}${body}</table>`;
+ const HO=S.hr.ho||[];if(HO.length){h+=`<h3>B. HANDOVER MILESTONES (AREA TO CLIENT PACKAGES)</h3><table class="pt rt"><tr><th>Handover</th><th>Target</th><th>Days left</th><th>Readiness</th><th>Status</th><th>Open prerequisites</th><th>Handed over</th></tr>`+HO.map(o=>{const r=S.R.find(x=>x.id==o.id);if(!r)return'';const i=ix[r.id],d=c.fn[i],pre=o.pre.map(id=>S.R.find(x=>x.id==id)).filter(Boolean),rdy=pre.length?pre.reduce((a,p)=>a+c.pc[ix[p.id]],0)/pre.length:0,prp=pre.length?pre.reduce((a,p)=>a+pl(ix[p.id]),0)/pre.length:0,dl=d-rd,done=c.pc[i]>=1;
+   const st=done?['Handed over','#16a34a']:rdy>=.999?['Ready','#16a34a']:dl<0?['Late','#dc2626']:(dl<=30&&rdy<.8)||prp>rdy+1e-6?['At risk','#d97706']:['On track',''],open=pre.filter(p=>c.pc[ix[p.id]]<.999).map(p=>esc(p.name.split(' / ')[0])).join('; ');
+   return`<tr><td class="l">${esc(r.name)}</td><td>${fd(d)}</td><td>${dl}</td><td><span class="hzb"><i style="width:${rdy*100}%"></i><u style="left:${prp*100}%"></u></span> ${Math.round(rdy*100)}%</td><td style="color:${st[1]};font-weight:700">${st[0]}</td><td class="l" style="font-size:11px">${open||'—'}</td><td>${live&&canWriteFull()?`<input type="checkbox" data-hho="${r.id}"${done?' checked':''}> `:''}${done?(r.af?fd(r.af):'✓'):''}</td></tr>`}).join('')+'</table>'}
+ return h}
+document.addEventListener('click',e=>{if(!isH())return;const b=e.target.closest&&e.target.closest('[data-hro]');if(!b)return;V.hro=V.hro||{};V.hro[b.dataset.hro]=!V.hro[b.dataset.hro];render()});
+document.addEventListener('change',e=>{if(!isH())return;const t=e.target;if(t.dataset&&t.dataset.hho){if(!canWriteFull())return;const r=S.R.find(x=>x.id==+t.dataset.hho);if(!r)return;snap();if(t.checked){r.pct=1;r.af=S.info.status;r.as=r.as||S.info.status}else{r.pct=0;r.af=0;r.as=0}save();render()}});
 
 /* ---- mặt bằng riêng cho từng dự án ---- */
 const isG=()=>S.plan&&S.plan!=='p3';
@@ -381,7 +496,8 @@ async function makePdf(o){stat('Creating PDF…');await need('https://cdnjs.clou
   for(const b of B){if(cur&&H(hd+cur+b)>CAP){await page('<div class="rpg">'+hd+cur+'</div>',RPW,'a4p');cur=b}else cur+=b}
   if(cur)await page('<div class="rpg">'+hd+cur+'</div>',RPW,'a4p')}
  if(o.c){const strip=s=>s.replace(/<button.*?<\/button>/g,'').replace(/<div class="row"><b>Task.*?<\/div>/,'');
-  if(S.plan==='p3'){D.W.forEach((n,i)=>{});for(let i=0;i<D.W.length;i++){if(o.d&&!(S.done[i]||[]).length)continue;V.pw=i;await page(`<h3>${i+1}. ${esc(D.W[i])}</h3>`+strip(planHTML()),900)}}
+  if(isH()){const X=hCtx();if(X)for(const a of S.hr.acts||[]){const ls=S.R.filter(r=>r.hk==a.k&&r.hf);if(o.d&&!ls.some(r=>((S.done||{})['t'+r.id]||[]).length))continue;await page('<h3>'+esc(a.n)+'</h3>'+hElev(X,a.k,0),1100)}}
+  else if(S.plan==='p3'){D.W.forEach((n,i)=>{});for(let i=0;i<D.W.length;i++){if(o.d&&!(S.done[i]||[]).length)continue;V.pw=i;await page(`<h3>${i+1}. ${esc(D.W[i])}</h3>`+strip(planHTML()),900)}}
   else if(isG()&&S.W){for(let i=0;i<S.W.length;i++){const k='w'+i;if(o.d&&!(S.done[k]||[]).length)continue;const us=gU(),dd=new Set(S.done[k]||[]),zs='Total: '+us.filter(u=>dd.has(u.id)).length+'/'+us.length;await page('<h3>'+(i+1)+'. '+esc(S.W[i])+'</h3><div style="margin:2px 0 4px"><b>'+zs+'</b></div>'+gplan(k,0),Math.max(S.plan.W,700))}}
   else if(isG())S.R.forEach(()=>{}),await(async()=>{for(const r of S.R){if(r.sum)continue;const k='t'+r.id;if(o.d&&!(S.done[k]||[]).length)continue;const n=gU().length,dn=(S.done[k]||[]).length;await page(`<h3>${r.id}. ${esc(r.name)} – ${dn}/${n}</h3>`+gplan(k,0),Math.max(S.plan.W,700))}})();
   }
@@ -450,7 +566,7 @@ const U=[],ZT=[30,124,14],CW=22,RH2=19;
 LK.forEach(([lk,z,t,r1,r2,gs])=>{let k=0;if(t=='S')gs.forEach(([a,b])=>{for(let c=a;c<=b;c++)U.push({lk,z,c1:c,c2:c,r1,r2,k:++k})});else for(let r=r1;r<=r2;r++)gs.forEach(([a,b])=>U.push({lk,z,c1:a,c2:b,r1:r,r2:r,k:++k}))});
 const zc=(w,z)=>(S.done[w]||[]).filter(i=>U[i].z==z).length;
 const lotF=r=>{if(!r.lot)return()=>true;const a=[].concat(r.lot);return u=>a.includes(u.b)};
-function lp(r){const l=r.link;if(l&&l[0]=='L'){const q=plSum(l[1]);return q[1]?q:null}if(l&&l[0]=='P'){const a=S.piles[l[1]]||[];return[a.filter(x=>x[0]&&x[1]).length,a.filter(x=>x[0]).length]}
+function lp(r){if(isH()&&hIs(r))return hQ(r);const l=r.link;if(l&&l[0]=='L'){const q=plSum(l[1]);return q[1]?q:null}if(l&&l[0]=='P'){const a=S.piles[l[1]]||[];return[a.filter(x=>x[0]&&x[1]).length,a.filter(x=>x[0]).length]}
  if(isG()){if(r.sum)return null;if(r.wt!=null&&S.W){const us=gU().filter(u=>(!r.zn||u.z==r.zn)&&lotF(r)(u)),d=new Set(S.done['w'+r.wt]||[]);return[us.filter(u=>d.has(u.id)).length,us.length]}
   if(S.done['t'+r.id]!==undefined){const ids=new Set(gU().map(u=>u.id));return[(S.done['t'+r.id]||[]).filter(x=>ids.has(x)).length,ids.size]}return null}
  if(!l)return null;return[zc(l[1],l[0]),ZT[l[0]]]}
@@ -481,12 +597,12 @@ function compute(){cal();const R=S.R,n=R.length,err=[],man=S.info.mode=='m';
  const TF=R.map((r,i)=>r.sum?0:LF[i]-tf[i]);for(let i=n-1;i>=0;i--)if(R[i].sum){let m=1e9;for(let j=i+1;j<=last[i];j++)if(!R[j].sum)m=Math.min(m,TF[j]);TF[i]=m==1e9?0:m}
  const pc=R.map(r=>{const x=lp(r);return x?(x[1]?x[0]/x[1]:0):Math.min(1,Math.max(0,+r.pct||0))});
  const sIdx=DI(S.info.status||S.info.start)+1;let sw=0,sa=0,sp=0;
- R.forEach((r,i)=>{if(!r.sum&&dur[i]>0){sw+=dur[i];sa+=dur[i]*pc[i];sp+=dur[i]*Math.min(1,Math.max(0,(sIdx-tS[i])/dur[i]))}});
- for(let i=n-1;i>=0;i--)if(R[i].sum){let w=0,a=0;for(let j=i+1;j<=last[i];j++)if(!R[j].sum&&dur[j]>0){w+=dur[j];a+=dur[j]*pc[j]}pc[i]=w?a/w:0}
+ const hv=R.some(r=>!r.sum&&+r.v>0),wv=R.map((r,i)=>hv?(+r.v||0):dur[i]);R.forEach((r,i)=>{if(!r.sum&&dur[i]>0){sw+=wv[i];sa+=wv[i]*pc[i];sp+=wv[i]*Math.min(1,Math.max(0,(sIdx-tS[i])/dur[i]))}});
+ for(let i=n-1;i>=0;i--)if(R[i].sum){let w=0,a=0,w2=0,a2=0;for(let j=i+1;j<=last[i];j++)if(!R[j].sum&&dur[j]>0){w+=wv[j];a+=wv[j]*pc[j];w2+=dur[j];a2+=dur[j]*pc[j]}pc[i]=w?a/w:(w2?a2/w2:0)}
  const sd=[],fn=[];R.forEach((r,i)=>{sd[i]=ID(tS[i])});
  for(let i=n-1;i>=0;i--){if(R[i].sum){let m=0;for(let j=i+1;j<=last[i];j++)if(!R[j].sum)m=Math.max(m,fn[j]);fn[i]=m}else fn[i]=tf[i]>tS[i]?ID(tf[i]-1):ID(tS[i])}
  const ds=R.map((r,i)=>r.sum?DI(fn[i])-tS[i]+1:dur[i]);
- return{err,L0,vio,tS,tf,TF,pc,sd,fn,ds,pS,pF,pa:sw?sa/sw:0,pp:sw?sp/sw:0,crit:R.filter((r,i)=>!r.sum&&TF[i]<=0).length,pFin:Math.max(...fn),sIdx}}
+ return{err,L0,vio,tS,tf,TF,pc,sd,fn,ds,wv,pS,pF,pa:sw?sa/sw:0,pp:sw?sp/sw:0,crit:R.filter((r,i)=>!r.sum&&TF[i]<=0).length,pFin:Math.max(...fn),sIdx}}
 const wbs=()=>{const c=[],o=[];S.R.forEach(r=>{c[r.lv]=(c[r.lv]||0)+1;c.length=r.lv+1;o.push(c.slice(1).join('.'))});return o};
 /* ---- vẽ ---- */
 const RH=24,HH=40;
@@ -526,9 +642,9 @@ function render0(){rdAuto();if((FIELD||ROLE==='member')&&(V.tab==1||V.tab==4))V.
  if(V.tab==1){if(c.err.length){v.innerHTML='';return}const a=$('#lp'),b=$('#rp'),sl=a?a.scrollTop:0,sx=b?b.scrollLeft:0,sxl=a?a.scrollLeft:0;const GS=gantt(c);
   v.innerHTML=`<div class="top"><button data-op="add">+ Add row</button><button data-op="del">Delete row</button><button data-op="in">Indent →</button><button data-op="out">← Outdent</button>${colMenu()}<button data-op="up">↑</button><button data-op="dn">↓</button><button data-cl="cx" title="Collapse all groups">Collapse all</button><button data-cl="ex" title="Expand all groups">Expand all</button><span class="hint" title="Yellow cell = input · click the No. cell to select a row · Ctrl+Z / Ctrl+Y · paste multiple cells from Excel">ⓘ</span></div><div class="split"><div class="pw" id="lw"><div class="sbt" id="lt"><div></div></div><div class="pane" id="lp">${table(c)}${leftBottom(c)}</div></div><div id="gut" title="Drag to resize · double-click for auto"></div><div class="pw" id="rw"><div class="sbt" id="rt"><div></div></div><div class="pane" id="rp">${GS}${rightBottom(c)}</div></div></div>`;
   const l=$('#lp'),r=$('#rp'),lt=$('#lt'),rt=$('#rt'),dd=l.scrollHeight-r.scrollHeight;if(dd>0)$('#sp').style.height=dd+'px';layoutSplit();l.scrollTop=r.scrollTop=sl;r.scrollLeft=sx;l.scrollLeft=sxl;lt.scrollLeft=sxl;rt.scrollLeft=sx;l.onscroll=()=>{r.scrollTop=l.scrollTop;lt.scrollLeft=l.scrollLeft};r.onscroll=()=>{l.scrollTop=r.scrollTop;rt.scrollLeft=r.scrollLeft};lt.onscroll=()=>{l.scrollLeft=lt.scrollLeft};rt.onscroll=()=>{r.scrollLeft=rt.scrollLeft}}
- else if(V.tab==2)v.innerHTML=planHTML();else if(V.tab==4)v.innerHTML='<div class="pl"><div class="rpw">'+(c.err.length?'':reportHTML(c))+'</div></div>';else v.innerHTML=pileHTML()}
+ else if(V.tab==2){v.innerHTML=planHTML();if(isH()&&V.hv=='3d')h3dInit()}else if(V.tab==4)v.innerHTML='<div class="pl"><div class="rpw">'+(c.err.length?'':reportHTML(c))+'</div></div>';else v.innerHTML=pileHTML()}
 /* ---- mặt bằng / cọc ---- */
-function planHTML(){if(isG())return gHTML();if(!S.plan)return'<div class="pl"><p>This project has no layout yet.</p><button data-mk="1">Create new layout (draw unit rows, with background image)</button></div>';if(0)return'<div class="pl">No layout for this project yet.</div>';const w=V.pw||0,d=new Set(S.done[w]||[]);let o=`<div class="pl"><div class="row"><button data-cv="1">Switch to an editable layout (keeps ticked units)</button></div><div class="row"><b>Task:</b><select id="sw">${D.W.map((n,i)=>`<option value="${i}"${i==w?' selected':''}>${i+1}. ${esc(n)}</option>`).join('')}</select><b>${[0,1,2].map(z=>`Zone ${z+1}: ${zc(w,z)}/${ZT[z]}`).join(' · ')}</b></div><svg class="pg" viewBox="0 0 ${58*CW} ${33*RH2}" style="width:100%;max-height:68vh">`;
+function planHTML(){if(isH())return hrHTML();if(isG())return gHTML();if(!S.plan)return'<div class="pl"><p>This project has no layout yet.</p><button data-mk="1">Create new layout (draw unit rows, with background image)</button></div>';if(0)return'<div class="pl">No layout for this project yet.</div>';const w=V.pw||0,d=new Set(S.done[w]||[]);let o=`<div class="pl"><div class="row"><button data-cv="1">Switch to an editable layout (keeps ticked units)</button></div><div class="row"><b>Task:</b><select id="sw">${D.W.map((n,i)=>`<option value="${i}"${i==w?' selected':''}>${i+1}. ${esc(n)}</option>`).join('')}</select><b>${[0,1,2].map(z=>`Zone ${z+1}: ${zc(w,z)}/${ZT[z]}`).join(' · ')}</b></div><svg class="pg" viewBox="0 0 ${58*CW} ${33*RH2}" style="width:100%;max-height:68vh">`;
  LK.forEach(([lk])=>{const us=U.filter(u=>u.lk==lk),x1=Math.min(...us.map(u=>u.c1))*CW-6,y1=Math.min(...us.map(u=>u.r1))*RH2-16,x2=Math.max(...us.map(u=>u.c2+1))*CW+6,y2=Math.max(...us.map(u=>u.r2+1))*RH2+6;o+=`<rect class="lk" x="${x1}" y="${y1}" width="${x2-x1}" height="${y2-y1}"/>`});
  U.forEach((u,i)=>{const x=u.c1*CW,y=u.r1*RH2,ww=(u.c2-u.c1+1)*CW,h=(u.r2-u.r1+1)*RH2;o+=`<g data-i="${i}"><rect class="u${d.has(i)?' on':''}" x="${x}" y="${y}" width="${ww}" height="${h}"/><text x="${x+ww/2}" y="${y+h/2}">${u.k}</text></g>`});
  return o+'</svg><p style="color:var(--mut)">Tap a unit to mark it done; % and unit counts flow to the schedule table. (Package 3 – 168 units)</p></div>'}
@@ -538,7 +654,7 @@ function pileHTML(ro){S.pl=S.pl||[];const full=!ro&&canWriteFull(),w=!ro&&canWri
 +`<tr><td></td><td><b>Total</b></td><td><b>${nf0(q[1])}</b></td><td><b>${nf0(q[0])}</b></td><td><b>${nf0(q[1]-q[0])}</b></td><td><b>${pc(q[0],q[1])}</b></td>${full?'<td></td>':''}</tr></table>${full?'<button data-pla="1">+ Add lot</button>':''}</div>`}
 /* ---- sự kiện ---- */
 document.addEventListener('change',e=>{const t=e.target;
- if(t.id=='pj'){if(!leaveOk()){fillPj();return}if(t.value=='__hr'){fillPj();location.href='/high-rise';return}loadProj(t.value);return}
+ if(t.id=='pj'){if(!leaveOk()){fillPj();return}loadProj(t.value);return}
  if(!canWrite())return;
  if(ROLE==='member'&&t.dataset.pz==null&&!(t.dataset.pl!=null&&t.dataset.k=='d')){if(t.id=='sw'){V.pw=+t.value;save();render()}return}
  if(t.dataset.f||t.dataset.pz!=null||t.dataset.pl!=null||['pn','ps','pw','pb','pm'].includes(t.id))snap();

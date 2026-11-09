@@ -122,6 +122,8 @@ Document `projects`: `{ _id, name, json, rev, lockedBy, lockedByName, lockedAt, 
 | `done`, `dd` | Căn đã xong theo đầu mục, ngày xong | Thực tế |
 | `piles`, `pl` | Ép cọc; `pl[] = {n (lô), t (tổng cọc), d (lũy kế)}` | Thực tế |
 | `hist` | Các baseline đã lưu | Kế hoạch |
+| `R[].v` | (tùy chọn) Giá trị BOQ của công tác. Có `v` → % dự án, đường S tính theo giá trị BOQ thay vì thời lượng | Kế hoạch |
+| `hr` | (tùy chọn) Mặt bằng cao tầng: `floors[]` (ô căn/zone có diện tích + đa giác), `imgs` (ảnh nền, file trong `public/hr/...`), `acts`, `ho` (mốc bàn giao + điều kiện). Công tác có `hf`+`hm` (tầng + ô) hoặc `hl` (danh sách hạng mục); tick lưu ở `done['t'+id]`/`dd` → tab Layout hiện Elevation / Floor plan / 3D / Building-wide, % theo m² | Thực tế |
 | `hol`, `hols`, `hide`, `pj` | Ngày nghỉ, cột ẩn, cấu hình phụ | — |
 
 **Ngày lưu dạng số ngày kể từ 1970-01-01** (vd. `20727` = 2026-10-01). Không đổi sang chuỗi.
