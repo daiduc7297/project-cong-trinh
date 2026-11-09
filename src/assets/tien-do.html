@@ -409,17 +409,17 @@ function hViews(c,all,live){const X=hCtx();if(!X)return'';const A=hViewActs(X,al
 
 /* events */
 document.addEventListener('click',e=>{if(!isH()||V.tab!=2)return;const t=e.target.closest&&e.target.closest('[data-hzv],[data-hze],[data-hzf],[data-hzc],[data-hzl],[data-hzk],[data-hzfs],[data-hzz],[data-hzo]');if(!t)return;const d=t.dataset;
- if(d.hzv){V.hv=d.hzv;render();return}
+ if(d.hzv){V.hv=d.hzv;V.hzm=1;render();return}
  if(d.hzfs){V.hfs=!V.hfs;render();return}
  if(d.hzz){V.hzm=Math.min(4,Math.max(.5,(V.hzm||1)*(+d.hzz>0?1.25:.8)));render();return}
  if(d.hzo){if(!canWrite())return;const[id,i]=d.hzo.split('|'),k='t'+id,on=((S.done||{})[k]||[]).includes(i);if(on&&!confirm('Mark this opening as not closed?'))return;snap();setTick(k,i,!on);save();render();return}
  if(d.hze){V.he=V.he||{};V.he[d.hze]=!V.he[d.hze];render();return}
- if(d.hzf){V.hfl=d.hzf;V.hv='plan';render();return}
+ if(d.hzf){V.hfl=d.hzf;V.hv='plan';V.hzm=1;render();return}
  if(d.hzk!=null){if(d.hzk&&(S.hr.acts||[]).some(a=>a.k==d.hzk)){V.hk=d.hzk;render()}return}
  if(!canWrite())return;
  if(d.hzc){const v=V.hv||'elev';if(!(V.he||{})[v])return;const[f,i]=d.hzc.split('|'),r=S.R.find(x=>x.hf==f&&x.hk==V.hk&&!x.hl);if(!r||!(r.hm||[]).includes(+i))return;const k='t'+r.id;snap();setTick(k,i,!((S.done||{})[k]||[]).includes(i));save();render();return}
  if(d.hzl){if(!(V.he||{}).wide)return;const[id,j]=d.hzl.split('|'),k='t'+id;snap();setTick(k,j,!((S.done||{})[k]||[]).includes(j));save();render()}});
-document.addEventListener('change',e=>{if(!isH())return;const t=e.target;if(t.id=='hzk'){V.hk=t.value;render()}else if(t.id=='hzf'){V.hfl=t.value;render()}});
+document.addEventListener('change',e=>{if(!isH())return;const t=e.target;if(t.id=='hzk'){V.hk=t.value;render()}else if(t.id=='hzf'){V.hfl=t.value;V.hzm=1;render()}});
 /* report */
 function hrRep(c,live){const rd=S.info.status,ms=monthStart(rd),rdI=DI(rd)+1,ix={};S.R.forEach((r,i)=>ix[r.id]=i);const pl=i=>{const a=c.tS[i],b=c.tf[i];return b>a?Math.min(1,Math.max(0,(rdI-a)/(b-a))):(rdI>=b?1:0)};
  const mm=new Date(rd*864e5).getUTCMonth()+1,pm=(mm+10)%12+1,nf0=x=>Math.round(x).toLocaleString('en-US');
