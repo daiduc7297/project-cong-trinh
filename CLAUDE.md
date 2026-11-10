@@ -155,7 +155,11 @@ Màn hình tổng quan nhiều dự án (xem từng dự án trên điện tho�
 báo cáo tuần riêng (tab Report đã đủ) · gán thầu phụ/tổ đội · nhật ký thay đổi · ảnh hiện trường · danh sách việc 2 tuần tới ·
 tách tiến độ hợp đồng riêng (BL1 = tiến độ chốt với CĐT, coi là tiến độ hợp đồng).
 
+## Dự báo theo năng suất (đã có)
+
+- `paceFC(c)` trong tien-do.html: mỗi công tác có ngày xong dự báo = ngày báo cáo + phần còn lại ÷ tốc độ thực tế (từ ngày tick đầu tiên, hoặc 4 tuần gần nhất); <10% hoặc <10 ngày dữ liệu → tốc độ kế hoạch; chưa bắt đầu mà quá ngày → thời lượng kế hoạch tính từ ngày báo cáo. Trễ lan sang công việc sau theo liên kết (dùng hết dự trữ trước). Công tác kéo dài cả dự án (ban chỉ huy) không dự báo.
+- Hiển thị: chip `Forecast` trên Schedule, mục FORECAST trong Report (+PDF), dòng dự báo trên thẻ điện thoại; dự án cao tầng có thêm biểu đồ Line of balance.
+
 ## Việc có thể cân nhắc sau
 
 - Nhắc việc (quên nhập công nhân trong ngày, cảnh báo trễ).
-- Dự báo ngày xong theo năng suất cho từng đầu mục.
