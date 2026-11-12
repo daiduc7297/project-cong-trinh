@@ -873,28 +873,30 @@ function ibDraw(){if(!IB||V.tab!=2){ib0();return}let e=document.getElementById('
  const on=(S.done[IB.k]||[]).includes(IB.id),d=ddOf(IB.k,IB.id),s=String(IB.id),j=s.lastIndexOf('-'),lo=j>0?s.slice(0,j):s,can=j>0?s.slice(j+1):'',
   wn=S.W?(S.W[+IB.k.slice(1)]||''):((S.R.find(r=>'t'+r.id==IB.k)||{}).name||'');
  e.innerHTML=`<div><b>Lot ${esc(lo)}${can?' · unit '+esc(can):''}</b><span style="color:var(--mut)">${esc(wn)}</span>${on?(d?'Done on <b>'+fd(d)+'</b>':'Done · <i>no date</i>'):'Not done'}</div>`+(on?'<button data-ib="date">Edit date</button><button data-ib="off">Unmark</button>':'<button data-ib="on">Mark done</button>')+'<button data-ib="x">✕</button>'}
-/* all work items that cover this unit, with its own status for each */
-function unitRows(u){const out=[];S.R.forEach((r,i)=>{if(r.sum||r.mile)return;
-  const isW=r.wt!=null&&S.W,isP=r.link&&r.link[0]=='L';
-  if(!isW&&!isP&&S.done['t'+r.id]===undefined)return;
+/* every work item that covers this lot; pile pressing is tracked on the Piling tab */
+function lotRows(u){const out=[];S.R.forEach((r,i)=>{if(r.sum||r.mile)return;
+  if(r.link)return;
+  if(!(r.wt!=null&&S.W)&&S.done['t'+r.id]===undefined)return;
   if(r.zn&&u.z!=r.zn)return;if(!lotF(r)(u))return;
-  out.push([r,i,isW?'w'+r.wt:'t'+r.id])});return out}
+  out.push([r,i,r.wt!=null?'w'+r.wt:'t'+r.id])});return out}
 function unitPanel(key){
  if(!V.gu)return'';const u=gU().find(x=>x.id==V.gu);if(!u)return'';
  const c=compute();if(c.err&&c.err.length)return'';
- const rd=S.info.status,rows=unitRows(u);if(!rows.length)return'';
- let dn=0;const tr=rows.map(([r,i,k])=>{
-  const on=(S.done[k]||[]).includes(u.id),dt=on?ddOf(k,u.id):0;if(on)dn++;
-  const late=!on&&rd>c.fn[i],now=!on&&rd>=c.sd[i];
-  const col=on?'#16a34a':late?'#dc2626':now?'#d97706':'var(--mut)';
-  const txt=on?('Done'+(dt?' '+fd(dt):'')):late?('Late '+(DI(rd)-DI(c.fn[i]))+' d'):now?'In progress':'Not due';
-  const a=c.pc[i],pl=Math.min(1,Math.max(0,(DI(rd)+1-c.tS[i])/(c.ds[i]||1)));
+ const rd=S.info.status,rows=lotRows(u);if(!rows.length)return'';
+ const us=gU().filter(x=>x.b==u.b),tot=us.length;let full=0;
+ const tr=rows.map(([r,i,k])=>{
+  const set=new Set(S.done[k]||[]),dn=us.filter(x=>set.has(x.id)).length,a=tot?dn/tot:0;
+  if(dn>=tot)full++;
+  const pl=Math.min(1,Math.max(0,(DI(rd)+1-c.tS[i])/(c.ds[i]||1)));
+  const done=dn>=tot,late=!done&&(rd>c.fn[i]||(rd>=c.sd[i]&&a<pl*.95)),now=!done&&rd>=c.sd[i];
+  const col=done?'#16a34a':late?'#dc2626':now?'#d97706':'var(--mut)';
+  const txt=done?'Done':late?(rd>c.fn[i]?'Late '+(DI(rd)-DI(c.fn[i]))+' d':'Behind plan'):now?'In progress':'Not due';
   return`<tr data-ur="${i}" data-uw="${r.wt!=null?r.wt:''}" class="${late?'urlate':''}" style="cursor:pointer${k==key?';background:var(--card)':''}" title="Show this work item on the layout">`
    +`<td>${esc(r.name)}</td><td>${fd(c.sd[i])}</td><td>${fd(c.fn[i])}</td>`
-   +`<td><span class="hzb"><i style="width:${(a*100).toFixed(0)}%"></i><u style="left:${(pl*100).toFixed(0)}%"></u></span> <b style="color:${col}">${txt}</b></td></tr>`}).join('');
- return`<div class="hzt"><div class="hzs"><b>Lot ${esc(u.b)} · unit ${u.k}</b> · ${dn}/${rows.length} work items done`
+   +`<td><span class="hzb"><i style="width:${(a*100).toFixed(0)}%"></i><u style="left:${(pl*100).toFixed(0)}%"></u></span> <b style="color:${col}">${dn}/${tot}</b> <b style="color:${col}">${txt}</b></td></tr>`}).join('');
+ return`<div class="hzt"><div class="hzs"><b>Lot ${esc(u.b)}</b> · ${tot} units · ${full}/${rows.length} work items finished`
   +`<button data-gux="1" style="float:right">✕ Close</button></div>`
-  +`<table class="pt"><tr><th>Activities for this unit</th><th>Start</th><th>Finish</th><th>Actual vs plan</th></tr>${tr}</table></div>`}
+  +`<table class="pt"><tr><th>Activities in this lot</th><th>Start</th><th>Finish</th><th>Actual vs plan</th></tr>${tr}</table></div>`}
 function tapUnit(id){const k=curKey();if(!gEd()){V.gu=id;ib0();render();return}if(!(S.done[k]||[]).includes(id)){snap();setTick(k,id,true);save();render()}ibShow(k,id)}
 document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-ged],[data-gux],tr[data-ur]');if(!t)return;
  if(t.dataset.ged!=null){V.ged=!gEd();V.multi=false;if(V.ged)V.gu=null;ib0();render();return}
