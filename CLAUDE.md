@@ -157,8 +157,12 @@ tách tiến độ hợp đồng riêng (BL1 = tiến độ chốt với CĐT, c
 
 ## Dự báo theo năng suất (đã có)
 
-- `paceFC(c)` trong tien-do.html: mỗi công tác có ngày xong dự báo = ngày báo cáo + phần còn lại ÷ tốc độ thực tế (từ ngày tick đầu tiên, hoặc 4 tuần gần nhất); <10% hoặc <10 ngày dữ liệu → tốc độ kế hoạch; chưa bắt đầu mà quá ngày → thời lượng kế hoạch tính từ ngày báo cáo. Trễ lan sang công việc sau theo liên kết (dùng hết dự trữ trước). Công tác kéo dài cả dự án (ban chỉ huy) không dự báo.
-- Hiển thị: chip `Forecast` trên Schedule, mục FORECAST trong Report (+PDF), dòng dự báo trên thẻ điện thoại; dự án cao tầng có thêm biểu đồ Line of balance.
+- `paceFC(c)` trong tien-do.html: mỗi công tác có ngày xong dự báo = ngày báo cáo + phần còn lại ÷ tốc độ thực tế.
+  Tốc độ thực tế = khối lượng đã xong ÷ số ngày làm việc **từ ngày bắt đầu kế hoạch** (hoặc ngày bắt đầu thực tế nếu sớm hơn), hoặc 4 tuần gần nhất; <10% → tốc độ kế hoạch; chưa bắt đầu mà quá ngày → thời lượng kế hoạch tính từ ngày báo cáo.
+  Công tác đã xong lấy **ngày tick căn cuối cùng** làm ngày xong thực tế (`fcLast`). Trễ lan sang công việc sau theo liên kết (dùng hết dự trữ trước). Công tác kéo dài cả dự án (ban chỉ huy) không dự báo.
+- **Mọi số ngày chậm dự báo nhân hệ số an toàn +20%** (`fcDLF()`, mặc định 1.2; có thể đặt riêng từng dự án bằng `info.dlf`). Ngày xong dự báo được dời theo số ngày đã nhân.
+- Đầu mục (work item) và dãy/khu vực (lot/area, theo summary cha của công tác) lấy **số ngày trễ của công tác trễ nhất** (`Max delay`), không chỉ so dãy xong muộn nhất — để dãy làm sớm không che dãy đang trễ.
+- Hiển thị: chip `Forecast` trên Schedule, mục FORECAST trong Report (+PDF) gồm bảng theo đầu mục và bảng **FORECAST BY LOT / AREA**, ô "Lots / areas forecast late"; trên điện thoại có thẻ "Lots late" và danh sách "By lot / area"; dự án cao tầng có thêm biểu đồ Line of balance.
 
 ## Việc có thể cân nhắc sau
 

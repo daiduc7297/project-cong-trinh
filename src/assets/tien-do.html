@@ -453,15 +453,22 @@ function fcFirst(r){const mn=o=>{let m=null;Object.values(o||{}).forEach(d=>{if(
  if(isG()&&r.wt!=null&&S.W){const ids=new Set(gU().filter(u=>(!r.zn||u.z==r.zn)&&lotF(r)(u)).map(u=>u.id)),dm=(S.dd||{})['w'+r.wt]||{};let m=null;Object.entries(dm).forEach(([id,d])=>{if(ids.has(id)&&d!=null&&(m==null||d<m))m=d});return m}
  if(isG()&&(S.done||{})['t'+r.id]!==undefined)return mn((S.dd||{})['t'+r.id]);
  return r.as||null}
+function fcLast(r){const mx=o=>{let m=null;Object.values(o||{}).forEach(d=>{if(d!=null&&(m==null||d>m))m=d});return m};
+ if(isH()&&hIs(r))return mx((S.dd||{})['t'+r.id]);
+ const l=r.link;if(l&&l[0]=='P'){const a=(S.piles||[])[l[1]]||[];let m=null;a.forEach(x=>{if(x[0]&&x[1]&&(m==null||x[1]>m))m=x[1]});return m}
+ if(isG()&&r.wt!=null&&S.W){const ids=new Set(gU().filter(u=>(!r.zn||u.z==r.zn)&&lotF(r)(u)).map(u=>u.id)),dm=(S.dd||{})['w'+r.wt]||{};let m=null;Object.entries(dm).forEach(([id,d])=>{if(ids.has(id)&&d!=null&&(m==null||d>m))m=d});return m}
+ if(isG()&&(S.done||{})['t'+r.id]!==undefined)return mx((S.dd||{})['t'+r.id]);
+ return null}
+const fcDLF=()=>{const f=+((S.info||{}).dlf);return f>0?f:1.2};
 let _fcK='',_fcV=null;
 function paceFC(c){const key=EV+'|'+S.info.status+'|'+CUR+'|'+(V.fcw||'all');if(_fcK===key&&_fcV)return _fcV;
  const R=S.R,n=R.length,rd=S.info.status,rdI=DI(rd),T=[],byId={};R.forEach((r,i)=>byId[r.id]=i);
  const wd=(a,b)=>{try{return DI(b)-DI(a)}catch(e){return Math.round(b-a)}},addW=(d,k)=>{try{return ID(Math.max(0,DI(d)+k))}catch(e){return d+k}};
  const pSpan=Math.max(1,c.pF-c.pS);for(let i=0;i<n;i++){const r=R[i];if(r.sum||r.mile||!(c.ds[i]>0)||(c.ds[i]>=.8*pSpan&&!lp(r))){T[i]=null;continue}
   const b=BL(r),ps=b&&b.s?b.s:c.sd[i],pf=b&&b.f?b.f:c.fn[i],pd=Math.max(1,wd(ps,pf)+1),pct=c.pc[i];let fin,why,rate=null;
-  if(pct>=.999){fin=r.af||Math.min(rd,pf);why='done'}
+  if(pct>=.999){fin=r.af||fcLast(r)||Math.min(rd,pf);why='done'}
   else if(pct<=0){if(rd>ps){fin=addW(rd,pd);why='not started – late start'}else{fin=pf;why='not started'}}
-  else{const f0=fcFirst(r)||r.as||ps,days=Math.max(1,wd(f0,rd)+1);
+  else{const a0=Math.min(r.as||1e9,fcFirst(r)||1e9),f0=rd>=ps?Math.min(ps,a0):(a0<1e9?a0:ps),days=Math.max(1,wd(f0,rd)+1);
    if(pct<.1||days<10){rate=1/pd;why='planned rate (little data)'}
    else if(V.fcw==='28'){const p0=lpD(r,rd-28);const dp=p0==null?null:pct-p0;rate=dp&&dp>0?dp/Math.max(1,wd(rd-28,rd)):pct/days;why='last 4 weeks'}
    else{rate=pct/days;why='since start'}
@@ -477,7 +484,7 @@ function paceFC(c){const key=EV+'|'+S.info.status+'|'+CUR+'|'+(V.fcw||'all');if(
    if(L.t=='FS')st=Math.max(st,addW(pf,1+L.g));else if(L.t=='SS'&&t.pct<=0)st=Math.max(st,addW(pst,L.g));else if(L.t=='FF')fn=Math.max(fn,addW(pf,L.g))});
   if(t.pct<=0){FS_[i]=st;fn=Math.max(fn,addW(st,t.pd-1))}else fn=Math.max(fn,st>rd?addW(st,Math.ceil((1-t.pct)*t.pd)):fn);
   FF[i]=fn});
- const dl=R.map((r,i)=>T[i]?wd(T[i].pf,FF[i]):0);
+ const DLF=fcDLF(),dl=R.map((r,i)=>{if(!T[i])return 0;const d=wd(T[i].pf,FF[i]);if(d>0){const d2=Math.ceil(d*DLF);FF[i]=addW(T[i].pf,d2);return d2}return d});
  let pf=0,ff=0,late=0;ord.forEach(i=>{const t=T[i];t.delay=dl[i];t.ffin=FF[i];t.push=!t.done&&FF[i]>t.fin+0;pf=Math.max(pf,t.pf);ff=Math.max(ff,t.ffin);if(!t.done&&t.delay>7)late++});
  let pAll=pf;R.forEach((r,i)=>{if(r.sum||r.mile)return;const b=BL(r);pAll=Math.max(pAll,b&&b.f?b.f:c.fn[i])});const dP=Math.max(0,wd(pf,ff));_fcK=key;_fcV={T,pf:pAll,ff:addW(pAll,dP),delay:dP,late,rd};return _fcV}
 function fcGroups(c,F){const R=S.R,G={},ord=[],nm={};let par=[],st=[];R.forEach((r,i)=>{st[r.lv]=i;par[i]=r.lv>1?st[r.lv-1]:-1});
@@ -486,23 +493,31 @@ function fcGroups(c,F){const R=S.R,G={},ord=[],nm={};let par=[],st=[];R.forEach(
   if(isH()&&r.hk&&r.hf){k='h'+(r.hk=='LAT'?'OP':r.hk);n=AN[r.hk=='LAT'?'OP':r.hk]||r.hk}else if(!isH()&&r.wt!=null&&S.W){k='w'+r.wt;n=S.W[r.wt]}else{const p=par[i];k='p'+p;n=p>=0?R[p].name:r.name}
   if(!G[k]){G[k]=[];ord.push(k);nm[k]=n}G[k].push(i)});
  return ord.map(k=>{const is=G[k];let w=0,a=0,pw=0,pf=0,ff=0,ps=1e9,dn=0,q0=0,q1=0,qu=false,why={},push=false;
-  let f0=null,qW=0,un='';is.forEach(i=>{const r=R[i],t=F.T[i];const q=lp(r);if(q){const ff=fcFirst(r);if(ff!=null&&(f0==null||ff<f0))f0=ff;const p0=lpD(r,S.info.status-28);if(p0!=null)qW+=Math.max(0,q[0]-p0*q[1]);if(!un)un=isH()&&r.hf?'m²':r.hl?'items':(r.link&&(r.link[0]=='P'||r.link[0]=='L'))?'piles':'units'}else if(t.pct>0&&(f0==null||(r.as&&r.as<f0)))f0=r.as||t.ps});
+  let f0=null,qW=0,un='',md=0,mdn='';is.forEach(i=>{const r=R[i],t=F.T[i];if(t.pct>0||t.ps<=S.info.status){const s0=Math.min(t.ps<=S.info.status?t.ps:1e9,r.as||1e9,fcFirst(r)||1e9);if(s0<1e9&&(f0==null||s0<f0))f0=s0}if((t.delay||0)>md){md=t.delay;mdn=par[i]>=0?R[par[i]].name:r.name}const q=lp(r);if(q){const p0=lpD(r,S.info.status-28);if(p0!=null)qW+=Math.max(0,q[0]-p0*q[1]);if(!un)un=isH()&&r.hf?'m²':r.hl?'items':(r.link&&(r.link[0]=='P'||r.link[0]=='L'))?'piles':'units'}});
   is.forEach(i=>{const t=F.T[i],r=R[i],ww=+r.v||c.ds[i]||1;w+=ww;a+=ww*t.pct;const b=BL(r);pw+=ww*(DI(S.info.status)+1<=DI(t.ps)?0:Math.min(1,(DI(S.info.status)+1-DI(t.ps))/Math.max(1,t.pd)));pf=Math.max(pf,t.pf);ff=Math.max(ff,t.ffin);ps=Math.min(ps,t.ps);if(t.done)dn++;const q=lp(r);if(q){q0+=q[0];q1+=q[1];qu=true}why[t.why]=(why[t.why]||0)+1;if(t.push)push=true});
   const wy=Object.entries(why).sort((x,y)=>y[1]-x[1])[0][0],rdI2=S.info.status,wk=(a,b)=>{try{return Math.max(1,DI(b)-DI(a)+1)/(+S.info.wd||6)}catch(e){return Math.max(1,b-a)/7}},pW=wk(ps,pf),pctA=w?a/w:0;
   let ar=null,pr=null;if(qu){pr=q1/pW;if(q0>0&&f0!=null)ar=V.fcw==='28'?qW/(28/7):q0/wk(f0,rdI2)}else{pr=1/pW;if(pctA>0&&f0!=null)ar=pctA/wk(f0,rdI2)}
-  return{k,name:nm[k],n:is.length,pct:w?a/w:0,ppl:w?pw/w:0,pf,ff,ps,ar,pr,ru:qu?(un||'units'):'%',delay:(()=>{try{return DI(ff)-DI(pf)}catch(e){return ff-pf}})(),done:dn==is.length,q0,q1,qu,unit:isH()&&k[0]=='h'?' m²':'',why:wy.replace('not started – late start','late start').replace('planned rate (little data)','planned rate')+(push&&ff>pf?' · pushed':'')}}).sort((a,b)=>a.ps-b.ps)}
+  return{k,name:nm[k],n:is.length,pct:w?a/w:0,ppl:w?pw/w:0,pf,ff,ps,ar,pr,ru:qu?(un||'units'):'%',delay:Math.max(md,(()=>{try{return DI(ff)-DI(pf)}catch(e){return ff-pf}})()),worst:md>0?mdn.split(' / ')[0]:'',done:dn==is.length,q0,q1,qu,unit:isH()&&k[0]=='h'?' m²':'',why:wy.replace('not started – late start','late start').replace('planned rate (little data)','planned rate')+(push&&ff>pf?' · pushed':'')}}).sort((a,b)=>a.ps-b.ps)}
 function fcPill(g){if(g.done)return'<span class="fcd">Done</span>';if(g.delay>7)return`<span class="fcd bad">+${g.delay} d</span>`;if(g.delay>0)return`<span class="fcd warn">+${g.delay} d</span>`;return'<span class="fcd">On time</span>'}
 function fcRow(g){const nf0=x=>Math.round(x).toLocaleString('en-US');
- return`<tr><td class="l">${esc(g.name)}</td><td>${g.n}</td><td class="l"><div class="fcp"><span class="fcb"><i style="width:${Math.round(g.pct*100)}%"></i><u style="left:${Math.round(g.ppl*100)}%"></u></span><b>${Math.round(g.pct*100)}%</b><small>${g.qu?nf0(g.q0)+' / '+nf0(g.q1)+g.unit:''}</small></div></td><td>${Math.round(g.ppl*100)}%</td><td style="${!g.done&&g.ar!=null&&g.pr&&g.ar<g.pr*.9?'color:#dc2626':''}">${g.done?'–':fcRate(g.ar,g.ru)}</td><td>${g.done?'–':fcRate(g.pr,g.ru)}</td><td>${fd(g.pf)}</td><td>${fd(g.ff)}</td><td>${fcPill(g)}</td><td class="l fcw">${esc(g.why)}</td></tr>`}
+ return`<tr><td class="l">${esc(g.name)}</td><td>${g.n}</td><td class="l"><div class="fcp"><span class="fcb"><i style="width:${Math.round(g.pct*100)}%"></i><u style="left:${Math.round(g.ppl*100)}%"></u></span><b>${Math.round(g.pct*100)}%</b><small>${g.qu?nf0(g.q0)+' / '+nf0(g.q1)+g.unit:''}</small></div></td><td>${Math.round(g.ppl*100)}%</td><td style="${!g.done&&g.ar!=null&&g.pr&&g.ar<g.pr*.9?'color:#dc2626':''}">${g.done?'–':fcRate(g.ar,g.ru)}</td><td>${g.done?'–':fcRate(g.pr,g.ru)}</td><td>${fd(g.pf)}</td><td>${fd(g.ff)}</td><td>${fcPill(g)}</td><td class="l fcw">${esc(g.why)}${!g.done&&g.delay>0&&g.worst?' · worst: '+esc(g.worst):''}</td></tr>`}
 const fcRate=(x,u)=>x==null?'–':u=='%'?(x*100).toFixed(1)+' %/wk':(x>=100?Math.round(x).toLocaleString('en-US'):x.toFixed(1))+' '+u+'/wk';
-function fcHead(){return'<tr><th class="l">Work item</th><th>Tasks</th><th class="l">Progress</th><th>% plan</th><th>Actual rate</th><th>Planned rate</th><th>Baseline finish</th><th>Forecast finish</th><th>Δ</th><th class="l">Basis</th></tr>'}
-function fcSection(c,live,parts){let F;try{F=paceFC(c)}catch(e){return''}const G=fcGroups(c,F);
- const dly=F.delay,kp=[['Forecast finish (pace)',fd(F.ff),'Baseline '+fd(F.pf)],['Forecast delay',dly>0?'+'+dly+' working days':'On time',dly>0?'vs baseline':''],['Work items forecast late',G.filter(g=>!g.done&&g.delay>7).length,'more than 7 days']];
+function fcHead(){return'<tr><th class="l">Work item</th><th>Tasks</th><th class="l">Progress</th><th>% plan</th><th>Actual rate</th><th>Planned rate</th><th>Baseline finish</th><th>Forecast finish</th><th>Max delay</th><th class="l">Basis</th></tr>'}
+function fcLots(c,F){const R=S.R,G={},ord=[];let st=[],par=[];R.forEach((r,i)=>{st[r.lv]=i;par[i]=r.lv>1?st[r.lv-1]:-1});
+ R.forEach((r,i)=>{const t=F.T[i];if(!t)return;const p=par[i];if(p==null||p<0)return;const k='p'+p;if(!G[k]){G[k]={name:R[p].name,is:[]};ord.push(k)}G[k].is.push(i)});
+ return ord.map(k=>{const g=G[k];let w=0,a=0,pf=0,ff=0,ps=1e9,dn=0,md=0,mdn='';g.is.forEach(i=>{const t=F.T[i],r=R[i],ww=+r.v||c.ds[i]||1;w+=ww;a+=ww*t.pct;pf=Math.max(pf,t.pf);ff=Math.max(ff,t.ffin);ps=Math.min(ps,t.ps);if(t.done)dn++;if((t.delay||0)>md){md=t.delay;mdn=r.name}});
+  return{name:g.name,n:g.is.length,pct:w?a/w:0,pf,ff,ps,delay:md,worst:mdn,done:dn==g.is.length}}).filter(l=>l.n>1||l.delay>0)}
+function fcLotRows(L){return L.map(l=>`<tr><td class="l">${esc(l.name)}</td><td>${Math.round(l.pct*100)}%</td><td>${fd(l.pf)}</td><td>${fd(l.ff)}</td><td>${fcPill(l)}</td><td class="l fcw">${l.delay>0?esc(l.worst.split(' / ')[0]):''}</td></tr>`)}
+const fcLotHead='<tr><th class="l">Lot / area</th><th>Progress</th><th>Baseline finish</th><th>Forecast finish</th><th>Max delay</th><th class="l">Most delayed task</th></tr>';
+const fcLotSort=L=>L.slice().sort((a,b)=>(b.done?-1:b.delay)-(a.done?-1:a.delay)||a.ps-b.ps);
+function fcSection(c,live,parts){let F;try{F=paceFC(c)}catch(e){return''}const G=fcGroups(c,F),LT=fcLotSort(fcLots(c,F));
+ const dly=F.delay,kp=[['Forecast finish (pace)',fd(F.ff),'Baseline '+fd(F.pf)],['Forecast delay',dly>0?'+'+dly+' working days':'On time',dly>0?'vs baseline':''],['Work items forecast late',G.filter(g=>!g.done&&g.delay>7).length,'more than 7 days'],['Lots / areas forecast late',LT.filter(l=>!l.done&&l.delay>7).length,'of '+LT.length+', more than 7 days']];
  const lateG=G.filter(g=>!g.done&&g.delay>0).sort((a,b)=>b.delay-a.delay)[0];
- const hd=`<h3>FORECAST – AT THE CURRENT PACE</h3>${live?`<div class="row no-pdf"><span class="fcsg"><button data-fcw="all" class="${V.fcw!=='28'?'on':''}">Rate since start</button><button data-fcw="28" class="${V.fcw==='28'?'on':''}">Rate last 4 weeks</button></span></div>`:''}<table class="pt rfx"><tr>${kp.map(k=>`<td>${k[0]}<br><b style="font-size:15px;${k[0].startsWith('Forecast delay')&&dly>0?'color:#dc2626':''}">${k[1]}</b><br><small style="color:var(--mut)">${k[2]}</small></td>`).join('')}</tr></table><p style="margin:6px 0">${dly>0&&lateG?`At the current pace the project is forecast to finish on <b>${fd(F.ff)}</b>, <b style="color:#dc2626">${dly} working days</b> after the baseline. Most delayed: <b>${esc(lateG.name)}</b> (+${lateG.delay} d).`:`At the current pace the project stays on the baseline finish <b>${fd(F.pf)}</b>.`}</p><p style="color:var(--mut);font-size:11px;margin:2px 0 6px">Rate = progress ÷ working days since the first completion (or the last 4 weeks). Forecast = report date + remaining ÷ rate. Below 10% or under 10 days of data: planned rate. Not started after the planned start: planned duration from the report date. A late task pushes its successors through the schedule links (float is used up first). Tasks that run for the whole project (e.g. site management) are not forecast.</p>`;
+ const hd=`<h3>FORECAST – AT THE CURRENT PACE</h3>${live?`<div class="row no-pdf"><span class="fcsg"><button data-fcw="all" class="${V.fcw!=='28'?'on':''}">Rate since start</button><button data-fcw="28" class="${V.fcw==='28'?'on':''}">Rate last 4 weeks</button></span></div>`:''}<table class="pt rfx"><tr>${kp.map(k=>`<td>${k[0]}<br><b style="font-size:15px;${k[0].startsWith('Forecast delay')&&dly>0?'color:#dc2626':''}">${k[1]}</b><br><small style="color:var(--mut)">${k[2]}</small></td>`).join('')}</tr></table><p style="margin:6px 0">${dly>0&&lateG?`At the current pace the project is forecast to finish on <b>${fd(F.ff)}</b>, <b style="color:#dc2626">${dly} working days</b> after the baseline. Most delayed: <b>${esc(lateG.name)}</b> (+${lateG.delay} d).`:`At the current pace the final handover stays on the baseline finish <b>${fd(F.pf)}</b>${LT.some(l=>!l.done&&l.delay>7)?`, but <b style="color:#dc2626">${LT.filter(l=>!l.done&&l.delay>7).length} lots / areas are forecast late</b> (float absorbs it for now). Most delayed: <b>${esc(LT[0].name.split(' / ')[0])}</b> (+${LT[0].delay} d).`:'.'}`}</p><p style="color:var(--mut);font-size:11px;margin:2px 0 6px">Rate = completed quantity ÷ working days since the planned start (or the actual start if earlier), or over the last 4 weeks. Forecast = report date + remaining ÷ rate. Below 10% progress: planned rate. Not started after the planned start: planned duration from the report date. Finished tasks use the date of the last completion. A late task pushes its successors through the schedule links (float is used up first). Work item and lot delays show the worst task. All forecast delays include a +${Math.round((fcDLF()-1)*100)}% safety factor. Tasks that run for the whole project (e.g. site management) are not forecast.</p>`;
  const rows=G.map(fcRow),lob=isH()?lobSVG(c,F,live):'';
- if(parts){const B=[];for(let a=0;a<rows.length;a+=22)B.push((a?'<h3>FORECAST BY WORK ITEM (cont.)</h3>':hd)+`<table class="pt rt fct">${fcHead()}${rows.slice(a,a+22).join('')}</table>`);if(lob)B.push(lob);return B}
- return hd+`<div class="fctw"><table class="pt rt fct">${fcHead()}${rows.join('')}</table></div>`+lob}
+ const lr=fcLotRows(LT);
+ if(parts){const B=[];for(let a=0;a<rows.length;a+=22)B.push((a?'<h3>FORECAST BY WORK ITEM (cont.)</h3>':hd)+`<table class="pt rt fct">${fcHead()}${rows.slice(a,a+22).join('')}</table>`);for(let a=0;a<lr.length;a+=24)B.push(`<h3>FORECAST BY LOT / AREA${a?' (cont.)':''}</h3><table class="pt rt fct">${fcLotHead}${lr.slice(a,a+24).join('')}</table>`);if(lob)B.push(lob);return B}
+ return hd+`<div class="fctw"><table class="pt rt fct">${fcHead()}${rows.join('')}</table></div>`+(lr.length?`<h3>FORECAST BY LOT / AREA</h3><div class="fctw"><table class="pt rt fct">${fcLotHead}${lr.join('')}</table></div>`:'')+lob}
 const LOBC={KC:'#2a78d6',XT:'#eb6834',TR:'#1baf7a',ME1:'#6250d6',CS:'#c98500',TRAN:'#d55181',SB:'#008300',ME2:'#e34948'};
 function lobSVG(c,F,live){const R=S.R,sel=new Set(V.lob||['KC','XT','TR','CS','ME1']),AN={};(S.hr.acts||[]).forEach(a=>AN[a.k]=a.n);
  const D={};R.forEach((r,i)=>{if(!r.hf||!/^L\d+$/.test(r.hf)||!LOBC[r.hk]||!F.T[i])return;const n=+r.hf.slice(1),t=F.T[i],o=D[r.hk]=D[r.hk]||{plan:{},act:{},prog:{},fc:{}};o.plan[n]=t.pf;
@@ -983,7 +998,7 @@ function mvTasks(c){const I=mvInfo(c),{R,n,par}=I,VP=visPos(c,true),f=V.mvf||'al
  if(!cnt)o+='<p class="mvn">No items.</p>';
  return o+'<p class="mvn">Blue bar: actual · black tick: planned at report date.</p></div>'}
 function mvReportView(c){const D=rptData(),rd=S.info.status,I=mvInfo(c);
- const kp=[['Actual',mvPct(c.pa)],['Planned',mvPct(c.pp)],['Actual/Plan',c.pp?(c.pa/c.pp).toFixed(2):'-',c.pp&&c.pa/c.pp<.95?'bad':''],['Finish',fd(c.pFin)],['Report date',fd(rd)],['Critical tasks',c.crit],...(()=>{try{const F=paceFC(c);return[['Forecast',fd(F.ff),F.delay>7?'bad':''],['Forecast delay',F.delay>0?'+'+F.delay+' d':'0',F.delay>7?'bad':'']]}catch(e){return[]}})()];
+ const kp=[['Actual',mvPct(c.pa)],['Planned',mvPct(c.pp)],['Actual/Plan',c.pp?(c.pa/c.pp).toFixed(2):'-',c.pp&&c.pa/c.pp<.95?'bad':''],['Finish',fd(c.pFin)],['Report date',fd(rd)],['Critical tasks',c.crit],...(()=>{try{const F=paceFC(c);return[['Forecast',fd(F.ff),F.delay>7?'bad':''],['Forecast delay',F.delay>0?'+'+F.delay+' d':'0',F.delay>7?'bad':''],(()=>{const n=fcLots(c,F).filter(l=>!l.done&&l.delay>7).length;return['Lots late',n,n?'bad':'']})()]}catch(e){return[]}})()];
  let o=`<div class="mvw mvr"><div class="mvbar"><b>Progress report</b><button id="mvx" data-mvfs="r" class="on">⛶ Expand</button></div><div class="mvk">${kp.map(([k,v,b])=>`<div class="${b||''}"><span>${k}</span><b>${v}</b></div>`).join('')}</div>`;
  o+=mvForecast(c);
  if(isH()){o+=mvHandover(c)}else{o+='<h4>Cumulative progress by zone</h4>';
@@ -995,14 +1010,15 @@ function mvReportView(c){const D=rptData(),rd=S.info.status,I=mvInfo(c);
 
 function mvForecast(c){let F;try{F=paceFC(c)}catch(e){return''}const G=fcGroups(c,F),rd=S.info.status,all=V.mfa==='all';
  const act=g=>!g.done&&(g.pct>0||g.ps<=rd),L=all?G:G.filter(act),lateG=G.filter(g=>!g.done&&g.delay>0).sort((a,b)=>b.delay-a.delay)[0];
- let o=`<h4>Forecast at the current pace</h4><div class="mvfh">${F.delay>0?`Finish <b style="color:#dc2626">${fd(F.ff)}</b> · <b style="color:#dc2626">+${F.delay} working days</b> vs baseline ${fd(F.pf)}${lateG?`<br>Most delayed: <b>${esc(lateG.name.split(' / ')[0])}</b> (+${lateG.delay} d)`:''}`:`On the baseline finish <b>${fd(F.pf)}</b>`}</div>
+ let o=`<h4>Forecast at the current pace</h4><div class="mvfh">${F.delay>0?`Finish <b style="color:#dc2626">${fd(F.ff)}</b> · <b style="color:#dc2626">+${F.delay} working days</b> vs baseline ${fd(F.pf)}${lateG?`<br>Most delayed: <b>${esc(lateG.name.split(' / ')[0])}</b> (+${lateG.delay} d)`:''}`:`On the baseline finish <b>${fd(F.pf)}</b>${(()=>{const LT=fcLotSort(fcLots(c,F)),n=LT.filter(l=>!l.done&&l.delay>7).length;return n?`<br><b style="color:#dc2626">${n} lots / areas forecast late</b> · worst ${esc(LT[0].name.split(' / ')[0])} (+${LT[0].delay} d)`:''})()}`}</div>
  <div class="mvf2"><span class="fcsg"><button data-fcw="all" class="${V.fcw!=='28'?'on':''}">Rate since start</button><button data-fcw="28" class="${V.fcw==='28'?'on':''}">Last 4 weeks</button></span><span class="fcsg"><button data-mfa="act" class="${all?'':'on'}">Active / late</button><button data-mfa="all" class="${all?'on':''}">Show all</button></span></div>`;
  const nf0=x=>Math.round(x).toLocaleString('en-US');
  L.forEach(g=>{o+=`<div class="mvc"><div class="mvt">${esc(g.name)}</div><div class="mvb"><i style="width:${Math.round(g.pct*100)}%"></i><u style="left:${Math.round(g.ppl*100)}%"></u></div>
   <div class="mvm"><b>${Math.round(g.pct*100)}%</b> · plan ${Math.round(g.ppl*100)}%${g.qu?` · ${nf0(g.q0)}/${nf0(g.q1)} ${g.ru}`:''}</div>
   ${g.done?'':`<div class="mvm">Rate <b style="${g.ar!=null&&g.pr&&g.ar<g.pr*.9?'color:#dc2626':''}">${fcRate(g.ar,g.ru)}</b> · plan ${fcRate(g.pr,g.ru)}</div>`}
-  <div class="mvm">Baseline ${fd(g.pf)} → Forecast <b>${fd(g.ff)}</b> ${fcPill(g)}</div></div>`});
+  <div class="mvm">Baseline ${fd(g.pf)} → Forecast <b>${fd(g.ff)}</b> ${fcPill(g)}</div>${!g.done&&g.delay>0&&g.worst?`<div class="mvm" style="color:var(--mut)">Max delay at ${esc(g.worst)}</div>`:''}</div>`});
  if(!L.length)o+='<p class="mvn">No active or late work items.</p>';
+ {const LT=fcLotSort(fcLots(c,F)).filter(l=>all||(!l.done&&(l.delay>0||l.pct>0||l.ps<=rd)));if(LT.length){o+='<h4>By lot / area</h4>';LT.forEach(l=>{o+=`<div class="mvc"><div class="mvt">${esc(l.name.split(' / ')[0])}</div><div class="mvm"><b>${Math.round(l.pct*100)}%</b> · Baseline ${fd(l.pf)} → <b>${fd(l.ff)}</b> ${fcPill(l)}</div>${l.delay>0?`<div class="mvm" style="color:var(--mut)">${esc(l.worst.split(' / ')[0])}</div>`:''}</div>`})}}
  if(isH()){const lob=lobSVG(c,F,false);if(lob)o+=`<div class="mvlob" data-mvlob="1">${lob.replace(/<h3>.*?<\/h3>/,'<h4>Line of balance</h4>')}<p class="mvn">Tap the chart for full screen</p></div>`}
  return o}
 function mvHandover(c){const HO=(S.hr&&S.hr.ho)||[];if(!HO.length)return'';const rd=S.info.status,ix={};S.R.forEach((r,i)=>ix[r.id]=i);
