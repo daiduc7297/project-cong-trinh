@@ -160,6 +160,11 @@ tách tiến độ hợp đồng riêng (BL1 = tiến độ chốt với CĐT, c
 - `paceFC(c)` trong tien-do.html: mỗi công tác có ngày xong dự báo = ngày báo cáo + phần còn lại ÷ tốc độ thực tế.
   Tốc độ thực tế = khối lượng đã xong ÷ số ngày làm việc **từ ngày bắt đầu kế hoạch** (hoặc ngày bắt đầu thực tế nếu sớm hơn), hoặc 4 tuần gần nhất; <10% → tốc độ kế hoạch; chưa bắt đầu mà quá ngày → thời lượng kế hoạch tính từ ngày báo cáo.
   Công tác đã xong lấy **ngày tick căn cuối cùng** làm ngày xong thực tế (`fcLast`). Trễ lan sang công việc sau theo liên kết (dùng hết dự trữ trước). Công tác kéo dài cả dự án (ban chỉ huy) không dự báo.
+- **Xếp hàng theo năng lực** (chỉ đầu mục theo dãy/lô, `fcKey` = `w`+wt; cao tầng không áp dụng): đầu mục đang **chậm so với kế hoạch** thì không được làm nhanh hơn tốc độ thực tế của cả đầu mục —
+  các dãy còn lại xếp hàng theo thứ tự ngày bắt đầu kế hoạch, mỗi dãy mất (khối lượng còn lại ÷ tốc độ). Chưa đủ số liệu (<10% hoặc <10 ngày) → xếp hàng theo tốc độ kế hoạch.
+  Không dùng giả định "mọi dãy trễ cùng khởi công hôm nay song song".
+- **Behind now** (`fcBehind`): ngày báo cáo − ngày mà kế hoạch đạt khối lượng thực tế hiện tại (ngày làm việc). Có ở bảng đầu mục, bảng dãy, ô "Behind plan now" và điện thoại.
+- Basis của đầu mục lấy từ công tác quyết định ngày xong (`fcBasis`): "LOT · queued behind N lots…", "delayed by predecessor: <công tác gốc>" (lần ngược liên kết tới công tác gốc gây trễ).
 - Số ngày trễ là **số thật**, không nhân hệ số (người dùng đã bỏ hệ số +20%).
 - Bảng đầu mục (work item): cột **Δ = ngày xong dự báo − ngày xong baseline** của cả đầu mục.
 - Bảng dãy/khu vực (lot/area, theo summary cha của công tác): **Max delay = số ngày trễ của công tác trễ nhất** trong dãy — để dãy làm sớm không che dãy đang trễ.
