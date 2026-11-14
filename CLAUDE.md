@@ -160,8 +160,11 @@ tách tiến độ hợp đồng riêng (BL1 = tiến độ chốt với CĐT, c
 - `paceFC(c)` trong tien-do.html: mỗi công tác có ngày xong dự báo = ngày báo cáo + phần còn lại ÷ tốc độ thực tế.
   Tốc độ thực tế = khối lượng đã xong ÷ số ngày làm việc **từ ngày bắt đầu kế hoạch** (hoặc ngày bắt đầu thực tế nếu sớm hơn), hoặc 4 tuần gần nhất; <10% → tốc độ kế hoạch; chưa bắt đầu mà quá ngày → thời lượng kế hoạch tính từ ngày báo cáo.
   Công tác đã xong lấy **ngày tick căn cuối cùng** làm ngày xong thực tế (`fcLast`). Trễ lan sang công việc sau theo liên kết (dùng hết dự trữ trước). Công tác kéo dài cả dự án (ban chỉ huy) không dự báo.
-- **Mọi số ngày chậm dự báo nhân hệ số an toàn +20%** (`fcDLF()`, mặc định 1.2; có thể đặt riêng từng dự án bằng `info.dlf`). Ngày xong dự báo được dời theo số ngày đã nhân.
-- Đầu mục (work item) và dãy/khu vực (lot/area, theo summary cha của công tác) lấy **số ngày trễ của công tác trễ nhất** (`Max delay`), không chỉ so dãy xong muộn nhất — để dãy làm sớm không che dãy đang trễ.
+- Số ngày trễ là **số thật**, không nhân hệ số (người dùng đã bỏ hệ số +20%).
+- Bảng đầu mục (work item): cột **Δ = ngày xong dự báo − ngày xong baseline** của cả đầu mục.
+- Bảng dãy/khu vực (lot/area, theo summary cha của công tác): **Max delay = số ngày trễ của công tác trễ nhất** trong dãy — để dãy làm sớm không che dãy đang trễ.
+- Bảng A2 (khối lượng theo lô): dãy có công tác nào **thực tế lũy kế < kế hoạch đến ngày báo cáo** → tiêu đề dãy đỏ, ghi "N late", dòng công tác trễ đỏ.
+- Mốc cuối (nghiệm thu, bàn giao, milestone) phải **có liên kết** tới công tác cuối của từng dãy (vd. lắp mái canopy), nếu không trễ của dãy không lan tới "Forecast delay" toàn dự án. Milestone không lan trễ → liên kết thẳng từ công tác, không qua milestone.
 - Hiển thị: chip `Forecast` trên Schedule, mục FORECAST trong Report (+PDF) gồm bảng theo đầu mục và bảng **FORECAST BY LOT / AREA**, ô "Lots / areas forecast late"; trên điện thoại có thẻ "Lots late" và danh sách "By lot / area"; dự án cao tầng có thêm biểu đồ Line of balance.
 
 ## Việc có thể cân nhắc sau
