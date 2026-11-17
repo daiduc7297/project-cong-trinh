@@ -603,6 +603,15 @@ function fzFit(){const f=V.foc;if(!f||!f.fit)return;f.fit=0;const w=document.get
 /* ảnh nền mặt bằng dạng file → nhúng base64 khi xuất PDF (html2canvas không tải ảnh ngoài trong SVG) */
 const BGD={url:'',data:''};
 async function bgLoad(){const u=S.plan&&S.plan.bg;if(!u||/^data:/.test(u)||BGD.url===u)return;try{const b=await (await fetch(u)).blob();BGD.data=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(b)});BGD.url=u}catch(e){}}
+/* mặt bằng cho PDF: vẽ sẵn nền bản vẽ + các căn thành 1 ảnh (tránh html2canvas bỏ ảnh trong SVG) */
+async function gplanImg(k){const P=S.plan;if(!P||!P.bg)return gplan(k,0);
+ const ld=src=>new Promise((ok,no)=>{const im=new Image();im.onload=()=>ok(im);im.onerror=no;im.src=src});
+ try{await bgLoad();const sc=2,cv=document.createElement('canvas');cv.width=Math.round(P.W*sc);cv.height=Math.round(P.H*sc);const g=cv.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,cv.width,cv.height);
+  try{const bi=await ld(BGD.url===P.bg&&BGD.data?BGD.data:P.bg);g.drawImage(bi,0,0,cv.width,cv.height)}catch(e){}
+  let sv=gplan(k,0).replace(/<rect width="[\d.]+" height="[\d.]+" fill="#fff"\/><image [^>]*\/>/,'').replace(/<svg class="[^"]*" id="[^"]*" width="[\d.]+" height="[\d.]+"/,`<svg width="${cv.width}" height="${cv.height}"`);
+  sv=sv.replace(/(<svg[^>]*>)/,'$1<style>.u{fill:rgba(255,255,255,.25);stroke:#475569;stroke-width:.7}.u.on{fill:#22a85a;fill-opacity:.82}text{fill:#0f172a;font-family:Arial,Helvetica,sans-serif;text-anchor:middle;dominant-baseline:central}</style>');
+  const im=await ld('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(sv));g.drawImage(im,0,0,cv.width,cv.height);
+  return`<img src="${cv.toDataURL('image/jpeg',.9)}" style="width:${P.W}px;height:${P.H}px;display:block">`}catch(e){console.error('gplanImg',e);return gplan(k,0)}}
 function bgT(){V.nobg=false;return''}
 /* Edit OFF: tapping a unit opens its work-item panel. Edit ON: tapping marks it done. */
 function gEd(){if(!canWrite())return false;if(V.ged==null)V.ged=!!(FIELD||ROLE==='member');return V.ged}
@@ -663,8 +672,8 @@ async function makePdf(o){stat('Creating PDF…');await need('https://cdnjs.clou
  if(o.c){const strip=s=>s.replace(/<button.*?<\/button>/g,'').replace(/<div class="row"><b>Task.*?<\/div>/,'');
   if(isH()){const X=hCtx();if(X)for(const a of S.hr.acts||[]){const ls=S.R.filter(r=>r.hk==a.k&&r.hf);if(o.d&&!ls.some(r=>((S.done||{})['t'+r.id]||[]).length))continue;await page('<h3>'+esc(a.n)+'</h3>'+hElev(X,a.k,0),1100)}}
   else if(S.plan==='p3'){D.W.forEach((n,i)=>{});for(let i=0;i<D.W.length;i++){if(o.d&&!(S.done[i]||[]).length)continue;V.pw=i;await page(`<h3>${i+1}. ${esc(D.W[i])}</h3>`+strip(planHTML()),900)}}
-  else if(isG()&&S.W){for(let i=0;i<S.W.length;i++){const k='w'+i;if(o.d&&!(S.done[k]||[]).length)continue;const us=gU(),dd=new Set(S.done[k]||[]),zs='Total: '+us.filter(u=>dd.has(u.id)).length+'/'+us.length;await page('<h3>'+(i+1)+'. '+esc(S.W[i])+'</h3><div style="margin:2px 0 4px"><b>'+zs+'</b></div>'+gplan(k,0),Math.max(S.plan.W,700))}}
-  else if(isG())S.R.forEach(()=>{}),await(async()=>{for(const r of S.R){if(r.sum)continue;const k='t'+r.id;if(o.d&&!(S.done[k]||[]).length)continue;const n=gU().length,dn=(S.done[k]||[]).length;await page(`<h3>${r.id}. ${esc(r.name)} – ${dn}/${n}</h3>`+gplan(k,0),Math.max(S.plan.W,700))}})();
+  else if(isG()&&S.W){for(let i=0;i<S.W.length;i++){const k='w'+i;if(o.d&&!(S.done[k]||[]).length)continue;const us=gU(),dd=new Set(S.done[k]||[]),zs='Total: '+us.filter(u=>dd.has(u.id)).length+'/'+us.length;await page('<h3>'+(i+1)+'. '+esc(S.W[i])+'</h3><div style="margin:2px 0 4px"><b>'+zs+'</b></div>'+(await gplanImg(k)),Math.max(S.plan.W,700))}}
+  else if(isG())S.R.forEach(()=>{}),await(async()=>{for(const r of S.R){if(r.sum)continue;const k='t'+r.id;if(o.d&&!(S.done[k]||[]).length)continue;const n=gU().length,dn=(S.done[k]||[]).length;await page(`<h3>${r.id}. ${esc(r.name)} – ${dn}/${n}</h3>`+(await gplanImg(k)),Math.max(S.plan.W,700))}})();
   }
  box.remove();if(doc.getNumberOfPages()>1)doc.deletePage(1);const blob=doc.output('blob'),fn=(S.info.name||'bao-cao').replace(/[^\w\-]+/g,'_')+'.pdf';
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fn;a.click();stat('PDF created')}
