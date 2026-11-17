@@ -309,30 +309,34 @@ function scSection(c,edit){const A=(S.hist||[]).slice().sort((a,b)=>a.d-b.d),AS=
 function recRep(c){
  try{
   const base=paceFC(c);if(!base||!base.T)return'';
-  const W=rcWork(c),cap=rcCap(c),tgt=base.pf,bh=rcBehind(c,base),capW=Math.max(20,Math.round(W.v*1.5));
+  const W=rcWork(c),cap=rcCap(c),bh=rcBehind(c,base),capW=Math.max(20,Math.round(W.v*1.5));
+  /* target = pull the forecast in by the days actually lost so far; the baseline target lives on the Recovery tab */
+  const tgt=ID(Math.max(DI(S.info.status),DI(base.ff)-bh));
   const R0=S.R,lateOf=F=>{const a=[];F.T.forEach((t,i)=>{if(t&&!t.done&&DI(t.ffin)>DI(t.pf))a.push([i,t])});
-   a.sort((x,y)=>(DI(y[1].ffin)-DI(y[1].pf))-(DI(x[1].ffin)-DI(x[1].pf)));return a};
+   a.sort((x,y)=>(y[1].bd-x[1].bd)||((DI(y[1].ffin)-DI(y[1].pf))-(DI(x[1].ffin)-DI(x[1].pf))));return a};
   const L0=lateOf(base);
   if(!L0.length)return'<h3>E. RECOVERY</h3><p style="font-size:12px">No work item is forecast to finish after its baseline. Nothing to recover.</p>';
   const rows=L0.slice(0,20).map(([i,t])=>{const q=lp(R0[i]);
-   return`<tr><td class="l">${esc(R0[i].name)}</td><td>${q?q[0]+'/'+q[1]:Math.round(t.pct*100)+'%'}</td><td>${fd(t.pf)}</td><td>${fd(t.ffin)}</td><td class="over">+${DI(t.ffin)-DI(t.pf)} d</td></tr>`}).join('');
+   return`<tr><td class="l">${esc(R0[i].name)}</td><td>${q?q[0]+'/'+q[1]:Math.round(t.pct*100)+'%'}</td><td class="${t.bd?'over':''}">${t.bd?t.bd+' d':'–'}</td><td>${fd(t.pf)}</td><td>${fd(t.ffin)}</td><td class="over">+${DI(t.ffin)-DI(t.pf)} d</td></tr>`}).join('');
   const steps=[];[0,.25,.5,.75,1].forEach(f=>{const w=Math.round(capW*f);if(steps.indexOf(w)<0)steps.push(w)});
   const dose=steps.map(w=>{const F=rcRun(c,w,0);return{w,ff:F.ff,late:lateOf(F).length,d:Math.max(0,DI(F.ff)-DI(tgt))}});
   const P=rcPlan(c,tgt,capW);
   const cell=v=>v==null?'<span class="over">more than +'+capW+'</span>':v===0?'already there':'<b>+'+v+'</b>';
   return'<h3>E. RECOVERY – WHAT IT TAKES TO CATCH UP</h3>'
-  +`<p style="font-size:12px;margin:2px 0 8px">Behind plan right now <b>${bh}</b> working days · forecast finish <b>${fd(base.ff)}</b> against baseline <b>${fd(tgt)}</b> · <b class="over">${base.delay} working days late</b> · labour on site now <b>${W.v}</b>/day (${W.src}). Extra labour is applied to the work that is behind or forecast past its own baseline; one overtime hour counts as ${RC_OTE*100}% of a normal hour.</p>`
-  +`<h4>E1. Work items late with no extra labour (${L0.length})</h4>`
-  +'<table class="pt rt rfx"><colgroup><col><col style="width:84px"><col style="width:92px"><col style="width:92px"><col style="width:76px"></colgroup>'
-  +`<tr><th>Work item</th><th>Done</th><th>Baseline</th><th>Forecast</th><th>Δ</th></tr>${rows}</table>`
+  +`<p style="font-size:12px;margin:2px 0 8px">Behind plan right now <b class="${bh?'over':''}">${bh}</b> working days, measured from the quantity actually done · forecast finish <b>${fd(base.ff)}</b> against baseline <b>${fd(base.pf)}</b> (<b class="over">${base.delay}</b> working days late, assuming today's pace holds) · labour on site now <b>${W.v}</b>/day (${W.src}).</p>`
+  +`<p style="font-size:12px;margin:2px 0 8px">The figures below answer one question: <b>what it takes to win back the ${bh} working days lost so far</b>, that is to finish on <b>${fd(tgt)}</b> instead of ${fd(base.ff)}. Extra labour is applied to the work that is behind or forecast past its own baseline; one overtime hour counts as ${RC_OTE*100}% of a normal hour. For the harder target of the baseline date, use the Recovery tab.</p>`
+  +`<h4>E1. Work items late with no extra labour (${L0.length}) – those behind on measured quantity first</h4>`
+  +'<table class="pt rt rfx"><colgroup><col><col style="width:80px"><col style="width:86px"><col style="width:90px"><col style="width:90px"><col style="width:74px"></colgroup>'
+  +`<tr><th>Work item</th><th>Done</th><th>Behind now</th><th>Baseline</th><th>Forecast</th><th>Δ forecast</th></tr>${rows}</table>`
+  +'<p style="font-size:11px;color:var(--mut);margin:2px 0 8px">Behind now is measured from the quantity actually done: working days between the date the plan reached today\'s quantity and the report date. It uses no assumption about future pace, unlike the forecast columns.</p>'
   +(L0.length>20?'<p style="font-size:11px;color:var(--mut)">Showing the 20 worst of '+L0.length+'.</p>':'')
-  +'<h4>E2. Extra workers against work items still late</h4>'
-  +'<table class="pt rt rfx"><colgroup><col style="width:120px"><col style="width:120px"><col style="width:130px"><col></colgroup>'
-  +'<tr><th>Extra workers</th><th>Labour/day</th><th>Forecast finish</th><th>Work items still late</th></tr>'
-  +dose.map(x=>`<tr><td>${x.w?'+'+x.w:'none'}</td><td>${W.v+x.w}</td><td>${fd(x.ff)}${x.d?' (+'+x.d+' d)':''}</td><td class="${x.late?'over':''}">${x.late}</td></tr>`).join('')
+  +'<h4>E2. Extra workers against the days still lost</h4>'
+  +'<table class="pt rt rfx"><colgroup><col style="width:110px"><col style="width:110px"><col style="width:120px"><col style="width:110px"><col></colgroup>'
+  +'<tr><th>Extra workers</th><th>Labour/day</th><th>Forecast finish</th><th>Days still lost</th><th>Work items past their baseline</th></tr>'
+  +dose.map(x=>`<tr><td>${x.w?'+'+x.w:'none'}</td><td>${W.v+x.w}</td><td>${fd(x.ff)}</td><td class="${x.d?'over':''}">${x.d?'+'+x.d+' d':'none'}</td><td class="${x.late?'over':''}">${x.late}</td></tr>`).join('')
   +'</table>'
-  +'<p style="font-size:11px;color:var(--mut);margin:2px 0 8px">A work item can still pass its own baseline while the project finishes on the baseline date, because it has float. The count is each item against its own baseline.</p>'
-  +`<h4>E3. What it takes to finish on ${fd(tgt)}</h4>`
+  +`<p style="font-size:11px;color:var(--mut);margin:2px 0 8px">Days still lost is against the target ${fd(tgt)}. The last column counts each work item against its own baseline, so some stay late even when the project hits the target, because they have float.</p>`
+  +`<h4>E3. What it takes to win back the ${bh} days lost so far (finish on ${fd(tgt)})</h4>`
   +'<table class="pt rt rfx"><colgroup><col style="width:160px"><col style="width:140px"><col></colgroup>'
   +'<tr><th>Option</th><th>Needed</th><th>Peak labour vs limit</th></tr>'
   +`<tr><td>Extra workers only</td><td>${cell(P.w)}</td><td>${P.w==null?'–':cap.pk+P.w+(cap.lim?' / '+cap.lim:'')}</td></tr>`
@@ -580,8 +584,8 @@ function rcOut(c){
  /* what is still late under the current setting */
  const R0=S.R,ls=[];F.T.forEach((t,i)=>{if(t&&!t.done&&DI(t.ffin)>DI(tgt))ls.push([i,t])});
  ls.sort((a,b)=>DI(b[1].ffin)-DI(a[1].ffin));
- if(ls.length)o+=`<h4>Still finishing after ${fd(tgt)} (${ls.length})</h4><table class="pt rt"><tr><th>Work item</th><th>Done</th><th>Forecast</th><th>Baseline</th><th>Δ</th></tr>`
-  +ls.slice(0,15).map(([i,t])=>{const q=lp(R0[i]);return`<tr><td style="text-align:left">${esc(R0[i].name)}</td><td>${q?q[0]+'/'+q[1]:Math.round(t.pct*100)+'%'}</td><td>${fd(t.ffin)}</td><td>${fd(t.pf)}</td><td style="color:#dc2626">+${DI(t.ffin)-DI(t.pf)} d</td></tr>`}).join('')+'</table>';
+ if(ls.length)o+=`<h4>Still finishing after ${fd(tgt)} (${ls.length})</h4><table class="pt rt"><tr><th>Work item</th><th>Done</th><th>Behind now</th><th>Forecast</th><th>Baseline</th><th>Δ forecast</th></tr>`
+  +ls.slice(0,15).map(([i,t])=>{const q=lp(R0[i]);return`<tr><td style="text-align:left">${esc(R0[i].name)}</td><td>${q?q[0]+'/'+q[1]:Math.round(t.pct*100)+'%'}</td><td style="color:${t.bd?'#dc2626':'inherit'}">${t.bd?t.bd+' d':'–'}</td><td>${fd(t.ffin)}</td><td>${fd(t.pf)}</td><td style="color:#dc2626">+${DI(t.ffin)-DI(t.pf)} d</td></tr>`}).join('')+'</table>';
  else o+=`<p style="color:#16a34a;font-size:12px">Every work item finishes on or before ${fd(tgt)} with these settings.</p>`;
  return o}
 function rcSolve2(c,tgt,ot,cr,capW){
@@ -596,7 +600,7 @@ function paceFC(c,OV){const MUL=OV&&OV.mul>0?OV.mul:1,CR=1,LS=OV&&OV.late||null;
  const pSpan=Math.max(1,c.pF-c.pS);for(let i=0;i<n;i++){const r=R[i];if(r.sum||r.mile||!(c.ds[i]>0)||(c.ds[i]>=.8*pSpan&&!lp(r))){T[i]=null;continue}
   const b=BL(r),ps=b&&b.s?b.s:c.sd[i],pf=b&&b.f?b.f:c.fn[i],pd=Math.max(1,wd(ps,pf)+1),pct=c.pc[i];let fin,why,rate=null;
   /* recovery effort goes to the work that is behind, not to everything */
-  const plf=Math.max(0,Math.min(1,(rdI+1-fcDI(ps))/pd)),beh=pct<.999&&(pct<plf*.95||rd>pf),M=(MUL>1&&pct<.999&&(LS?LS[i]:beh))?MUL:1;
+  const plf=Math.max(0,Math.min(1,(rdI+1-fcDI(ps))/pd)),bd=pct>=.999?0:Math.max(0,Math.round((rdI+1-fcDI(ps))-pct*pd)),beh=pct<.999&&(pct<plf*.95||rd>pf),M=(MUL>1&&pct<.999&&(LS?LS[i]:beh))?MUL:1;
   if(pct>=.999){fin=r.af||fcLast(r)||Math.min(rd,pf);why='done'}
   else if(pct<=0){if(rd>ps){fin=addW(rd,Math.ceil(pd/M));why='not started – late start'}else{fin=pf;why='not started'}}
   else{const a0=Math.min(r.as||1e9,fcFirst(r)||1e9),f0=rd>=ps?Math.min(ps,a0):(a0<1e9?a0:ps),days=Math.max(1,wd(f0,rd)+1);
@@ -604,7 +608,7 @@ function paceFC(c,OV){const MUL=OV&&OV.mul>0?OV.mul:1,CR=1,LS=OV&&OV.late||null;
    else if(V.fcw==='28'){const p0=lpD(r,rd-28);const dp=p0==null?null:pct-p0;rate=dp&&dp>0?dp/Math.max(1,wd(rd-28,rd)):pct/days;why='last 4 weeks'}
    else{rate=pct/days;why='since start'}
    fin=addW(rd,Math.ceil((1-pct)/(rate*M)))}
-  T[i]={ps,pf,pd,pct,fin,own:wd(pf,fin),rate,why,done:pct>=.999,mul:M,beh}}
+  T[i]={ps,pf,pd,pct,fin,own:wd(pf,fin),rate,why,done:pct>=.999,mul:M,beh,bd}}
  const links=R.map(r=>(r.pred||'').split(/[;,]/).map(x=>x.trim().toUpperCase().replace(/\s/g,'').match(/^(\d+)(FS|SS|FF|SF)?([+-]\d+)?/)).filter(Boolean).map(m=>({p:byId[+m[1]],t:m[2]||'FS',g:+(m[3]||0)})).filter(x=>x.p!=null&&x.p!==undefined));
  const last=[];for(let i=0;i<n;i++){let j=i;while(j+1<n&&R[j+1].lv>R[i].lv)j++;last[i]=j}
  const FF=R.map((r,i)=>T[i]?T[i].fin:null),FS_=R.map((r,i)=>T[i]?(T[i].done?(fcFirst(r)||T[i].ps):T[i].pct>0?(fcFirst(r)||r.as||T[i].ps):Math.max(T[i].ps,T[i].why.startsWith('not started – late')?rd:T[i].ps)):null);
