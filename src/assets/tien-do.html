@@ -468,7 +468,7 @@ function fcBehind(F,is,wf,tol){const T=F.T,r0=fcDI(S.info.status);let A=0;const 
  const P=k=>it.reduce((a,x)=>a+x.w*Math.max(0,Math.min(1,(k+1-x.s)/x.d)),0);tol=tol||0;if(A+tol>=P(r0)-1e-6)return 0;let k=r0;for(let g=0;g<3000;g++){k--;if(P(k)<=A+tol+1e-9)break}return r0-k}
 /* ============ RECOVERY: what it takes to get back on programme ============ */
 const RC_OTE=.8;                     /* one overtime hour is worth 0.8 of a normal hour */
-const rcGet=()=>Object.assign({w:0,ot:0,cr:0,tgt:0},V.rc||{});
+const rcGet=()=>Object.assign({w:0,ot:0,tgt:0},V.rc||{});
 function rcWork(c){const rd=S.info.status,D=S.daily||{};let n=0,sm=0;
  for(let d=rd-27;d<=rd;d++){const e=D[d];if(e&&e.w!=null&&e.w!==''){sm+=+e.w;n++}}
  if(n)return{v:Math.max(1,Math.round(sm/n)),src:'average of the last 4 weeks on site'};
@@ -477,41 +477,44 @@ function rcWork(c){const rd=S.info.status,D=S.daily||{};let n=0,sm=0;
 function rcCap(c){try{const u=U0(c),S1=series(u,'NC_ALL');let pk=0;for(let k=0;k<u.N;k++)if(S1.a[k]>pk)pk=S1.a[k];return{pk:Math.round(pk),lim:Math.round(S1.lim)}}catch(e){return{pk:0,lim:0}}}
 const rcMul=(c,w,ot)=>{const W=rcWork(c).v;return (W>0?(W+w)/W:1)*(1+(ot/8)*RC_OTE)};
 let _rcM={},_rcMK='';
-function rcRun(c,w,ot,cr){const ck=EV+'|'+CUR+'|'+S.info.status+'|'+(V.fcw||'all');
+function rcRun(c,w,ot){const ck=EV+'|'+CUR+'|'+S.info.status+'|'+(V.fcw||'all');
  if(_rcMK!==ck){_rcM={};_rcMK=ck}
- const k=w+'|'+ot+'|'+cr;if(_rcM[k])return _rcM[k];
- return _rcM[k]=paceFC(c,{mul:rcMul(c,w,ot),crews:1+cr})}
-let _rcSK='',_rcSV=null;
-function rcPlan(c,tgt,capW){const k=EV+'|'+CUR+'|'+S.info.status+'|'+(V.fcw||'all')+'|'+tgt+'|'+capW;
- if(_rcSK===k&&_rcSV)return _rcSV;
- const o={w:rcSolve(c,'w',tgt,capW),ot:rcSolve(c,'ot',tgt,capW),cr:rcSolve(c,'cr',tgt,capW),mix:[]};
- [0,2].forEach(ot=>[0,1].forEach(cr=>{const w=rcSolve2(c,tgt,ot,cr,capW);if(w!=null)o.mix.push({w,ot,cr})}));
- o.mix.sort((a,b)=>(a.w-b.w)||(a.ot-b.ot)||(a.cr-b.cr));
- _rcSK=k;_rcSV=o;return o}
+ const k=w+'|'+ot;if(_rcM[k])return _rcM[k];
+ return _rcM[k]=paceFC(c,{mul:rcMul(c,w,ot)})}
 function rcSolve(c,kind,tgt,capW){
- const ok=x=>DI(rcRun(c,kind=='w'?x:0,kind=='ot'?x:0,kind=='cr'?x:0).ff)<=DI(tgt);
- const st=kind=='ot'?.5:1,mx=kind=='w'?Math.max(st,capW):kind=='ot'?4:3;
+ const ok=x=>DI(rcRun(c,kind=='w'?x:0,kind=='ot'?x:0).ff)<=DI(tgt);
+ const st=kind=='ot'?.5:1,mx=kind=='w'?Math.max(st,capW):4;
  if(ok(0))return 0;if(!ok(mx))return null;
  let lo=0,hi=mx;while(hi-lo>st+1e-9){let m=Math.round(((lo+hi)/2)/st)*st;if(m<=lo)m=lo+st;if(m>=hi)break;ok(m)?hi=m:lo=m}
  return hi}
+function rcSolveW(c,tgt,ot,capW){
+ const ok=x=>DI(rcRun(c,x,ot).ff)<=DI(tgt);
+ if(ok(0))return 0;if(!ok(capW))return null;
+ let lo=0,hi=capW;while(hi-lo>1){const m=Math.floor((lo+hi)/2);if(m<=lo)break;ok(m)?hi=m:lo=m}
+ return hi}
+let _rcSK='',_rcSV=null;
+function rcPlan(c,tgt,capW){const k=EV+'|'+CUR+'|'+S.info.status+'|'+(V.fcw||'all')+'|'+tgt+'|'+capW;
+ if(_rcSK===k&&_rcSV)return _rcSV;
+ const o={w:rcSolve(c,'w',tgt,capW),ot:rcSolve(c,'ot',tgt,capW),mix:[]};
+ [0,1,2,3,4].forEach(ot=>{const w=rcSolveW(c,tgt,ot,capW);o.mix.push({ot,w})});
+ _rcSK=k;_rcSV=o;return o}
 function recoverHTML(c){
  if(c.err&&c.err.length)return'<div class="pl"><p>Fix the schedule errors first.</p></div>';
  const base=paceFC(c),R=rcGet(),W=rcWork(c),cap=rcCap(c),tgt=R.tgt||base.pf;
- const capW=Math.max(10,cap.lim?Math.round(cap.lim-cap.pk)+W.v:W.v*2);
+ const capW=Math.max(20,Math.round(W.v*1.5));
  return`<div class="pl rpw"><h3>RECOVERY – WHAT IT TAKES TO CATCH UP</h3>
- <p style="color:var(--mut);font-size:12px;margin:2px 0 10px">Forecast finish <b>${fd(base.ff)}</b> against baseline <b>${fd(base.pf)}</b>${base.delay>0?` · <b style="color:#dc2626">${base.delay} working days late</b>`:' · on time'}. Labour on site now: <b>${W.v}</b> workers/day (${W.src}). Move the three levers and the forecast is recalculated with the same engine the Report uses.</p>
+ <p style="color:var(--mut);font-size:12px;margin:2px 0 10px">Forecast finish <b>${fd(base.ff)}</b> against baseline <b>${fd(base.pf)}</b>${base.delay>0?` · <b style="color:#dc2626">${base.delay} working days late</b>`:' · on time'}. Labour on site now: <b>${W.v}</b> workers/day (${W.src}). The two levers below are applied <b>only to the work that is behind</b> – work that is on programme keeps its planned pace – and the forecast is recalculated with the same engine the Report uses.</p>
  <div class="rcc">
-  <label>Target finish <input data-rc="tgt" value="${fd(tgt)}" style="width:94px" placeholder="dd/mm/yyyy"></label>
-  ${W.v?'':'<span style="color:#b45309;font-size:12px">No labour figure yet – enter daily workers (＋ Daily) to use the worker lever.</span>'}<label>Extra workers <input type="range" data-rc="w" min="0" max="${capW}" step="1" value="${R.w}"><b data-rcv="w">+${R.w}</b></label>
-  <label>Overtime <input type="range" data-rc="ot" min="0" max="4" step="0.5" value="${R.ot}"><b data-rcv="ot">+${R.ot}h</b></label>
-  <label>Extra crews <input type="range" data-rc="cr" min="0" max="3" step="1" value="${R.cr}"><b data-rcv="cr">+${R.cr}</b></label>
+  <label>Target finish <input data-rk="tgt" value="${fd(tgt)}" style="width:94px" placeholder="dd/mm/yyyy"></label>
+  ${W.v?'':'<span style="color:#b45309;font-size:12px">No labour figure yet – enter daily workers (＋ Daily) to use the worker lever.</span>'}<label>Extra workers <input type="range" data-rk="w" min="0" max="${capW}" step="1" value="${R.w}"><b data-rcv="w">+${R.w}</b></label>
+  <label>Overtime <input type="range" data-rk="ot" min="0" max="4" step="0.5" value="${R.ot}"><b data-rcv="ot">+${R.ot}h</b></label>
   <button data-rcz="1">Reset</button>
  </div>
  <div id="rcout">${rcOut(c)}</div></div>`}
 function rcOut(c){
  const base=paceFC(c),R=rcGet(),W=rcWork(c),cap=rcCap(c),tgt=R.tgt||base.pf;
- const capW=Math.max(10,cap.lim?Math.round(cap.lim-cap.pk)+W.v:W.v*2);
- const F=rcRun(c,R.w,R.ot,R.cr),mul=rcMul(c,R.w,R.ot);
+ const capW=Math.max(20,Math.round(W.v*1.5));
+ const F=rcRun(c,R.w,R.ot),mul=rcMul(c,R.w,R.ot);
  const gain=DI(base.ff)-DI(F.ff),left=DI(F.ff)-DI(tgt);
  const tile=(k,v,f,cl)=>`<div class="rct${cl?' '+cl:''}"><div class="k">${k}</div><div class="v">${v}</div><div class="f">${f}</div></div>`;
  const pkNew=cap.pk+R.w,over=cap.lim&&pkNew>cap.lim;
@@ -519,20 +522,19 @@ function rcOut(c){
   ${tile('Forecast finish now',fd(F.ff),`baseline ${fd(base.pf)}`,left>0?'bad':'good')}
   ${tile('Days recovered',gain>0?'−'+gain+' d':'0 d','against '+fd(base.ff))}
   ${tile(left>0?'Still late by':'Finishes early by',(left>0?left:-left)+' d','target '+fd(tgt),left>0?'bad':'good')}
-  ${tile('Output needed',(mul*100-100).toFixed(0)+'%','faster than today')}</div>`;
- o+=`<p style="font-size:12px;margin:8px 0">Peak labour would go from <b>${cap.pk}</b> to <b>${pkNew}</b> workers/day${cap.lim?` against a site limit of <b>${cap.lim}</b>`:''}. ${over?'<b style="color:#dc2626">Over the limit – take part of the gap in overtime instead.</b>':'Within the limit.'} Extra crews are assumed to be staffed out of the extra workers.</p>`;
+  ${tile('Output needed',(mul*100-100).toFixed(0)+'%','faster on the late work')}</div>`;
+ o+=`<p style="font-size:12px;margin:8px 0">Peak labour would go from <b>${cap.pk}</b> to <b>${pkNew}</b> workers/day${cap.lim?` against a site limit of <b>${cap.lim}</b>`:''}. ${over?'<b style="color:#dc2626">Over the limit – take part of the gap in overtime instead.</b>':'Within the limit.'}</p>`;
  /* the smallest single lever that reaches the target */
- const P=rcPlan(c,tgt,capW),sw=P.w,so=P.ot,sc=P.cr;
+ const P=rcPlan(c,tgt,capW),sw=P.w,so=P.ot;
  const cell=(v,u)=>v==null?'<span style="color:#dc2626">not enough on its own</span>':v===0?'<span style="color:#16a34a">already on target</span>':'<b>+'+v+u+'</b>';
  o+=`<h4>Smallest single lever to hit ${fd(tgt)}</h4><table class="pt rt"><tr><th>Lever</th><th>Needed</th><th>What it means</th></tr>
   <tr><td>More workers</td><td>${cell(sw,'')}</td><td>${sw?`${W.v} → ${W.v+sw} workers/day`:'—'}</td></tr>
-  <tr><td>Overtime</td><td>${cell(so,'h/day')}</td><td>${so?`${8}h → ${8+so}h per day, an overtime hour counted at ${RC_OTE*100}%`:'—'}</td></tr>
-  <tr><td>More crews in parallel</td><td>${cell(sc,' crew')}</td><td>${sc?`lots of one work item stop queueing behind a single crew`:'—'}</td></tr></table>`;
+  <tr><td>Overtime</td><td>${cell(so,'h/day')}</td><td>${so?`${8}h → ${8+so}h per day, an overtime hour counted at ${RC_OTE*100}%`:'—'}</td></tr></table>`;
  /* mixed options, cheapest first */
- const mixes=P.mix;
- if(mixes.length)o+=`<h4>Mixed options that reach the target</h4><table class="pt rt"><tr><th>Extra workers</th><th>Overtime</th><th>Extra crews</th><th>Peak labour</th></tr>`
-  +mixes.slice(0,5).map(m=>`<tr><td>+${m.w}</td><td>${m.ot?'+'+m.ot+'h':'—'}</td><td>${m.cr?'+'+m.cr:'—'}</td><td${cap.lim&&cap.pk+m.w>cap.lim?' style="color:#dc2626"':''}>${cap.pk+m.w}${cap.lim?' / '+cap.lim:''}</td></tr>`).join('')+'</table>';
- else o+=`<p style="color:#dc2626;font-size:12px">No mix of the three levers reaches ${fd(tgt)}. The target date itself has to move, or the work has to be re-sequenced.</p>`;
+ const mixes=P.mix.filter(m=>m.w!=null);
+ o+=`<h4>Trade-off: overtime against extra workers</h4><table class="pt rt"><tr><th>Overtime</th><th>Extra workers needed</th><th>Peak labour</th></tr>`
+  +P.mix.map(m=>`<tr><td>${m.ot?'+'+m.ot+'h/day':'none'}</td><td>${m.w==null?'<span style="color:#dc2626">out of reach</span>':'<b>+'+m.w+'</b>'}</td><td${m.w!=null&&cap.lim&&cap.pk+m.w>cap.lim?' style="color:#dc2626"':''}>${m.w==null?'—':cap.pk+m.w+(cap.lim?' / '+cap.lim:'')}</td></tr>`).join('')+'</table>';
+ if(!mixes.length)o+=`<p style="color:#dc2626;font-size:12px">Neither lever, nor both together, reaches ${fd(tgt)}. The target date has to move, or the work has to be re-sequenced.</p>`;
  /* what is still late under the current setting */
  const R0=S.R,ls=[];F.T.forEach((t,i)=>{if(t&&!t.done&&DI(t.ffin)>DI(tgt))ls.push([i,t])});
  ls.sort((a,b)=>DI(b[1].ffin)-DI(a[1].ffin));
@@ -545,20 +547,22 @@ function rcSolve2(c,tgt,ot,cr,capW){
  if(ok(0))return 0;if(!ok(capW))return null;
  let lo=0,hi=capW;while(hi-lo>1){const m=Math.floor((lo+hi)/2);if(m<=lo)break;ok(m)?hi=m:lo=m}
  return hi}
-function paceFC(c,OV){const MUL=OV&&OV.mul>0?OV.mul:1,CR=OV&&OV.crews>1?Math.round(OV.crews):1;
+function paceFC(c,OV){const MUL=OV&&OV.mul>0?OV.mul:1,CR=1;
  const key=EV+'|'+S.info.status+'|'+CUR+'|'+(V.fcw||'all');if(!OV&&_fcK===key&&_fcV)return _fcV;
  const R=S.R,n=R.length,rd=S.info.status,rdI=DI(rd),T=[],byId={};R.forEach((r,i)=>byId[r.id]=i);
  const wd=(a,b)=>{try{return DI(b)-DI(a)}catch(e){return Math.round(b-a)}},addW=(d,k)=>{try{return ID(Math.max(0,DI(d)+k))}catch(e){return d+k}};
  const pSpan=Math.max(1,c.pF-c.pS);for(let i=0;i<n;i++){const r=R[i];if(r.sum||r.mile||!(c.ds[i]>0)||(c.ds[i]>=.8*pSpan&&!lp(r))){T[i]=null;continue}
   const b=BL(r),ps=b&&b.s?b.s:c.sd[i],pf=b&&b.f?b.f:c.fn[i],pd=Math.max(1,wd(ps,pf)+1),pct=c.pc[i];let fin,why,rate=null;
+  /* recovery effort goes to the work that is behind, not to everything */
+  const plf=Math.max(0,Math.min(1,(rdI+1-fcDI(ps))/pd)),M=(MUL>1&&pct<.999&&(pct<plf*.95||rd>pf))?MUL:1;
   if(pct>=.999){fin=r.af||fcLast(r)||Math.min(rd,pf);why='done'}
-  else if(pct<=0){if(rd>ps){fin=addW(rd,Math.ceil(pd/MUL));why='not started – late start'}else{fin=MUL>1?addW(ps,Math.max(0,Math.ceil(pd/MUL)-1)):pf;why='not started'}}
+  else if(pct<=0){if(rd>ps){fin=addW(rd,Math.ceil(pd/M));why='not started – late start'}else{fin=pf;why='not started'}}
   else{const a0=Math.min(r.as||1e9,fcFirst(r)||1e9),f0=rd>=ps?Math.min(ps,a0):(a0<1e9?a0:ps),days=Math.max(1,wd(f0,rd)+1);
    if(pct<.1||days<10){rate=1/pd;why='planned rate (little data)'}
    else if(V.fcw==='28'){const p0=lpD(r,rd-28);const dp=p0==null?null:pct-p0;rate=dp&&dp>0?dp/Math.max(1,wd(rd-28,rd)):pct/days;why='last 4 weeks'}
    else{rate=pct/days;why='since start'}
-   fin=addW(rd,Math.ceil((1-pct)/(rate*MUL)))}
-  T[i]={ps,pf,pd,pct,fin,own:wd(pf,fin),rate,why,done:pct>=.999}}
+   fin=addW(rd,Math.ceil((1-pct)/(rate*M)))}
+  T[i]={ps,pf,pd,pct,fin,own:wd(pf,fin),rate,why,done:pct>=.999,mul:M}}
  const links=R.map(r=>(r.pred||'').split(/[;,]/).map(x=>x.trim().toUpperCase().replace(/\s/g,'').match(/^(\d+)(FS|SS|FF|SF)?([+-]\d+)?/)).filter(Boolean).map(m=>({p:byId[+m[1]],t:m[2]||'FS',g:+(m[3]||0)})).filter(x=>x.p!=null&&x.p!==undefined));
  const last=[];for(let i=0;i<n;i++){let j=i;while(j+1<n&&R[j+1].lv>R[i].lv)j++;last[i]=j}
  const FF=R.map((r,i)=>T[i]?T[i].fin:null),FS_=R.map((r,i)=>T[i]?(T[i].done?(fcFirst(r)||T[i].ps):T[i].pct>0?(fcFirst(r)||r.as||T[i].ps):Math.max(T[i].ps,T[i].why.startsWith('not started – late')?rd:T[i].ps)):null);
@@ -577,7 +581,7 @@ function paceFC(c,OV){const MUL=OV&&OV.mul>0?OV.mul:1,CR=OV&&OV.crews>1?Math.rou
  for(let pass=0;pass<4;pass++){const cur={},cnt={};ord.forEach(i=>{const t=T[i];if(t.done)return;let st=FS0[i],fn=t.fin,by=-1;
   links[i].forEach(L=>{const p=L.p,pf=R[p].sum?agg(p,FF,Math.max):FF[p],pst=R[p].sum?agg(p,FS_,Math.min):FS_[p];if(pf==null)return;let v;
    if(L.t=='FS'){v=addW(pf,1+L.g);if(v>st){st=v;by=p}}else if(L.t=='SS'&&t.pct<=0){v=addW(pst,L.g);if(v>st){st=v;by=p}}else if(L.t=='FF'){v=addW(pf,L.g);if(v>fn){fn=v;by=p}}});
-  if(t.pct<=0){FS_[i]=st;fn=Math.max(fn,addW(st,Math.max(0,Math.ceil(t.pd/MUL)-1)))}else fn=Math.max(fn,st>rd?addW(st,Math.ceil((1-t.pct)*t.pd/MUL)):fn);
+  if(t.pct<=0){FS_[i]=st;fn=Math.max(fn,addW(st,Math.max(0,Math.ceil(t.pd/t.mul)-1)))}else fn=Math.max(fn,st>rd?addW(st,Math.ceil((1-t.pct)*t.pd/t.mul)):fn);
   let cz=fn>t.fin&&by>=0?by:-1;const k=fcKey(R[i]),qr=k&&QR[k];
   if(qr){const ar=cur[k]||(cur[k]=new Array(CR).fill(addW(rd,1)));let ci=0;for(let z=1;z<CR;z++)if(ar[z]<ar[ci])ci=z;
    const c0=ar[ci],need=Math.max(1,Math.ceil((1-t.pct)*QW[i]/(qr*MUL))),s0=t.pct<=0?Math.max(st,c0):c0,qf=addW(s0,need-1);ar[ci]=addW(qf,1);QA[i]=cnt[k]||0;cnt[k]=QA[i]+1;
@@ -1058,14 +1062,14 @@ function unitPanel(key){
   +`<button data-gux="1" style="float:right">✕ Close</button></div>`
   +`<table class="pt"><tr><th>Activities in this lot</th><th>Start</th><th>Finish</th><th>Actual vs plan</th></tr>${tr}</table></div>`}
 function tapUnit(id){const k=curKey();if(!gEd()){V.gu=id;ib0();render();return}if(!(S.done[k]||[]).includes(id)){snap();setTick(k,id,true);save();render()}ibShow(k,id)}
-document.addEventListener('input',e=>{const t=e.target;if(!t.dataset||t.dataset.rc==null||t.type!=='range')return;
- const l=document.querySelector(`[data-rcv="${t.dataset.rc}"]`);if(l)l.textContent=t.dataset.rc=='ot'?'+'+t.value+'h':'+'+t.value});
-document.addEventListener('change',e=>{const t=e.target;if(!t.dataset||t.dataset.rc==null)return;
- V.rc=rcGet();const k=t.dataset.rc;
+document.addEventListener('input',e=>{const t=e.target;if(!t.dataset||t.dataset.rk==null||t.type!=='range')return;
+ const l=document.querySelector(`[data-rcv="${t.dataset.rk}"]`);if(l)l.textContent=t.dataset.rk=='ot'?'+'+t.value+'h':'+'+t.value});
+document.addEventListener('change',e=>{const t=e.target;if(!t.dataset||t.dataset.rk==null)return;
+ V.rc=rcGet();const k=t.dataset.rk;
  if(k=='tgt'){const d=pd(t.value);if(isNaN(d)||!d){t.style.outline='2px solid #dc2626';return}t.style.outline='';V.rc.tgt=d}
  else{V.rc[k]=+t.value||0;const l=document.querySelector(`[data-rcv="${k}"]`);if(l)l.textContent=k=='ot'?'+'+t.value+'h':'+'+t.value}
  const o=document.getElementById('rcout');if(o)o.innerHTML=rcOut(compute())});
-document.addEventListener('click',e=>{if(!e.target.closest||!e.target.closest('[data-rcz]'))return;V.rc={w:0,ot:0,cr:0,tgt:0};render()});
+document.addEventListener('click',e=>{if(!e.target.closest||!e.target.closest('[data-rcz]'))return;V.rc={w:0,ot:0,tgt:0};render()});
 document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-ged],[data-gux],tr[data-ur]');if(!t)return;
  if(t.dataset.ged!=null){V.ged=!gEd();V.multi=false;if(V.ged)V.gu=null;ib0();render();return}
  if(t.dataset.gux!=null){V.gu=null;render();return}
