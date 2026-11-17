@@ -1010,10 +1010,10 @@ async function shareFile(fn,data){
  try{const d=await claude.use('downloads');if(d){await d.save({filename:fn,data});return}}catch(e){if(e&&e.code=='declined')return}
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));a.download=fn;a.click()}
 const slug=t=>String(t||'du_an').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/gi,'d').replace(/[^\w\-]+/g,'_').replace(/^_+|_+$/g,'');
-function sendUpdate(){const d=dayNow(),up={kind:'td-update',v:1,pj:S.info.name,pid:CUR,date:d,done:{},dd:{},piles:S.piles||[],pl:(S.pl||[]).map(x=>({n:x.n,d:+x.d||0}))};
+function sendUpdate(){const d=dayNow(),up={kind:'td-update',v:1,pj:S.info.name,pid:CUR,date:d,done:{},dd:{},daily:S.daily||{},piles:S.piles||[],pl:(S.pl||[]).map(x=>({n:x.n,d:+x.d||0}))};
  Object.keys(S.done||{}).forEach(k=>{const a=S.done[k];if(Array.isArray(a)&&a.length){up.done[k]=a;if((S.dd||{})[k])up.dd[k]=S.dd[k]}});
  shareFile('Cap_nhat_'+slug(S.info.name)+'_'+ymd(d)+'.json',JSON.stringify(up));stat('Update file created')}
-function mergeUpdate(up){const r={tick:0,date:0,pile:0,pdate:0,skip:0},ids=isG()?new Set(gU().map(u=>u.id)):null;S.done=S.done||{};S.dd=S.dd||{};
+function mergeUpdate(up){const r={tick:0,date:0,pile:0,pdate:0,skip:0,dayNew:0,dayChg:0},ids=isG()?new Set(gU().map(u=>u.id)):null;S.done=S.done||{};S.dd=S.dd||{};
  Object.keys(up.done||{}).forEach(k=>{const dd=(up.dd||{})[k]||{};(up.done[k]||[]).forEach(id=>{
   if(ids&&!ids.has(id)){r.skip++;return}
   const had=(S.done[k]||[]).includes(id),a=ddOf(k,id),b=dd[id]!=null?dd[id]:null;
@@ -1023,6 +1023,13 @@ function mergeUpdate(up){const r={tick:0,date:0,pile:0,pdate:0,skip:0},ids=isG()
  (up.piles||[]).forEach((arr,z)=>{if(!Array.isArray(arr))return;S.piles=S.piles||[];S.piles[z]=S.piles[z]||[];const A=S.piles[z];
   arr.forEach(x=>{const n=String((x&&x[0])||'').trim();if(!n)return;const d=x[1]||'',ex=A.find(y=>String(y[0]).trim().toLowerCase()==n.toLowerCase());
    if(!ex){A.push([n,d]);r.pile++}else if(d&&(!ex[1]||d<ex[1])){ex[1]=d;r.pdate++}})});
+ if(up.daily&&typeof up.daily=='object'){S.daily=S.daily||{};
+  Object.keys(up.daily).forEach(k=>{const d=+k,v=up.daily[k];if(!d||!v||typeof v!='object')return;
+   const old=S.daily[d],w=v.w==null||v.w===''?null:Math.max(0,Math.round(+v.w)||0);
+   if(w==null&&v.wx==null&&!v.n)return;
+   const nx=Object.assign({},old);if(w!=null)nx.w=w;if(v.wx!=null)nx.wx=+v.wx||0;if(v.n)nx.n=v.n;
+   if(!old){S.daily[d]=nx;r.dayNew++}
+   else if(JSON.stringify(old)!==JSON.stringify(nx)){S.daily[d]=nx;r.dayChg++}})}
  return r}
 function importUpdate(){if(!canWriteFull()){stat('View only');return}const f=document.createElement('input');f.type='file';f.accept='.json,application/json';
  f.onchange=async()=>{try{const up=JSON.parse(await f.files[0].text());if(!up||up.kind!='td-update')throw new Error('This is not a “Send update” file from the field');
@@ -1030,7 +1037,7 @@ function importUpdate(){if(!canWriteFull()){stat('View only');return}const f=doc
   if(up.pid&&up.pid!=CUR&&ALL[up.pid]){if(!leaveOk())return;loadProj(up.pid)}
   else if(!confirm('Merge update “'+(up.pj||'')+'” ('+fd(up.date)+') into project “'+S.info.name+'”?'))return;
   snap();const r=mergeUpdate(up);save();render();
-  const m='Merged: +'+r.tick+' newly marked units'+(r.date?', '+r.date+' units moved to an earlier date':'')+', +'+r.pile+' new piles'+(r.pdate?', '+r.pdate+' piles with updated date':'')+(r.skip?'. Skipped '+r.skip+' units not in this layout':'')+'.';stat(m);alert(m)}
+  const m='Merged: +'+r.tick+' newly marked units'+(r.date?', '+r.date+' units moved to an earlier date':'')+', +'+r.pile+' new piles'+(r.pdate?', '+r.pdate+' piles with updated date':'')+((r.dayNew||r.dayChg)?', daily labour: '+r.dayNew+' new day(s)'+(r.dayChg?' and '+r.dayChg+' changed':''):'')+(r.skip?'. Skipped '+r.skip+' units not in this layout':'')+'.';stat(m);alert(m)}
   catch(e){alert('Update import error: '+e.message)}};f.click()}
 document.getElementById('su').onclick=sendUpdate;document.getElementById('iu').onclick=importUpdate;
 /* nạp liên kết công tác (chỉ cột Predecessors, theo mã công tác) – giữ nguyên tiến độ thực tế */
