@@ -447,6 +447,22 @@ function h3dImg(X,k,asp){asp=asp||1.2;const key=k+'|'+EV+'|'+S.info.status+'|'+C
 function hViewActs(X,all){return(S.hr.acts||[]).filter(a=>{if(all)return true;return S.R.some(r=>{if(r.hk!=a.k||r.sum)return false;const i=X.ix[r.id];if(X.c.pc[i]>=1)return false;return(X.rdI>X.c.tS[i]&&X.rdI<=X.c.tf[i])||X.pl(i)>X.c.pc[i]+1e-6})})}
 function hView(X,a){const ls=S.R.filter(r=>r.hk==a.k&&!r.sum);let vv=0,va=0,vp=0;ls.forEach(r=>{const i=X.ix[r.id],w=+r.v||1;vv+=w;va+=w*X.c.pc[i];vp+=w*X.pl(i)});const A=vv?va/vv:0,P=vv?vp/vv:0;
  return`<div class="hzv"><div class="hzvh"><b>${esc(a.n)}</b> · actual <span style="color:${A+1e-6<P?'#dc2626':'#16a34a'}">${hPct(A)}</span> · plan ${hPct(P)}</div><div class="hzvg">${(()=>{const e=hElev(X,a.k,0).replace(/^<div class="hzs">.*?<\/div>/,''),m=e.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/),asp=m?(+m[2])/(+m[1]):1.2;return`<div class="hzve">${e}</div><div class="hz3v"><img src="${h3dImg(X,a.k,asp)}"></div>`})()}</div></div>`}
+/* PDF: 1 trang A4 ngang cho mặt đứng + 3D của 1 công tác, sau đó các mặt bằng tầng (bỏ tầng chưa đến hạn) */
+const HLEG='<div style="margin-top:8px;font-size:12px;display:flex;gap:16px;align-items:center">'+[['done','Done'],['late','Behind plan'],['due','In progress window'],['todo','Not yet due']].map(([k,t])=>`<span><i style="display:inline-block;width:14px;height:14px;border:1px solid #64748b;vertical-align:-2px;margin-right:4px;background:${HCOL[k]}"></i>${t}</span>`).join('')+'</div>';
+function hActAP(X,a){const ls=S.R.filter(r=>r.hk==a.k&&!r.sum);let vv=0,va=0,vp=0;ls.forEach(r=>{const i=X.ix[r.id],w=+r.v||1;vv+=w;va+=w*X.c.pc[i];vp+=w*X.pl(i)});return[vv?va/vv:0,vv?vp/vv:0]}
+function hActHead(X,a,sub){const[A,P]=hActAP(X,a);return`<div style="font-size:15px;margin:2px 0 8px"><b>${esc(a.n)}</b>${sub?' – '+sub:''} · actual <span style="color:${A+1e-6<P?'#dc2626':'#16a34a'}">${hPct(A)}</span> · plan ${hPct(P)}</div>`}
+function hViewPdf(X,a){const PW=1400,AH=820;let e=hElev(X,a.k,0).replace(/^<div class="hzs">.*?<\/div>/,'');const m=e.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/),ar=m?(+m[2])/(+m[1]):1.2;
+ const we=Math.round(Math.min(PW*.62,AH/ar)),he=Math.round(we*ar),w3=PW-we-16,asp=Math.max(.6,Math.min(2.4,AH/w3));
+ e=e.replace(/(<svg viewBox="[^"]*") width="[^"]*" height="[^"]*"/,`$1 width="${we}" height="${he}"`);
+ return`<div style="width:${PW}px">${hActHead(X,a,'elevation &amp; 3D')}<div style="display:flex;gap:16px;align-items:center;height:${AH}px"><div style="width:${we}px;display:flex;align-items:center;justify-content:center">${e}</div><div class="hz3v" style="width:${w3}px;height:${AH}px"><img src="${h3dImg(X,a.k,asp)}"></div></div>${HLEG}</div>`}
+function hPdfFloors(X,a){return S.hr.floors.filter(f=>{const r=hLine(X,f.id,a.k);if(!r)return false;const i=X.ix[r.id];return X.c.pc[i]>0||((S.done||{})['t'+r.id]||[]).length>0||X.rdI>X.c.tS[i]})}
+async function hPlanImg(X,fid,k){const h=hPlan(X,fid,k,0),m=h.match(/^([\s\S]*?)(<svg[\s\S]*<\/svg>)([\s\S]*)$/);if(!m)return h;
+ const ld=src=>new Promise((ok,no)=>{const im=new Image();im.onload=()=>ok(im);im.onerror=no;im.src=src});
+ try{let sv=m[2];const vb=sv.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/),W=+vb[1],H=+vb[2],sc=Math.min(2,2400/Math.max(W,H)),cv=document.createElement('canvas');cv.width=Math.round(W*sc);cv.height=Math.round(H*sc);const g=cv.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,cv.width,cv.height);
+  const im0=sv.match(/<image href="([^"]+)"[^>]*\/>/);if(im0){try{const bi=await ld(im0[1].replace(/&amp;/g,'&'));g.drawImage(bi,0,0,cv.width,cv.height)}catch(e){}sv=sv.replace(im0[0],'')}
+  sv=sv.replace(/<svg viewBox="([^"]*)" style="[^"]*"/,`<svg viewBox="$1" width="${cv.width}" height="${cv.height}"`);
+  const im=await ld('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(sv));g.drawImage(im,0,0,cv.width,cv.height);
+  return m[1]+`<img src="${cv.toDataURL('image/jpeg',.9)}" style="width:100%;display:block">`+m[3]}catch(e){console.error('hPlanImg',e);return h}}
 function hViews(c,all,live){const X=hCtx();if(!X)return'';const A=hViewActs(X,all);return`<h3>A4. PROGRESS VIEWS – ELEVATION &amp; 3D</h3><p style="color:var(--mut);font-size:11px;margin:2px 0">${all?'All activities.':'Activities in progress or behind plan at the report date.'} Green done · red behind · amber in progress window · grey not yet due.</p>`+(A.length?A.map(a=>hView(X,a)).join(''):'<p>No activity in progress at the report date.</p>')}
 
 /* events */
@@ -799,7 +815,9 @@ async function makePdf(o){stat('Creating PDF…');await need('https://cdnjs.clou
   const CAP=Math.floor(RPW*(841.89-30)/(595.28-30))-20,H=h=>{box.style.width=RPW+'px';box.innerHTML='<div class="rpg">'+h+'</div>';return box.scrollHeight};let cur='';
   for(const b of B){if(cur&&H(hd+cur+b)>CAP){await page('<div class="rpg">'+hd+cur+'</div>',RPW,'a4p');cur=b}else cur+=b}
   if(cur)await page('<div class="rpg">'+hd+cur+'</div>',RPW,'a4p');
-  if(o.b&&isH()){const X=hCtx();if(X)for(const a of hViewActs(X,o.e))await page('<div class="rpg">'+hd+'<h3>A4. PROGRESS VIEWS – ELEVATION &amp; 3D</h3>'+hView(X,a)+'</div>',1500)}}
+  if(o.b&&isH()){const X=hCtx();if(X)for(const a of hViewActs(X,o.e)){await page('<div class="rpg" style="width:1400px">'+hd+'<h3>A4. PROGRESS VIEWS – ELEVATION, 3D &amp; FLOOR PLANS</h3>'+hViewPdf(X,a)+'</div>',1430);
+   const fl=hPdfFloors(X,a);for(let q=0;q<fl.length;){const two=fl[q].k=='apt'&&fl[q+1]&&fl[q+1].k=='apt',gr=fl.slice(q,q+(two?2:1));q+=gr.length;const ims=[];for(const f of gr)ims.push(await hPlanImg(X,f.id,a.k));
+    await page('<div class="rpg pfp" style="width:1400px">'+hd+hActHead(X,a,'floor plan'+(two?'s':''))+'<div style="display:grid;grid-template-columns:repeat('+gr.length+',minmax(0,1fr));gap:16px;align-items:start">'+ims.map(x=>'<div>'+x+'</div>').join('')+'</div>'+HLEG+'</div>',1430)}}}}
  if(o.c){const strip=s=>s.replace(/<button.*?<\/button>/g,'').replace(/<div class="row"><b>Task.*?<\/div>/,'');
   if(isH()){const X=hCtx();if(X)for(const a of S.hr.acts||[]){const ls=S.R.filter(r=>r.hk==a.k&&r.hf);if(o.d&&!ls.some(r=>((S.done||{})['t'+r.id]||[]).length))continue;await page('<h3>'+esc(a.n)+'</h3>'+hElev(X,a.k,0),1100)}}
   else if(S.plan==='p3'){D.W.forEach((n,i)=>{});for(let i=0;i<D.W.length;i++){if(o.d&&!(S.done[i]||[]).length)continue;V.pw=i;await page(`<h3>${i+1}. ${esc(D.W[i])}</h3>`+strip(planHTML()),900)}}
