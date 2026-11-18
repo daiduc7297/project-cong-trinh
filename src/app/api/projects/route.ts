@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/mongo";
+import { applyPendingUpdates } from "@/lib/updates";
 import { requireUser } from "@/lib/session";
 import {
   publicProject,
@@ -11,6 +12,7 @@ export async function GET() {
   const r = await requireUser();
   if ("error" in r) return r.error;
   const db = await getDb();
+  await applyPendingUpdates(db);
   const col = db.collection<ProjectDoc>("projects");
   if (r.user.quickLogin && !r.user.isAdmin) {
     const docs = await col.find({}).toArray();

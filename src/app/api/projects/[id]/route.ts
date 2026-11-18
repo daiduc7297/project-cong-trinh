@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/mongo";
+import { applyPendingUpdates } from "@/lib/updates";
 import { requireUser } from "@/lib/session";
 import {
   canDelete,
@@ -17,6 +18,7 @@ export async function GET(_req: Request, ctx: Ctx) {
   if ("error" in r) return r.error;
   const { id } = await ctx.params;
   const db = await getDb();
+  await applyPendingUpdates(db);
   const role = await roleFor(db, r.user.id, r.user.isAdmin, id, r.user.quickLogin);
   if (!role) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const doc = await db.collection<ProjectDoc>("projects").findOne({ _id: id });
