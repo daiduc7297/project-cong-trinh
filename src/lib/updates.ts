@@ -76,7 +76,10 @@ async function applyOne(db: Db, u: ProjectUpdate): Promise<Json> {
   let doc: ProjectDoc | null = null;
   if (u.projectId) doc = await col.findOne({ _id: u.projectId });
   else if (u.projectName) {
-    const all = await col.find({}, { projection: { name: 1 } }).toArray();
+    const all = (await col.find({}, { projection: { name: 1, "json.info.name": 1 } }).toArray()).map((p) => ({
+      _id: p._id,
+      name: `${p.name || ""} | ${String(((p.json as Json)?.info as Json)?.name || "")}`,
+    }));
     const names = Array.isArray(u.projectName) ? u.projectName : [u.projectName];
     for (const nm of names) {
       const q = nm.toLowerCase();
