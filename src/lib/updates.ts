@@ -25,8 +25,8 @@ export type ProjectUpdate = {
   id: string;
   /** exact project _id, or */
   projectId?: string;
-  /** case-insensitive substring of the project name; must match exactly one project */
-  projectName?: string;
+  /** case-insensitive substring(s) of the project name; the first one matching exactly one project wins */
+  projectName?: string | string[];
   note?: string;
   ops: UpdateOp[];
 };
@@ -77,12 +77,18 @@ async function applyOne(db: Db, u: ProjectUpdate): Promise<Json> {
   if (u.projectId) doc = await col.findOne({ _id: u.projectId });
   else if (u.projectName) {
     const all = await col.find({}, { projection: { name: 1 } }).toArray();
-    const q = u.projectName.toLowerCase();
-    const hits = all.filter((p) => String(p.name || "").toLowerCase().includes(q));
-    if (hits.length !== 1) {
-      return { status: "error", error: `projectName "${u.projectName}" matched ${hits.length} projects` };
+    const names = Array.isArray(u.projectName) ? u.projectName : [u.projectName];
+    for (const nm of names) {
+      const q = nm.toLowerCase();
+      const hits = all.filter((p) => String(p.name || "").toLowerCase().includes(q));
+      if (hits.length === 1) {
+        doc = await col.findOne({ _id: hits[0]._id });
+        break;
+      }
     }
-    doc = await col.findOne({ _id: hits[0]._id });
+    if (!doc) {
+      return { status: "error", error: `projectName ${JSON.stringify(u.projectName)} did not match exactly one project` };
+    }
   }
   if (!doc) return { status: "error", error: "project not found" };
 
