@@ -14,6 +14,8 @@ import uLc11L160 from "./2026-11-19-lc11-labour-160-peak320.json";
 import uB3L4 from "./2026-11-19-b3-level4-stairs.json";
 import uB3Fix from "./2026-11-19-b3-fix-order.json";
 import uB4Lots from "./2026-11-19-b4-per-lot-3-zones.json";
+import uB3Nc from "./2026-11-19-b3-nc-like-sh25.json";
+import uB4Nc from "./2026-11-19-b4-nc-like-sh25.json";
 
 export const UPDATES: ProjectUpdate[] = [
   u20261118lc11 as ProjectUpdate,
@@ -29,4 +31,6 @@ export const UPDATES: ProjectUpdate[] = [
   uB3L4 as ProjectUpdate,
   uB3Fix as ProjectUpdate,
   uB4Lots as ProjectUpdate,
+  uB3Nc as ProjectUpdate,
+  uB4Nc as ProjectUpdate,
 ];
