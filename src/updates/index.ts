@@ -10,6 +10,7 @@ import dDaily30d20261118est from "./daily-30d-2026-11-18-est.json";
 import dDaily30d20261119b3 from "./daily-30d-2026-11-19-b3.json";
 import dDaily30d20261119b4 from "./daily-30d-2026-11-19-b4.json";
 import dDaily30d20261119est from "./daily-30d-2026-11-19-est.json";
+import uLc11L160 from "./2026-11-19-lc11-labour-160-peak320.json";
 
 export const UPDATES: ProjectUpdate[] = [
   u20261118lc11 as ProjectUpdate,
@@ -21,4 +22,5 @@ export const UPDATES: ProjectUpdate[] = [
   dDaily30d20261119b3 as ProjectUpdate,
   dDaily30d20261119b4 as ProjectUpdate,
   dDaily30d20261119est as ProjectUpdate,
+  uLc11L160 as ProjectUpdate,
 ];
