@@ -19,7 +19,9 @@ export type UpdateOp =
   // set CODE:qty inside the task's `res` string (replace or append), e.g. NC per task
   | { op: "resQty"; code: string; values: Record<string, number> }
   // merge fields into the resource with this code (res[]), e.g. lim
-  | { op: "resource"; code: string; set: Json };
+  | { op: "resource"; code: string; set: Json }
+  // append value to the array at json[path...] (creates it), e.g. a new baseline in bls
+  | { op: "push"; path: string[]; value: unknown };
 
 export type ProjectUpdate = {
   id: string;
@@ -28,6 +30,8 @@ export type ProjectUpdate = {
   /** case-insensitive substring(s) of the project name; the first one matching exactly one project wins */
   projectName?: string | string[];
   note?: string;
+  /** only apply if the project is still at this rev (no edits since the update was prepared) */
+  expectRev?: number;
   ops: UpdateOp[];
 };
 
@@ -99,6 +103,9 @@ async function applyOne(db: Db, u: ProjectUpdate): Promise<Json> {
     if (doc.lockedAt && Date.now() - doc.lockedAt < LOCK_MS) {
       return { status: "retry", reason: `locked by ${doc.lockedByName || doc.lockedBy}` };
     }
+    if (u.expectRev != null && doc.rev !== u.expectRev) {
+      return { status: "error", error: `project changed since the update was prepared (rev ${doc.rev}, expected ${u.expectRev})` };
+    }
     const json = structuredClone((doc.json || {}) as Json);
     const stats = u.ops.map((op) => applyOp(json, op));
     const ok = await col.findOneAndUpdate(
@@ -166,6 +173,14 @@ function applyOp(json: Json, op: UpdateOp): string {
         n++;
       }
       return `resQty ${code}: ${n}/${Object.keys(op.values).length}`;
+    }
+    case "push": {
+      if (!op.path.length) return "push: empty path";
+      const o = walk(json, op.path.slice(0, -1));
+      const k = op.path[op.path.length - 1];
+      if (!Array.isArray(o[k])) o[k] = [];
+      (o[k] as unknown[]).push(op.value);
+      return `push ${op.path.join(".")}`;
     }
     case "resource": {
       const list = (Array.isArray(json.res) ? json.res : []) as Json[];
