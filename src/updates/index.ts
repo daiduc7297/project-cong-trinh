@@ -17,6 +17,10 @@ import uB4Lots from "./2026-11-19-b4-per-lot-3-zones.json";
 import uB3Nc from "./2026-11-19-b3-nc-like-sh25.json";
 import uB4Nc from "./2026-11-19-b4-nc-like-sh25.json";
 
+import dDaily30d20261122b3 from "./daily-30d-2026-11-22-b3.json";
+import dDaily30d20261122b4 from "./daily-30d-2026-11-22-b4.json";
+import dDaily30d20261122est from "./daily-30d-2026-11-22-est.json";
+
 export const UPDATES: ProjectUpdate[] = [
   u20261118lc11 as ProjectUpdate,
   u20261118lc11b as ProjectUpdate,
@@ -33,4 +37,7 @@ export const UPDATES: ProjectUpdate[] = [
   uB4Lots as ProjectUpdate,
   uB3Nc as ProjectUpdate,
   uB4Nc as ProjectUpdate,
+  dDaily30d20261122b3 as ProjectUpdate,
+  dDaily30d20261122b4 as ProjectUpdate,
+  dDaily30d20261122est as ProjectUpdate,
 ];
