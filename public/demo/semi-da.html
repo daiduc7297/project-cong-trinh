@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Semi DA – 3D progress demo</title>
+<style>
+:root{--bg:#eef1f4;--pn:#fff;--tx:#1f2933;--mut:#6b7785;--ln:#d6dce2;--ac:#2563eb;--ok:#16a34a}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--tx);font:14px/1.35 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.pn{position:absolute;background:var(--pn);border:1px solid var(--ln);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+#top{left:10px;top:10px;right:10px;padding:8px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#top b{font-size:15px}
+#top .mut{color:var(--mut)}
+#items{left:10px;top:64px;width:300px;max-height:calc(100% - 84px);overflow:auto;padding:8px 10px}
+#items h4{margin:8px 0 4px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut)}
+.it{display:flex;gap:8px;align-items:center;padding:4px 0;border-bottom:1px solid #f0f2f4;cursor:pointer}
+.it input{width:18px;height:18px;flex:none}
+.it span{flex:1}
+.it i{width:10px;height:10px;border-radius:50%;flex:none;border:1px solid rgba(0,0,0,.25)}
+#cut{right:10px;top:64px;width:250px;padding:8px 12px}
+#cut label{display:block;margin:6px 0 2px;font-size:12px;color:var(--mut)}
+#cut input[type=range]{width:100%}
+button{font:inherit;border:1px solid var(--ln);background:#fff;border-radius:8px;padding:6px 10px;cursor:pointer}
+button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+#stg{width:100%}
+#tg{display:none}
+@media(max-width:760px){
+  #tg{display:inline-block}
+  #items{left:0;right:0;top:auto;bottom:0;width:auto;max-height:46%;border-radius:12px 12px 0 0}
+  #cut{left:10px;right:10px;top:auto;bottom:calc(46% + 10px);width:auto}
+  body.hide #items,body.hide #cut{display:none}
+  #top .hint,#top .sub{display:none}
+  #top{padding:6px 10px}
+  #items{max-height:38%}
+  #cut{bottom:calc(38% + 10px)}
+}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="top" class="pn">
+  <b>Semi DA</b><span class="mut sub">Casa Bonita – demo (modelled from TVC drawings, main dimensions)</span>
+  <span class="mut hint">Drag: rotate · Wheel / pinch: zoom · Right-drag: pan</span>
+  <span id="sum" style="margin-left:auto"></span>
+  <button id="tg">Panels</button>
+</div>
+<div id="items" class="pn"></div>
+<div id="cut" class="pn">
+  <b>Simulate progress</b>
+  <div class="row"><input id="stg" type="range" min="0" max="6" step="1" value="6"></div>
+  <div id="stgn" class="mut" style="font-size:12px"></div>
+  <div class="row"><button id="play">▶ Play</button><button id="ghost" class="on">Show not-done as outline</button></div>
+  <b style="display:block;margin-top:8px">Section</b>
+  <label>Horizontal cut – height <span id="hv"></span></label>
+  <input id="ch" type="range" min="0" max="13.5" step="0.05" value="13.5">
+  <label>Vertical cut – from front <span id="dv"></span></label>
+  <input id="cd" type="range" min="0" max="15" step="0.05" value="0">
+  <div class="row"><button data-f="0">Floor 1</button><button data-f="1">Floor 2</button><button data-f="2">Floor 3</button><button data-f="3">Roof</button></div>
+</div>
+<script type="module">
+import * as THREE from '/vendor/three.module.min.js';
+
+/* ---------- work items (demo list – real ones come from the project's W list) ---------- */
+const W=[
+ {id:'fnd',  n:'Foundation & ground beams',        g:'Structure',c:'#8b8b86'},
+ {id:'str1', n:'Structure – floor 1 (columns, slab 2)',g:'Structure',c:'#9a9a98'},
+ {id:'str2', n:'Structure – floor 2 (columns, slab 3)',g:'Structure',c:'#9a9a98'},
+ {id:'str3', n:'Structure – floor 3 (columns, roof slab)',g:'Structure',c:'#9a9a98'},
+ {id:'brick',n:'Brick walls',                       g:'Walls',c:'#b4654a'},
+ {id:'stairs',n:'Staircase',                        g:'Walls',c:'#b8b2a6'},
+ {id:'roof', n:'Roof frame & tiles',               g:'Roof',c:'#7a554c'},
+ {id:'plaster',n:'Plastering',                      g:'Finishes',c:'#d8cbb6'},
+ {id:'win',  n:'Aluminium glass doors & windows',   g:'Doors & windows',c:'#7fb3d5'},
+ {id:'glass',n:'Glass balcony railings',            g:'Doors & windows',c:'#a9d6e5'},
+ {id:'door', n:'Interior doors',                    g:'Doors & windows',c:'#8a5a3b'},
+ {id:'tile', n:'Floor tiling',                      g:'Finishes',c:'#c9c3b6'},
+ {id:'paint',n:'Painting',                          g:'Finishes',c:'#f1eee9'},
+ {id:'clad', n:'Facade cladding (panels, louvers)', g:'Finishes',c:'#5d5a5a'},
+ {id:'fence',n:'Fence & gate',                      g:'External',c:'#3b3b3b'},
+];
+const STAGES=[
+ ['Site cleared – nothing built',[]],
+ ['Foundation done',['fnd']],
+ ['Structure done (floors 1–3, roof slab)',['fnd','str1','str2','str3']],
+ ['Brick walls, stairs, roof done',['fnd','str1','str2','str3','brick','stairs','roof']],
+ ['Plastered; doors & windows not fitted yet',['fnd','str1','str2','str3','brick','stairs','roof','plaster']],
+ ['Windows & glass fitted; interior doors not yet',['fnd','str1','str2','str3','brick','stairs','roof','plaster','win','glass']],
+ ['All finished',W.map(x=>x.id)],
+];
+const done=new Set(STAGES[6][1]);
+
+/* ---------- three.js setup ---------- */
+const cv=document.getElementById('c');
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});
+R.setPixelRatio(Math.min(devicePixelRatio,2));
+R.localClippingEnabled=true;
+R.setClearColor(0xeef1f4);
+const scene=new THREE.Scene();
+const cam=new THREE.PerspectiveCamera(38,1,0.1,200);
+scene.add(new THREE.HemisphereLight(0xffffff,0xb4bcc4,2.4));
+const sun=new THREE.DirectionalLight(0xffffff,2.2);sun.position.set(-12,24,18);scene.add(sun);
+
+const CP=[new THREE.Plane(new THREE.Vector3(0,-1,0),13.5),new THREE.Plane(new THREE.Vector3(0,0,-1),0)];
+const mk=(col,o={})=>new THREE.MeshStandardMaterial(Object.assign({color:col,roughness:.85,metalness:0,side:THREE.DoubleSide,clippingPlanes:CP},o));
+const MT={
+ conc:mk(0x9a9a98),brick:mk(0xb4654a),plaster:mk(0xd8cbb6),white:mk(0xf1eee9),grey:mk(0x5d5a5a),
+ glass:mk(0x8fc3e0,{transparent:true,opacity:.38,roughness:.1,metalness:.1,depthWrite:false}),
+ rail:mk(0xa9d6e5,{transparent:true,opacity:.35,depthWrite:false}),
+ alu:mk(0x2f3438,{roughness:.5,metalness:.4}),wood:mk(0x8a5a3b),tile:mk(0xc9c3b6),
+ roof:mk(0x7a554c),step:mk(0xb8b2a6),fence:mk(0x3b3b3b),slat:mk(0xb98a5e),ground:mk(0xcfd8c9),
+ found:mk(0x8b8b86),
+};
+const EDGE=new THREE.LineBasicMaterial({color:0x5b7a99,transparent:true,opacity:.55,clippingPlanes:CP});
+const EDGE_DONE=new THREE.LineBasicMaterial({color:0x000000,transparent:true,opacity:.12,clippingPlanes:CP});
+
+/* ---------- model helpers (plan coords in metres: x right, y back; h height) ---------- */
+const parts=[];
+function addMesh(w,geo,mat,opt={}){
+  const m=new THREE.Mesh(geo,mat);
+  const ed=new THREE.LineSegments(new THREE.EdgesGeometry(geo,25),EDGE);
+  ed.visible=false;m.add(ed);
+  scene.add(m);
+  const p=Object.assign({w,m,ed,mat},opt);
+  parts.push(p);return p;
+}
+function B(w,x0,x1,y0,y1,h0,h1,mat,opt){
+  const g=new THREE.BoxGeometry(Math.abs(x1-x0),Math.abs(h1-h0),Math.abs(y1-y0));
+  const p=addMesh(w,g,mat,opt);
+  p.m.position.set((x0+x1)/2,(h0+h1)/2,-(y0+y1)/2);
+  return p;
+}
+/* wall along X (y0==y1) or along Y (x0==x1); ops measured along the wall from its start */
+function wall(x0,y0,x1,y1,h0,h1,t,ops=[],o={}){
+  const hor=Math.abs(y1-y0)<1e-6,L=hor?Math.abs(x1-x0):Math.abs(y1-y0);
+  const sx=hor?Math.sign(x1-x0)||1:1,sy=hor?1:Math.sign(y1-y0)||1;
+  const seg=(a,b,ha,hb,w,mat,opt)=>{ if(b-a<1e-4||hb-ha<1e-4)return;
+    if(hor){const xa=x0+sx*a,xb=x0+sx*b;return B(w,xa,xb,y0-t/2,y0+t/2,ha,hb,mat,opt)}
+    const ya=y0+sy*a,yb=y0+sy*b;return B(w,x0-t/2,x0+t/2,ya,yb,ha,hb,mat,opt)};
+  ops=ops.slice().sort((p,q)=>p.a-q.a);
+  const wopt=Object.assign({wall:true,col:o.col||'white',inner:!!o.inner},o.popt||{});
+  let cur=0;
+  for(const op of ops){
+    seg(cur,op.a,h0,h1,'brick',MT.brick,wopt);
+    seg(op.a,op.b,h0,h0+op.s,'brick',MT.brick,wopt);
+    seg(op.a,op.b,h0+op.s+op.h,h1,'brick',MT.brick,wopt);
+    cur=op.b;
+    /* opening fill */
+    const wd=op.b-op.a,hh=op.h,y=h0+op.s;
+    if(op.t==='d'){ // interior door leaf
+      seg(op.a+.02,op.b-.02,y,y+hh,'door',MT.wood,{kind:'leaf'}); // leaf thickness set below
+    }else{ // aluminium window / glass door: frame + glass pane
+      const th=.06,f=.05;
+      const pane=seg(op.a,op.b,y,y+hh,'win',MT.glass,{kind:'pane'});
+      // thin frame bars
+      seg(op.a,op.a+f,y,y+hh,'win',MT.alu);seg(op.b-f,op.b,y,y+hh,'win',MT.alu);
+      seg(op.a,op.b,y,y+f,'win',MT.alu);seg(op.a,op.b,y+hh-f,y+hh,'win',MT.alu);
+      const n=Math.max(1,Math.round(wd/.9)); // mullions
+      for(let i=1;i<n;i++){const c=op.a+wd*i/n;seg(c-.02,c+.02,y,y+hh,'win',MT.alu)}
+    }
+  }
+  seg(cur,L,h0,h1,'brick',MT.brick,wopt);
+}
+/* rectangular slab with optional rectangular void; w = work item */
+function slab(w,x0,x1,y0,y1,h1,th,mat,v,opt){
+  const h0=h1-th;
+  if(!v){B(w,x0,x1,y0,y1,h0,h1,mat,opt);return}
+  B(w,x0,v[0],y0,y1,h0,h1,mat,opt);B(w,v[1],x1,y0,y1,h0,h1,mat,opt);
+  B(w,v[0],v[1],y0,v[2],h0,h1,mat,opt);B(w,v[0],v[1],v[3],y1,h0,h1,mat,opt);
+}
+
+/* ---------- Semi DA geometry (approx. from TVC drawings A-02.xx, A-07.xx, A-08.01) ---------- */
+const GX=[0,3,7.5],GY=[0,6.6,10.5,14.5];       // axes X1..X3, Y1..Y4
+const LV=[0,3.6,7.0,10.4];                       // floor levels
+const SLAB=.15,WT=.2;
+const VOID=[.3,1.95,6.7,10.4];                   // stair void in slabs (x0,x1,y0,y1)
+
+// ground
+{const g=new THREE.Mesh(new THREE.PlaneGeometry(40,40),new THREE.MeshStandardMaterial({color:0xcfd8c9,roughness:1}));
+ g.rotation.x=-Math.PI/2;g.position.set(5,-0.62,-7);scene.add(g);
+ const lot=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(10,.02,20)),new THREE.LineBasicMaterial({color:0x7b8a76}));
+ lot.position.set(5,-.6,-6.5);scene.add(lot)}
+
+// foundation: pads under every column + ground beams + ground slab
+for(const x of GX)for(const y of GY){B('fnd',x-.6,x+.6,y-.6,y+.6,-.62,-.02,MT.found)}
+for(const y of GY){B('fnd',0,7.5,y-.15,y+.15,-.4,-.02,MT.found)}
+for(const x of GX){B('fnd',x-.15,x+.15,0,14.5,-.4,-.02,MT.found)}
+B('fnd',0,5.1,0,5.9,-.12,-.0,MT.found);B('fnd',0,7.5,5.9,14.5,-.12,0,MT.found);
+
+// structure: columns, beams, slabs
+for(let f=0;f<3;f++){
+  const id=['str1','str2','str3'][f],h0=LV[f],h1=LV[f+1];
+  for(const x of GX)for(const y of GY)B(id,x-.13,x+.13,y-.13,y+.13,h0,h1,MT.conc);
+  for(const y of GY)B(id,0,7.5,y-.08,y+.08,h1-.5,h1-SLAB,MT.conc);
+  for(const x of GX)B(id,x-.08,x+.08,0,14.5,h1-.5,h1-SLAB,MT.conc);
+  if(f<2){ // slab of floor f+2
+    slab(id,-.1,7.6,-.1,14.6,h1,SLAB,MT.conc,VOID);
+  }else{
+    slab(id,-.1,7.6,-.1,14.6,h1,SLAB,MT.conc,null);
+  }
+}
+// balconies on floors 2 and 3 (front, x 3..7.5, projecting 1.2 m)
+B('str1',3,7.6,-1.2,-.1,LV[1]-SLAB,LV[1],MT.conc);
+B('str2',3,7.6,-1.2,-.1,LV[2]-SLAB,LV[2],MT.conc);
+
+// tiling: thin finishing layer on each floor
+slab('tile',.1,7.4,.1,14.4,LV[0]+.02,.02,MT.tile,null);
+slab('tile',.1,7.4,.1,14.4,LV[1]+.02,.02,MT.tile,VOID);
+slab('tile',.1,7.4,.1,14.4,LV[2]+.02,.02,MT.tile,VOID);
+B('tile',3.1,7.5,-1.2,-.1,LV[1],LV[1]+.02,MT.tile);B('tile',3.1,7.5,-1.2,-.1,LV[2],LV[2]+.02,MT.tile);
+
+// ---- external walls
+const T=WT;
+// floor 1 (L-shaped footprint)
+{const h0=0,h1=LV[1]-SLAB;
+ wall(0,0,5.1,0,h0,h1,T,[{a:.6,b:4.6,s:0,h:2.4,t:'w'}]);
+ wall(5.1,0,5.1,5.9,h0,h1,T,[{a:1.6,b:3.4,s:.9,h:1.5,t:'w'}]);
+ wall(5.1,5.9,7.5,5.9,h0,h1,T,[{a:.6,b:1.7,s:0,h:2.2,t:'w'}]);
+ wall(7.5,5.9,7.5,14.5,h0,h1,T,[{a:1.2,b:2.6,s:.9,h:1.5,t:'w'},{a:5.2,b:6.5,s:.9,h:1.5,t:'w'}]);
+ wall(7.5,14.5,0,14.5,h0,h1,T,[{a:.9,b:2.3,s:.9,h:1.5,t:'w'},{a:3.7,b:5.2,s:0,h:2.3,t:'w'},{a:5.9,b:7.0,s:.9,h:1.5,t:'w'}]);
+ wall(0,14.5,0,0,h0,h1,T,[{a:.9,b:1.9,s:1.4,h:.8,t:'w'},{a:6.2,b:7.4,s:.9,h:1.5,t:'w'},{a:11.0,b:12.4,s:.9,h:1.5,t:'w'}]);
+ // partitions
+ wall(0,10.5,3.3,10.5,h0,h1,.1,[{a:.5,b:1.4,s:0,h:2.1,t:'d'}],{inner:true});
+ wall(0,12.5,2.4,12.5,h0,h1,.1,[{a:.5,b:1.4,s:0,h:2.1,t:'d'}],{inner:true});
+ wall(2.4,12.5,2.4,14.5,h0,h1,.1,[{a:.4,b:1.3,s:0,h:2.1,t:'d'}],{inner:true});
+}
+// floors 2 & 3 (full rectangle)
+for(const f of [1,2]){
+  const h0=LV[f],h1=LV[f+1]-SLAB;
+  const front=f===1?[{a:.6,b:2.2,s:.9,h:1.5,t:'w'},{a:3.3,b:6.9,s:0,h:2.4,t:'w'}]:[{a:.6,b:3.8,s:.9,h:1.5,t:'w'},{a:4.3,b:6.9,s:0,h:2.4,t:'w'}];
+  wall(0,0,7.5,0,h0,h1,T,front);
+  wall(7.5,0,7.5,14.5,h0,h1,T,[{a:2.0,b:3.4,s:.9,h:1.5,t:'w'},{a:6.0,b:7.4,s:.9,h:1.5,t:'w'},{a:10.4,b:11.6,s:.9,h:1.5,t:'w'}]);
+  wall(7.5,14.5,0,14.5,h0,h1,T,[{a:.6,b:2.0,s:.9,h:1.5,t:'w'},{a:3.5,b:5.0,s:.9,h:1.5,t:'w'},{a:5.7,b:7.0,s:.9,h:1.5,t:'w'}]);
+  wall(0,14.5,0,0,h0,h1,T,[{a:.8,b:1.9,s:.9,h:1.5,t:'w'},{a:5.0,b:6.2,s:.9,h:1.5,t:'w'},{a:11.0,b:12.0,s:1.4,h:.8,t:'w'}]);
+  // partitions
+  wall(0,6.6,7.5,6.6,h0,h1,.1,[{a:.6,b:1.5,s:0,h:2.1,t:'d'},{a:5.3,b:6.2,s:0,h:2.1,t:'d'}],{inner:true});
+  wall(3.3,10.5,7.5,10.5,h0,h1,.1,[{a:1.0,b:1.9,s:0,h:2.1,t:'d'}],{inner:true});
+  wall(0,12.5,2.4,12.5,h0,h1,.1,[{a:.5,b:1.4,s:0,h:2.1,t:'d'}],{inner:true});
+  wall(2.4,12.5,2.4,14.5,h0,h1,.1,[{a:.4,b:1.3,s:0,h:2.1,t:'d'}],{inner:true});
+}
+// parapet-free roof edge; roof slab walls none
+
+// glass balcony railings (front of floors 2 and 3)
+for(const f of [1,2]){
+  const h0=LV[f]+.02,h1=h0+1.05;
+  B('glass',3,7.55,-1.18,-1.14,h0,h1,MT.rail);
+  B('glass',3.02,3.06,-1.18,-.05,h0,h1,MT.rail);B('glass',7.5,7.54,-1.18,-.05,h0,h1,MT.rail);
+  B('glass',3,7.55,-1.18,-1.14,h1-.03,h1+.03,MT.alu);
+}
+
+// stairs: two flights + landing
+function stairs(h0){
+  const n=10,rise=1.8/n,run=.26;
+  for(let i=0;i<n;i++){B('stairs',.3,1.1,6.9+i*run,6.9+(i+1)*run,h0,h0+rise*(i+1),MT.step)}
+  B('stairs',.3,1.95,9.5,10.35,h0,h0+1.8,MT.step);
+  for(let i=0;i<n;i++){B('stairs',1.15,1.95,9.5-i*run,9.5-(i+1)*run,h0,h0+1.8+rise*(i+1),MT.step)}
+}
+stairs(0);stairs(LV[1]);
+
+// roof: hip, base at +10.4, ridge +12.77 (eaves 0.64)
+{const e=.64,x0=-e,x1=7.5+e,y0=-e,y1=14.5+e,rx=3.75,ya=y0+5.235,yb=y1-5.235,top=12.77,base=LV[3];
+ const P=(x,y,h)=>[x,h,-y];
+ const A=P(x0,y0,base),B2=P(x1,y0,base),C=P(x1,y1,base),D=P(x0,y1,base),R1=P(rx,ya,top),R2=P(rx,yb,top);
+ const tri=(a,b,c)=>[...a,...b,...c];
+ const pos=new Float32Array([...tri(A,B2,R1),...tri(B2,C,R2),...tri(B2,R2,R1),...tri(C,D,R2),...tri(D,A,R1),...tri(D,R1,R2)]);
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.computeVertexNormals();
+ addMesh('roof',g,MT.roof,{});
+ // fascia
+ B('roof',x0,x1,y0,y0+.02,base-.12,base+.02,MT.white);B('roof',x0,x1,y1-.02,y1,base-.12,base+.02,MT.white);
+ B('roof',x0,x0+.02,y0,y1,base-.12,base+.02,MT.white);B('roof',x1-.02,x1,y0,y1,base-.12,base+.02,MT.white);
+}
+
+// facade cladding: dark grey panels and wood louvers on the front
+B('clad',.05,2.9,-.08,-.02,.0,3.4,MT.grey);
+B('clad',.05,2.9,-.08,-.02,LV[1],LV[2]-SLAB,MT.grey,{});
+for(let i=0;i<6;i++)B('clad',.15+i*.12,.15+i*.12+.06,-.12,-.02,LV[2]+.2,LV[3]-.4,MT.slat);
+B('clad',6.95,7.5,-.08,-.02,LV[1],LV[3]-SLAB,MT.grey);
+
+// fence & gate (front, 3.5 m from the building)
+B('fence',-1.25,8.75,-3.55,-3.45,-.6,.5,MT.fence);
+for(let i=0;i<=20;i++){const x=-1.25+i*.5;if(x>1.4&&x<5.6)continue;B('fence',x-.02,x+.02,-3.52,-3.48,.5,1.7,MT.fence)}
+B('fence',-1.3,-1.2,-3.6,-3.4,-.6,1.8,MT.fence);B('fence',8.7,8.8,-3.6,-3.4,-.6,1.8,MT.fence);
+B('fence',1.4,5.6,-3.52,-3.48,-.6,.1,MT.fence);
+
+/* ---------- state -> visibility / material ---------- */
+const paintOn=()=>done.has('paint'),plasOn=()=>done.has('plaster');
+const WALL_DEPS=null;
+function refresh(){
+  const ghost=document.getElementById('ghost').classList.contains('on');
+  for(const p of parts){
+    let ok=done.has(p.w);
+    p.m.visible=ok||ghost;
+    if(ok){
+      p.m.material=p.mat;
+      if(p.wall){ // walls change look with plaster / paint
+        p.m.material=paintOn()?(p.col==='grey'?MT.grey:MT.white):plasOn()?MT.plaster:MT.brick;
+      }
+      p.ed.material=EDGE_DONE;p.ed.visible=true;
+      p.m.children.forEach(c=>{c.visible=true});
+    }else{ // ghost: outline only
+      p.m.material=GHOSTMAT;p.ed.material=EDGE;p.ed.visible=true;
+    }
+  }
+  // walls only exist where brick is done: handled by w==='brick'
+  document.querySelectorAll('.it input').forEach(i=>i.checked=done.has(i.dataset.id));
+  document.getElementById('sum').textContent=done.size+' / '+W.length+' items done';
+}
+const GHOSTMAT=new THREE.MeshBasicMaterial({visible:false});
+
+/* ---------- UI ---------- */
+const ul=document.getElementById('items');let grp='';
+for(const w of W){
+  if(w.g!==grp){grp=w.g;const h=document.createElement('h4');h.textContent=grp;ul.appendChild(h)}
+  const d=document.createElement('label');d.className='it';
+  d.innerHTML=`<input type="checkbox" data-id="${w.id}"><i style="background:${w.c}"></i><span>${w.n}</span>`;
+  ul.appendChild(d);
+}
+ul.addEventListener('change',e=>{const i=e.target.closest('input');if(!i)return;i.checked?done.add(i.dataset.id):done.delete(i.dataset.id);refresh()});
+const stg=document.getElementById('stg');
+function setStage(k){
+  stg.value=k;done.clear();STAGES[k][1].forEach(x=>done.add(x));
+  document.getElementById('stgn').textContent=k+'. '+STAGES[k][0];refresh();
+}
+stg.addEventListener('input',()=>{stopPlay();setStage(+stg.value)});
+let timer=null;
+function stopPlay(){if(timer){clearInterval(timer);timer=null;document.getElementById('play').textContent='▶ Play'}}
+document.getElementById('play').onclick=()=>{
+  if(timer){stopPlay();return}
+  document.getElementById('play').textContent='❚❚ Pause';
+  let k=+stg.value>=6?0:+stg.value;setStage(k);
+  timer=setInterval(()=>{k++;if(k>6){stopPlay();return}setStage(k)},1400);
+};
+document.getElementById('ghost').onclick=e=>{e.target.classList.toggle('on');refresh()};
+const ch=document.getElementById('ch'),cd=document.getElementById('cd');
+function cutUpd(){CP[0].constant=+ch.value;CP[1].constant=-(+cd.value);
+  document.getElementById('hv').textContent=(+ch.value>=13.5?'off':(+ch.value).toFixed(1)+' m');
+  document.getElementById('dv').textContent=(+cd.value<=0?'off':(+cd.value).toFixed(1)+' m')}
+ch.oninput=cd.oninput=cutUpd;cutUpd();
+document.querySelectorAll('#cut [data-f]').forEach(b=>b.onclick=()=>{ch.value=LV[+b.dataset.f]+(+b.dataset.f===3?1.6:1.5);cutUpd()});
+if(innerWidth<760)document.body.classList.add('hide');
+document.getElementById('tg').onclick=()=>document.body.classList.toggle('hide');
+setStage(6);
+
+/* ---------- orbit camera ---------- */
+const tgt=new THREE.Vector3(3.75,4.5,-7),S={az:.55,el:.42,d:30};
+function place(){
+  const ce=Math.cos(S.el);
+  cam.position.set(tgt.x+S.d*ce*Math.sin(S.az),tgt.y+S.d*Math.sin(S.el),tgt.z+S.d*ce*Math.cos(S.az));
+  cam.lookAt(tgt);
+}
+let ptr=new Map(),last=0;
+cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);ptr.set(e.pointerId,{x:e.clientX,y:e.clientY,b:e.button})});
+cv.addEventListener('pointerup',e=>ptr.delete(e.pointerId));cv.addEventListener('pointercancel',e=>ptr.delete(e.pointerId));
+cv.addEventListener('contextmenu',e=>e.preventDefault());
+cv.addEventListener('pointermove',e=>{
+  const p=ptr.get(e.pointerId);if(!p)return;
+  const dx=e.clientX-p.x,dy=e.clientY-p.y;
+  if(ptr.size===2){ // pinch
+    const [a,b]=[...ptr.values()];const before=Math.hypot(a.x-b.x,a.y-b.y);
+    p.x=e.clientX;p.y=e.clientY;const [a2,b2]=[...ptr.values()];const after=Math.hypot(a2.x-b2.x,a2.y-b2.y);
+    S.d=Math.min(90,Math.max(6,S.d*before/Math.max(after,1)));
+  }else if(p.b===2||e.shiftKey){ // pan
+    const k=S.d*.0016,r=new THREE.Vector3().setFromMatrixColumn(cam.matrix,0);
+    tgt.addScaledVector(r,-dx*k);tgt.y+=dy*k;
+    p.x=e.clientX;p.y=e.clientY;
+  }else{
+    S.az-=dx*.007;S.el=Math.min(1.45,Math.max(-.1,S.el+dy*.006));
+    p.x=e.clientX;p.y=e.clientY;
+  }
+  place();
+});
+cv.addEventListener('wheel',e=>{e.preventDefault();S.d=Math.min(90,Math.max(6,S.d*(1+e.deltaY*.001)));place()},{passive:false});
+function size(){const w=innerWidth,h=innerHeight;R.setSize(w,h,false);cam.aspect=w/h;
+  S.d=Math.max(S.d,w<760?58:26);cam.updateProjectionMatrix();place()}
+addEventListener('resize',size);size();
+R.setAnimationLoop(()=>R.render(scene,cam));
+window.__demo={S,place,setStage,done,refresh,CP,ch,cd,cutUpd};
+</script>
+</body>
+</html>
