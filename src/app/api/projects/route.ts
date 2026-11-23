@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getDb } from "@/lib/mongo";
 import { applyPendingUpdates } from "@/lib/updates";
 import { requireUser } from "@/lib/session";
+import { stampPid } from "@/lib/backup";
 import {
   publicProject,
   type ProjectDoc,
@@ -67,7 +68,7 @@ export async function POST(req: Request) {
   const doc = {
     _id: id,
     name,
-    json,
+    json: stampPid(json, id),
     rev: 1,
     lockedBy: r.user.id,
     lockedByName: r.user.name || r.user.email,

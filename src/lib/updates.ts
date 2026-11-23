@@ -6,6 +6,7 @@
 import type { Db } from "mongodb";
 import { LOCK_MS, type ProjectDoc } from "@/lib/access";
 import { UPDATES } from "@/updates";
+import { backupBefore } from "@/lib/backup";
 
 type Json = Record<string, unknown>;
 
@@ -108,6 +109,7 @@ async function applyOne(db: Db, u: ProjectUpdate): Promise<Json> {
     }
     const json = structuredClone((doc.json || {}) as Json);
     const stats = u.ops.map((op) => applyOp(json, op));
+    await backupBefore(db, doc, "update", `update:${u.id}`, json);
     const ok = await col.findOneAndUpdate(
       { _id: doc._id, rev: doc.rev },
       { $set: { json, updatedAt: Date.now() }, $inc: { rev: 1 } },
