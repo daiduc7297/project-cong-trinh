@@ -1,0 +1,142 @@
+{
+ "id": "daily-30d-2026-11-23-est",
+ "projectName": [
+  "Estiva"
+ ],
+ "note": "daily labour+weather 24/10-20/11/2026 from SharePoint daily reports (25 days)",
+ "ops": [
+  {
+   "op": "merge",
+   "path": [
+    "daily"
+   ],
+   "value": {
+    "20750": {
+     "w": 76,
+     "wx": 0,
+     "n": "EC-VV- Daily report 24.10.2026.pdf"
+    },
+    "20752": {
+     "w": 83,
+     "wx": 1,
+     "n": "EC-VV- Daily report 26.10.2026.pdf"
+    },
+    "20753": {
+     "w": 108,
+     "wx": 1,
+     "n": "EC-VV- Daily report 27.10.2026.pdf (PDF header misprints 26 Oct)"
+    },
+    "20754": {
+     "w": 89,
+     "wx": 0,
+     "n": "EC-VV- Daily report 28.10.2026.pdf"
+    },
+    "20756": {
+     "w": 83,
+     "wx": 0,
+     "n": "EC-VV- Daily report 30.10.2026.pdf"
+    },
+    "20758": {
+     "w": 92,
+     "wx": 0,
+     "n": "EC-VV- Daily report 01.11.2026.pdf"
+    },
+    "20759": {
+     "w": 116,
+     "wx": 0,
+     "n": "EC-VV- Daily report 02.11.2026.pdf"
+    },
+    "20760": {
+     "w": 106,
+     "wx": 0,
+     "n": "EC-VV- Daily report 03.11.2026.pdf"
+    },
+    "20761": {
+     "w": 112,
+     "wx": 0,
+     "n": "EC-VV- Daily report 04.11.2026.pdf"
+    },
+    "20762": {
+     "w": 104,
+     "wx": 0,
+     "n": "EC-VV- Daily report 05.11.2026.pdf"
+    },
+    "20763": {
+     "w": 105,
+     "wx": 0,
+     "n": "EC-VV- Daily report 06.11.2026.pdf"
+    },
+    "20764": {
+     "w": 100,
+     "wx": 0,
+     "n": "EC-VV- Daily report 07.11.2026.pdf"
+    },
+    "20765": {
+     "w": 96,
+     "wx": 0,
+     "n": "EC-VV- Daily report 08.11.2026.pdf"
+    },
+    "20766": {
+     "w": 58,
+     "wx": 1,
+     "n": "EC-VV-Daily report 09.11.2026.pdf"
+    },
+    "20767": {
+     "w": 82,
+     "wx": 0,
+     "n": "EC-VV-Daily report 10.11.2026.pdf"
+    },
+    "20768": {
+     "w": 133,
+     "wx": 0,
+     "n": "EC-VV-Daily report 11.11.2026.pdf"
+    },
+    "20769": {
+     "w": 72,
+     "wx": 0,
+     "n": "EC-VV-Daily report 12.11.2026.pdf"
+    },
+    "20770": {
+     "w": 69,
+     "wx": 0,
+     "n": "EC-VV-Daily report 13.11.2026.pdf"
+    },
+    "20771": {
+     "w": 106,
+     "wx": 0,
+     "n": "EC-VV-Daily report 14.11.2026.pdf"
+    },
+    "20772": {
+     "w": 69,
+     "wx": 0,
+     "n": "EC-VV-Daily report 15.11.2026.pdf"
+    },
+    "20773": {
+     "w": 97,
+     "wx": 0,
+     "n": "EC-VV-Daily report 16.11.2026.pdf"
+    },
+    "20774": {
+     "w": 108,
+     "wx": 0,
+     "n": "EC-VV-Daily report 17.11.2026.pdf"
+    },
+    "20775": {
+     "w": 108,
+     "wx": 1,
+     "n": "EC-VV-Daily report 18.11.2026.pdf"
+    },
+    "20776": {
+     "w": 95,
+     "wx": 1,
+     "n": "EC-VV-Daily report 19.11.2026.pdf"
+    },
+    "20777": {
+     "w": 118,
+     "wx": 1,
+     "n": "EC-VV-Daily report 20.11.2026.pdf"
+    }
+   }
+  }
+ ]
+}

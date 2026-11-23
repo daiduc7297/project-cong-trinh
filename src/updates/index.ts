@@ -20,6 +20,9 @@ import uB4Nc from "./2026-11-19-b4-nc-like-sh25.json";
 import dDaily30d20261122b3 from "./daily-30d-2026-11-22-b3.json";
 import dDaily30d20261122b4 from "./daily-30d-2026-11-22-b4.json";
 import dDaily30d20261122est from "./daily-30d-2026-11-22-est.json";
+import dDaily30d20261123b3 from "./daily-30d-2026-11-23-b3.json";
+import dDaily30d20261123b4 from "./daily-30d-2026-11-23-b4.json";
+import dDaily30d20261123est from "./daily-30d-2026-11-23-est.json";
 
 export const UPDATES: ProjectUpdate[] = [
   u20261118lc11 as ProjectUpdate,
@@ -40,4 +43,7 @@ export const UPDATES: ProjectUpdate[] = [
   dDaily30d20261122b3 as ProjectUpdate,
   dDaily30d20261122b4 as ProjectUpdate,
   dDaily30d20261122est as ProjectUpdate,
+  dDaily30d20261123b3 as ProjectUpdate,
+  dDaily30d20261123b4 as ProjectUpdate,
+  dDaily30d20261123est as ProjectUpdate,
 ];
