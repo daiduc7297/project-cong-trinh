@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getDb } from "@/lib/mongo";
 import { applyPendingUpdates } from "@/lib/updates";
 import { requireUser } from "@/lib/session";
+import { backupBefore, stampPid, wrongProject } from "@/lib/backup";
 import {
   canDelete,
   canWrite,
@@ -45,10 +46,18 @@ export async function PUT(req: Request, ctx: Ctx) {
   const rev = Number(body.rev);
   const name = body.name != null ? String(body.name) : undefined;
   const now = Date.now();
-  const json = role === "member" ? mergeMemberJson(current.json, body.json) : body.json;
+  if (role !== "member" && body.force !== true) {
+    const why = wrongProject(id, current.json, body.json);
+    if (why) return NextResponse.json({ error: why, code: "wrong_project" }, { status: 422 });
+  }
+  const json =
+    role === "member"
+      ? mergeMemberJson(current.json, body.json)
+      : stampPid(body.json, id);
   const set: Record<string, unknown> = { json, updatedAt: now };
   if (name && role !== "member") set.name = name;
 
+  await backupBefore(db, current, "save", r.user.email || r.user.id, json);
   const result = await col.findOneAndUpdate(
     { _id: id, rev },
     { $set: set, $inc: { rev: 1 } },
@@ -71,6 +80,8 @@ export async function DELETE(_req: Request, ctx: Ctx) {
   if (!canDelete(role)) {
     return NextResponse.json({ error: "Only admins can delete projects" }, { status: 403 });
   }
+  const old = await db.collection<ProjectDoc>("projects").findOne({ _id: id });
+  if (old) await backupBefore(db, old, "delete", r.user.email || r.user.id);
   const del = await db.collection<ProjectDoc>("projects").deleteOne({ _id: id });
   if (!del.deletedCount) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
