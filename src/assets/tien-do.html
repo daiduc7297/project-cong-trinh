@@ -90,6 +90,14 @@ table.mvsum{width:100%;border-collapse:collapse;font-size:13px}.mvsum th{font-si
 .mvsum tr.sub td{font-size:12px;background:var(--bg);padding:6px 4px}.mvsum tr.sub td:first-child{padding-left:20px}.mvsum tr.more td{color:var(--ac);cursor:pointer}.mvhint{font-size:11px;color:var(--mut);margin:6px 0 0;line-height:1.4}
 .mvis{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)}.mvis:last-of-type{border-bottom:0}.mvis .t{font-weight:600;font-size:13px}.mvis .mvm{margin-top:2px}.mvn2{flex:none;width:22px;height:22px;border-radius:50%;background:#dc2626;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
 .mvrec{margin-top:8px;padding:8px;border-radius:6px;background:var(--bg);font-size:12px;line-height:1.5}.mvla{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:13px}.mvla:last-child{border-bottom:0}.mvla b{font-weight:600;color:var(--mut);white-space:nowrap}.mvla.more{color:var(--ac);cursor:pointer}
+.mva2 h4.mva2h{display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:14px;margin:16px 0 6px}.mva2 h4.mva2h button{font-size:12px;padding:2px 8px!important}
+.mva2 table.pt{display:block;max-width:100%;width:auto!important;overflow-x:auto;-webkit-overflow-scrolling:touch;table-layout:auto!important;border-collapse:separate;border-spacing:0;font-size:11.5px;margin:0}
+.mva2 table.pt td,.mva2 table.pt th{padding:4px 5px;white-space:nowrap}.mva2 table.pt th{white-space:normal;min-width:52px}
+.mva2 table.pt tr>*:first-child{min-width:0;width:22px;padding:4px 3px}
+.mva2 table.pt tr>*:nth-child(2){position:sticky;left:0;background:var(--bg);z-index:1;min-width:128px;max-width:150px;white-space:normal;box-shadow:2px 0 0 rgba(127,127,127,.25)}
+.mva2 table.pt tr>th:nth-child(2){background:var(--card);z-index:2}
+.mva2 table.pt tr>*[colspan]{position:static;max-width:none;white-space:normal;background:var(--card);box-shadow:none}
+.mva2 .cpw{position:sticky;left:5px;width:calc(100vw - 48px);white-space:normal;line-height:1.4}
 .mvr h4{margin:16px 0 4px;font-size:14px}.mvfh{border:1px solid var(--bd);border-radius:8px;padding:8px 10px;background:var(--card);font-size:14px;line-height:1.5}.mvf2{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.mvf2 button{padding:6px 10px;font-size:13px}.mvlob{border:1px solid var(--bd);border-radius:8px;padding:6px;background:#fff;margin-top:8px}.mvlob h4{color:#0f172a;margin:2px 0}.mvlob p{color:#64748b}.mvlobfs{position:fixed!important;inset:0;z-index:9999;overflow:auto;border-radius:0;margin:0}.mvlobfs svg{width:180%!important;max-width:none!important}.mvz{display:flex;align-items:center;gap:8px;margin:3px 0;font-size:12px}.mvz span{width:54px;flex:none}.mvz b{width:56px;text-align:right;flex:none}
 .mvsc{overflow-x:auto}.mvr svg{max-width:100%;height:auto}
 #mvfs{position:fixed;left:0;top:0;z-index:9999;background:var(--bg);color:var(--fg);display:flex;flex-direction:column;overflow:hidden}
@@ -1275,14 +1283,14 @@ function mvTasks(c){const I=mvInfo(c),{R,n,par}=I,VP=visPos(c,true),f=V.mvf||'al
    const p=par[i]>=0?R[par[i]].name:'',lc=locT(i);o+=`<div class="mvc${lc?' loc':''}"${lc?` data-loc="${i}"`:''}><div class="mvs">${esc(p)}</div><div class="mvt">${esc(r.name)}</div>${bar(i)}<div class="mvm">${fd(c.sd[i])} → ${fd(c.fn[i])} · <b>${mvPct(c.pc[i])}</b>${qty(R[i])} · Plan ${mvPct(I.pl(i))} ${tag(i)}</div>${fct(i)}${lc?'<div class="mvlf"><span class="mvl">Layout ›</span></div>':''}</div>`}}
  if(!cnt)o+='<p class="mvn">No items.</p>';
  return o+'<p class="mvn">Blue bar: actual · black tick: planned at report date.</p></div>'}
+document.addEventListener('click',e=>{const tr=e.target.closest&&e.target.closest('.mva2 tr.lh');if(!tr||e.target.closest('button'))return;const b=tr.querySelector('.cgl');if(b)b.click()});
+function mvA2(c){let h='';try{if(isH()){const r=hrRep(c,1)||'',a=r.indexOf('<h3>A2. QUANTITIES BY FLOOR');if(a>=0){const b=r.indexOf('</table>',a);h=r.slice(a,b+8)}}else h=lotTable(false)||''}catch(e){h=''}
+ if(!h)return'';h=h.replace(/<h3>(.*?)<\/h3>/,(m,t)=>'<h4 class="mva2h">'+t.replace(/^A2\.\s*/,'')+'</h4>').replace(/<colgroup>[\s\S]*?<\/colgroup>/,'').replace(/(<t[dh][^>]*colspan="?\d+"?[^>]*>)([\s\S]*?)(<\/t[dh]>)/g,'$1<div class="cpw">$2</div>$3');
+ return`<div class="mva2">${h}<p class="mvn">Swipe the table left for Behind now / Actual rate / Planned rate. Tap a ${isH()?'floor':'lot'} to open it.</p></div>`}
 function mvReportView(c){const rd=S.info.status;let F=null;try{F=paceFC(c)}catch(e){}
  let o=`<div class="mvw mvr"><div class="mvbar"><b>Progress report</b><button id="mvx" data-mvfs="r" class="on">⛶ Expand</button></div>`;
  o+=mvStatus(c,F);
- if(F){let G=[];try{G=fcGroups(c,F)}catch(e){}o+=mvSummary(c,F,G);
-  if(isH()){o+=mvHandover(c);const lob=lobSVG(c,F,false);if(lob)o+=`<div class="mvlob" data-mvlob="1">${lob.replace(/<h3>.*?<\/h3>/,'<h4>Line of balance</h4>')}<p class="mvn">Tap the chart for full screen</p></div>`}
-  o+=mvIssues(c,F,G)}else if(isH())o+=mvHandover(c);
- o+=mvNext(c);
- o+='<h4>S-curve</h4>'+scChart(c).replace(/<svg width="(\d+)" height="(\d+)"/,'<svg viewBox="0 0 $1 $2" width="$1" height="$2"');
+ o+=mvA2(c);
  o+=mpMobile(c);
  return o+'</div>'}
 const mvP1=x=>(Math.round(x*1000)/10).toFixed(1)+'%';
