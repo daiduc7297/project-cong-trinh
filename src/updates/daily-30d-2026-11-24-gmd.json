@@ -1,0 +1,110 @@
+{
+ "id": "daily-30d-2026-11-24-gmd",
+ "projectName": [
+  "LC1.1",
+  "Gamuda"
+ ],
+ "note": "daily labour 01/11-23/11/2026 from LC1.1-VV-DRP-2026-November.xlsx, workers only (excl. directors, managers, engineers, safety, storekeeper, security) (23 days)",
+ "ops": [
+  {
+   "op": "merge",
+   "path": [
+    "daily"
+   ],
+   "value": {
+    "20758": {
+     "w": 91,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 01.11 · weather not stated"
+    },
+    "20759": {
+     "w": 111,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 02.11 · weather not stated"
+    },
+    "20760": {
+     "w": 111,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 03.11 · weather not stated"
+    },
+    "20761": {
+     "w": 112,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 04.11 · weather not stated"
+    },
+    "20762": {
+     "w": 114,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 05.11 · weather not stated"
+    },
+    "20763": {
+     "w": 122,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 06.11 · weather not stated"
+    },
+    "20764": {
+     "w": 142,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 07.11 · weather not stated"
+    },
+    "20765": {
+     "w": 138,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 08.11 · weather not stated"
+    },
+    "20766": {
+     "w": 157,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 09.11 · weather not stated"
+    },
+    "20767": {
+     "w": 128,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 10.11 · weather not stated"
+    },
+    "20768": {
+     "w": 99,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 11.11 · weather not stated"
+    },
+    "20769": {
+     "w": 115,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 12.11 · weather not stated"
+    },
+    "20770": {
+     "w": 86,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 13.11 · weather not stated"
+    },
+    "20771": {
+     "w": 139,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 14.11 · weather not stated"
+    },
+    "20772": {
+     "w": 127,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 15.11 · weather not stated"
+    },
+    "20773": {
+     "w": 149,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 16.11 · weather not stated"
+    },
+    "20774": {
+     "w": 158,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 17.11 · weather not stated"
+    },
+    "20775": {
+     "w": 164,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 18.11 · weather not stated"
+    },
+    "20776": {
+     "w": 165,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 19.11 · weather not stated"
+    },
+    "20777": {
+     "w": 193,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 20.11 · weather not stated"
+    },
+    "20778": {
+     "w": 191,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 21.11 · weather not stated"
+    },
+    "20779": {
+     "w": 185,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 22.11 · weather not stated"
+    },
+    "20780": {
+     "w": 167,
+     "n": "LC1.1-VV-DRP-2026-November.xlsx sheet 23.11 · weather not stated · header date misprints 22/11"
+    }
+   }
+  }
+ ]
+}
