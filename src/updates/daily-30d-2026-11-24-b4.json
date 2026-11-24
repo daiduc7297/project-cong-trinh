@@ -1,0 +1,163 @@
+{
+ "id": "daily-30d-2026-11-24-b4",
+ "projectName": [
+  "Package 4",
+  "Bonita 4"
+ ],
+ "note": "daily labour+weather 25/10-22/11/2026 from SharePoint daily reports (29 days)",
+ "ops": [
+  {
+   "op": "merge",
+   "path": [
+    "daily"
+   ],
+   "value": {
+    "20751": {
+     "w": 25,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 25-10-2026.pdf"
+    },
+    "20752": {
+     "w": 0,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 26-10-2026.pdf · Không thi công do diễn tập quân sự"
+    },
+    "20753": {
+     "w": 22,
+     "wx": 1,
+     "n": "BONITA4-BÁO CÁO NGÀY 27-10-2026.pdf"
+    },
+    "20754": {
+     "w": 20,
+     "wx": 1,
+     "n": "BONITA4-BÁO CÁO NGÀY 28-10-2026.pdf"
+    },
+    "20755": {
+     "w": 20,
+     "wx": 1,
+     "n": "BONITA4-BÁO CÁO NGÀY 29-10-2026.pdf"
+    },
+    "20756": {
+     "w": 5,
+     "wx": 1,
+     "n": "BONITA4-BÁO CÁO NGÀY 30-10-2026.pdf"
+    },
+    "20757": {
+     "w": 21,
+     "wx": 1,
+     "n": "BONITA4-BÁO CÁO NGÀY 31-10-2026.pdf"
+    },
+    "20758": {
+     "w": 21,
+     "wx": 1,
+     "n": "BONITA4-BÁO CÁO NGÀY 01-11-2026.pdf"
+    },
+    "20759": {
+     "w": 34,
+     "wx": 1,
+     "n": "BONITA4-BÁO CÁO NGÀY 02-11-2026.pdf"
+    },
+    "20760": {
+     "w": 26,
+     "wx": 1,
+     "n": "BONITA4-BÁO CÁO NGÀY 03-11-2026.pdf"
+    },
+    "20761": {
+     "w": 34,
+     "wx": 1,
+     "n": "BONITA4-BÁO CÁO NGÀY 04-11-2026.pdf"
+    },
+    "20762": {
+     "w": 34,
+     "wx": 1,
+     "n": "BONITA4-BÁO CÁO NGÀY 05-11-2026.pdf"
+    },
+    "20763": {
+     "w": 31,
+     "wx": 1,
+     "n": "BONITA4-BÁO CÁO NGÀY 06-11-2026.pdf"
+    },
+    "20764": {
+     "w": 32,
+     "wx": 1,
+     "n": "BONITA4-BÁO CÁO NGÀY 07-11-2026.pdf"
+    },
+    "20765": {
+     "w": 32,
+     "wx": 1,
+     "n": "BONITA4-BÁO CÁO NGÀY 08-11-2026.pdf"
+    },
+    "20766": {
+     "w": 0,
+     "wx": 2,
+     "n": "BONITA4-BÁO CÁO NGÀY 09-11-2026.pdf · Không thi công do mưa lớn"
+    },
+    "20767": {
+     "w": 33,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 10-11-2026.pdf"
+    },
+    "20768": {
+     "w": 34,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 11-11-2026.pdf"
+    },
+    "20769": {
+     "w": 28,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 12-11-2026.pdf"
+    },
+    "20770": {
+     "w": 28,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 13-11-2026.pdf"
+    },
+    "20771": {
+     "w": 18,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 14-11-2026.pdf"
+    },
+    "20772": {
+     "w": 18,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 15-11-2026.pdf"
+    },
+    "20773": {
+     "w": 16,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 16-11-2026.pdf"
+    },
+    "20774": {
+     "w": 11,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 17-11-2026.pdf"
+    },
+    "20775": {
+     "w": 9,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 18-11-2026.pdf"
+    },
+    "20776": {
+     "w": 9,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 19-11-2026.pdf"
+    },
+    "20777": {
+     "w": 12,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 20-11-2026.pdf"
+    },
+    "20778": {
+     "w": 12,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 21-11-2026.pdf"
+    },
+    "20779": {
+     "w": 10,
+     "wx": 0,
+     "n": "BONITA4-BÁO CÁO NGÀY 22-11-2026.pdf"
+    }
+   }
+  }
+ ]
+}
