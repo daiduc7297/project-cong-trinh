@@ -34,6 +34,9 @@ import dDaily30d20261124gmd from "./daily-30d-2026-11-24-gmd.json";
 import dDaily30d20261125b3 from "./daily-30d-2026-11-25-b3.json";
 import dDaily30d20261125b4 from "./daily-30d-2026-11-25-b4.json";
 import dDaily30d20261125est from "./daily-30d-2026-11-25-est.json";
+import dDaily30d20261127b3 from "./daily-30d-2026-11-27-b3.json";
+import dDaily30d20261127b4 from "./daily-30d-2026-11-27-b4.json";
+import dDaily30d20261127est from "./daily-30d-2026-11-27-est.json";
 export const UPDATES: ProjectUpdate[] = [
   u20261118lc11 as ProjectUpdate,
   u20261118lc11b as ProjectUpdate,
@@ -65,4 +68,7 @@ export const UPDATES: ProjectUpdate[] = [
   dDaily30d20261125b3 as ProjectUpdate,
   dDaily30d20261125b4 as ProjectUpdate,
   dDaily30d20261125est as ProjectUpdate,
+  dDaily30d20261127b3 as ProjectUpdate,
+  dDaily30d20261127b4 as ProjectUpdate,
+  dDaily30d20261127est as ProjectUpdate,
 ];
