@@ -124,6 +124,7 @@ Document `projects`: `{ _id, name, json, rev, lockedBy, lockedByName, lockedAt, 
 | `hist` | Các baseline đã lưu | Kế hoạch |
 | `R[].v` | (tùy chọn) Giá trị BOQ của công tác. Có `v` → % dự án, đường S tính theo giá trị BOQ thay vì thời lượng | Kế hoạch |
 | `hr` | (tùy chọn) Mặt bằng cao tầng: `floors[]` (ô căn/zone có diện tích + đa giác), `imgs` (ảnh nền, file trong `public/hr/...`), `acts`, `ho` (mốc bàn giao + điều kiện). Công tác có `hf`+`hm` (tầng + ô) hoặc `hl` (danh sách hạng mục); tick lưu ở `done['t'+id]`/`dd` → tab Layout hiện Elevation / Floor plan / 3D / Building-wide, % theo m² | Thực tế |
+| `m4d` | (tùy chọn) Mô hình 4D trên tab Layout: `{src: "/m4d/<file>.json", lots: {lô: biến thể mô hình}, lotInfo}`. Công tác có `lot` + `m4 = [[khóa cấu kiện, "b" tiến triển / "r" tháo-cắt], …]`. File mô hình trong `public/m4d/` (thư viện three.js r128 tự host ở `public/m4d/lib/`). Loại cấu kiện: `fixed`, `build` (chưa làm thì ẩn), `demo` (có sẵn → phá thì mất), `exc` (đất: co dần theo % rồi mất), `temp` (lắp rồi tháo), `grout` (đất đổi màu). Có `m4d` thì tab Layout hiện 4D thay cho mặt bằng; nút ⌖ ở Schedule nhảy sang 4D đúng lô + cấu kiện | Thực tế |
 | `hol`, `hols`, `hide`, `pj` | Ngày nghỉ, cột ẩn, cấu hình phụ | — |
 
 **Ngày lưu dạng số ngày kể từ 1970-01-01** (vd. `20727` = 2026-10-01). Không đổi sang chuỗi.
