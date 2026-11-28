@@ -1,0 +1,6466 @@
+{
+ "info": {
+  "name": "METRO CP-03 – 6 PUMPING PITS",
+  "start": 20665,
+  "wd": 7,
+  "status": 20785,
+  "mode": "a"
+ },
+ "hol": [],
+ "hols": [],
+ "R": [
+  {
+   "id": 1,
+   "lv": 1,
+   "name": "METRO CP-03 – 6 PUMPING PITS (25044_HDEC_METRO_PP) / METRO CP-03 – 6 HỐ BƠM",
+   "dur": 0,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "",
+   "bs": 0,
+   "bf": 0,
+   "ins": 0,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": true,
+   "mile": false
+  },
+  {
+   "id": 2,
+   "lv": 2,
+   "name": "MILESTONES / CÁC MỐC CHÍNH",
+   "dur": 0,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "",
+   "bs": 0,
+   "bf": 0,
+   "ins": 0,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": true,
+   "mile": false
+  },
+  {
+   "id": 3,
+   "lv": 3,
+   "name": "Contract signed / Ký hợp đồng",
+   "dur": 0,
+   "pred": "",
+   "res": "",
+   "pct": 1,
+   "note": "",
+   "bs": 20665,
+   "bf": 20665,
+   "ins": 20665,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": true
+  },
+  {
+   "id": 4,
+   "lv": 3,
+   "name": "Handover of all 6 pits – start / Bắt đầu bàn giao 6 hố bơm",
+   "dur": 0,
+   "pred": "51FS+160; 95FS+149; 140FS+126; 184FS+111; 229FS+88; 247FS+9",
+   "res": "",
+   "pct": 0,
+   "note": "",
+   "bs": 21214,
+   "bf": 21214,
+   "ins": 21214,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": true
+  },
+  {
+   "id": 5,
+   "lv": 3,
+   "name": "Handover of all 6 pits – complete / Hoàn thành bàn giao 6 hố bơm",
+   "dur": 0,
+   "pred": "4FS+28",
+   "res": "",
+   "pct": 0,
+   "note": "",
+   "bs": 21242,
+   "bf": 21242,
+   "ins": 21242,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": true
+  },
+  {
+   "id": 6,
+   "lv": 3,
+   "name": "Contract end date / Hết hạn hợp đồng",
+   "dur": 0,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "",
+   "bs": 21244,
+   "bf": 21244,
+   "ins": 21244,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": true
+  },
+  {
+   "id": 7,
+   "lv": 2,
+   "name": "SECTION STATION 11–12 / ĐOẠN GA 11–12",
+   "dur": 0,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "",
+   "bs": 0,
+   "bf": 0,
+   "ins": 0,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": true,
+   "mile": false
+  },
+  {
+   "id": 8,
+   "lv": 3,
+   "name": "PIT PP1-3 (Km21+810, Tunnel 1) / HỐ BƠM PP1-3 (Km21+810, Hầm 1)",
+   "dur": 0,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "",
+   "bs": 0,
+   "bf": 0,
+   "ins": 0,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": true,
+   "mile": false
+  },
+  {
+   "id": 9,
+   "lv": 4,
+   "name": "2.0 Access road, sand bags / Đường công vụ, bao cát",
+   "dur": 3,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20770,
+   "bf": 20772,
+   "ins": 20770,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 0,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "sandbag",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 10,
+   "lv": 4,
+   "name": "2.1 Coring / Khoan lõi",
+   "dur": 27,
+   "pred": "9FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20773,
+   "bf": 20799,
+   "ins": 20773,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "preventer",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 11,
+   "lv": 4,
+   "name": "2.1 Preventer installation / Lắp preventer",
+   "dur": 27,
+   "pred": "10SS+1",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20774,
+   "bf": 20800,
+   "ins": 20774,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "preventer",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 12,
+   "lv": 4,
+   "name": "2.1 Contact grouting / Phụt vữa tiếp xúc",
+   "dur": 22,
+   "pred": "11FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20801,
+   "bf": 20822,
+   "ins": 20801,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "contact",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 13,
+   "lv": 4,
+   "name": "2.1 TAM grouting / Phụt vữa TAM",
+   "dur": 27,
+   "pred": "12FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20823,
+   "bf": 20849,
+   "ins": 20823,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "tam",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 14,
+   "lv": 4,
+   "name": "3.1 Inclined steel pipes interfering with steel frame / Ống thép nghiêng giao khung thép",
+   "dur": 2,
+   "pred": "13FS+15",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 4 Nos",
+   "bs": 20865,
+   "bf": 20866,
+   "ins": 20865,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "incl31",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 15,
+   "lv": 4,
+   "name": "3.2 Temporary steel support frame installation / Lắp khung thép tạm",
+   "dur": 14,
+   "pred": "14FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV · 1 Unit",
+   "bs": 20867,
+   "bf": 20880,
+   "ins": 20867,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "tss",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 16,
+   "lv": 4,
+   "name": "4.1 Pipe umbrella execution / Thi công mái ống",
+   "dur": 24,
+   "pred": "15FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 51 Nos",
+   "bs": 20881,
+   "bf": 20904,
+   "ins": 20881,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "umbrella",
+     "b"
+    ],
+    [
+     "umbcut",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 17,
+   "lv": 4,
+   "name": "4.2 Drainage check pipes / Ống kiểm tra nước ngầm",
+   "dur": 2,
+   "pred": "16FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 4 Nos",
+   "bs": 20905,
+   "bf": 20906,
+   "ins": 20905,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "check",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 18,
+   "lv": 4,
+   "name": "4.3 Soil nailing / Neo đất",
+   "dur": 2,
+   "pred": "17FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 13 Nos",
+   "bs": 20907,
+   "bf": 20908,
+   "ins": 20907,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "nail",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 19,
+   "lv": 4,
+   "name": "5.1 Remaining inclined steel pipes / Ống thép nghiêng còn lại",
+   "dur": 4,
+   "pred": "18FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 16 Nos",
+   "bs": 20909,
+   "bf": 20912,
+   "ins": 20909,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "incl51",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 20,
+   "lv": 4,
+   "name": "Contingency (grouting rework), acceptance period / Dự phòng phụt lại, nghiệm thu phụt vữa",
+   "dur": 6,
+   "pred": "19FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 20913,
+   "bf": 20918,
+   "ins": 20913,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 2,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "gate",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 21,
+   "lv": 4,
+   "name": "6.1 Segmental lining demolition / Phá dỡ vỏ hầm tại lỗ mở",
+   "dur": 7,
+   "pred": "20FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20919,
+   "bf": 20925,
+   "ins": 20919,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 4,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "demo",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 22,
+   "lv": 4,
+   "name": "6.3 Excavation of 1st advance of PP upper section, shotcrete at face / Đào phần trên đợt 1 + phun BT gương",
+   "dur": 5,
+   "pred": "21FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20926,
+   "bf": 20930,
+   "ins": 20926,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "soil1",
+     "b"
+    ],
+    [
+     "adv1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 23,
+   "lv": 4,
+   "name": "6.4 Installation of 1st row of vertical pre-support pipes / Lắp ống thép đứng hàng 1",
+   "dur": 5,
+   "pred": "22FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 15 Nos",
+   "bs": 20931,
+   "bf": 20935,
+   "ins": 20931,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "vrow1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 24,
+   "lv": 4,
+   "name": "6.5 Installation of 1st steel element for pipe umbrella support / Lắp cấu kiện thép 1 đỡ mái ống",
+   "dur": 2,
+   "pred": "23FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20936,
+   "bf": 20937,
+   "ins": 20936,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "steel1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 25,
+   "lv": 4,
+   "name": "7.1 2nd excavation of PP upper section, shotcrete at face / Đào phần trên đợt 2 + phun BT",
+   "dur": 5,
+   "pred": "24FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20938,
+   "bf": 20942,
+   "ins": 20938,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "soil2",
+     "b"
+    ],
+    [
+     "adv2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 26,
+   "lv": 4,
+   "name": "7.2 Installation of 2nd row of vertical pre-support pipes / Lắp ống thép đứng hàng 2",
+   "dur": 2,
+   "pred": "25FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 4 Nos",
+   "bs": 20943,
+   "bf": 20944,
+   "ins": 20943,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "vrow2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 27,
+   "lv": 4,
+   "name": "7.3 Installation of 2nd steel element for pipe umbrella / Lắp cấu kiện thép 2",
+   "dur": 2,
+   "pred": "26FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20945,
+   "bf": 20946,
+   "ins": 20945,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "steel2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 28,
+   "lv": 4,
+   "name": "8.1 3rd excavation of PP upper section, shotcrete at face / Đào phần trên đợt 3 + phun BT gương",
+   "dur": 5,
+   "pred": "27FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20947,
+   "bf": 20951,
+   "ins": 20947,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "soil3",
+     "b"
+    ],
+    [
+     "adv3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 29,
+   "lv": 4,
+   "name": "8.2 Installation of 3rd row of vertical steel pipes / Lắp ống thép đứng hàng 3",
+   "dur": 5,
+   "pred": "28FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 15 Nos",
+   "bs": 20952,
+   "bf": 20956,
+   "ins": 20952,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "vrow3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 30,
+   "lv": 4,
+   "name": "8.3 Installation of 3rd steel element for pipe umbrella / Lắp cấu kiện thép 3",
+   "dur": 2,
+   "pred": "29FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20957,
+   "bf": 20958,
+   "ins": 20957,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "steel3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 31,
+   "lv": 4,
+   "name": "9.1 Excavation of lower section of PP / Đào phần dưới hố",
+   "dur": 5,
+   "pred": "30FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20959,
+   "bf": 20963,
+   "ins": 20959,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "soil9",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 32,
+   "lv": 4,
+   "name": "9.2 Removal of 2nd steel element / Tháo cấu kiện thép 2",
+   "dur": 1,
+   "pred": "31FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20964,
+   "bf": 20964,
+   "ins": 20964,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "steel2",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 33,
+   "lv": 4,
+   "name": "9.3 Removal of 2nd row of vertical steel pipes / Tháo ống đứng hàng 2",
+   "dur": 1,
+   "pred": "32FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20965,
+   "bf": 20965,
+   "ins": 20965,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "vrow2",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 34,
+   "lv": 4,
+   "name": "9.4 Initial support layer at bottom part / Lớp chống ban đầu phần đáy",
+   "dur": 5,
+   "pred": "33FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20966,
+   "bf": 20970,
+   "ins": 20966,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "scbottom",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 35,
+   "lv": 4,
+   "name": "10.1 Concrete filling at lateral sides of bottom part / BT đổ bù hai bên phần đáy",
+   "dur": 5,
+   "pred": "34FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20971,
+   "bf": 20975,
+   "ins": 20971,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "fill10",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 36,
+   "lv": 4,
+   "name": "10.2 Waterproofing at bottom part / Chống thấm phần đáy",
+   "dur": 4,
+   "pred": "35FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20976,
+   "bf": 20979,
+   "ins": 20976,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "wp10",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 37,
+   "lv": 4,
+   "name": "11.1 PP final lining at bottom part / BT vĩnh cửu phần đáy",
+   "dur": 5,
+   "pred": "36FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20980,
+   "bf": 20984,
+   "ins": 20980,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "bot",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 38,
+   "lv": 4,
+   "name": "12.1 Concrete filling / BT đổ bù",
+   "dur": 3,
+   "pred": "37FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20985,
+   "bf": 20987,
+   "ins": 20985,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "fill12",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 39,
+   "lv": 4,
+   "name": "13.1 Waterproofing at middle part / Chống thấm phần giữa",
+   "dur": 4,
+   "pred": "38FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20988,
+   "bf": 20991,
+   "ins": 20988,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "wp13",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 40,
+   "lv": 4,
+   "name": "13.2 PP final lining at middle part / BT vĩnh cửu phần giữa",
+   "dur": 7,
+   "pred": "39FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20992,
+   "bf": 20998,
+   "ins": 20992,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "mid",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 41,
+   "lv": 4,
+   "name": "14.1 Waterproofing at the roof / Chống thấm mái",
+   "dur": 4,
+   "pred": "40FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20999,
+   "bf": 21002,
+   "ins": 20999,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "wp14",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 42,
+   "lv": 4,
+   "name": "14.2 PP final lining at roof / BT vĩnh cửu mái",
+   "dur": 5,
+   "pred": "41FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21003,
+   "bf": 21007,
+   "ins": 21003,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "roof",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 43,
+   "lv": 4,
+   "name": "15.1 Removal of 1st installed steel element / Tháo cấu kiện thép 1",
+   "dur": 1,
+   "pred": "42FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21008,
+   "bf": 21008,
+   "ins": 21008,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "steel1",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 44,
+   "lv": 4,
+   "name": "15.2 Steel pipes partially cut at tunnel extrados / Cắt một phần ống thép tại mặt ngoài vỏ hầm",
+   "dur": 2,
+   "pred": "43FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21009,
+   "bf": 21010,
+   "ins": 21009,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "umbcut",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 45,
+   "lv": 4,
+   "name": "15.3 Further partial demolition of segmental lining for collar / Phá dỡ thêm vỏ hầm làm vành",
+   "dur": 2,
+   "pred": "44FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21011,
+   "bf": 21012,
+   "ins": 21011,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 4,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "demo2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 46,
+   "lv": 4,
+   "name": "15.4 Excavation of 2nd stage bottom excavation line / Đào đáy đợt 2",
+   "dur": 3,
+   "pred": "45FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21013,
+   "bf": 21015,
+   "ins": 21013,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "soil15",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 47,
+   "lv": 4,
+   "name": "16.1 Waterproofing at bottom slab up to segmental lining / Chống thấm bản đáy đến vỏ hầm",
+   "dur": 3,
+   "pred": "46FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21016,
+   "bf": 21018,
+   "ins": 21016,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "wp16",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 48,
+   "lv": 4,
+   "name": "16.2 Final bottom slab connection to segmental lining / Bản đáy liên kết vỏ hầm",
+   "dur": 5,
+   "pred": "47FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21019,
+   "bf": 21023,
+   "ins": 21019,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "slabconn",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 49,
+   "lv": 4,
+   "name": "17.1 Waterproofing at concrete collar / Chống thấm vành bê tông",
+   "dur": 3,
+   "pred": "48FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21024,
+   "bf": 21026,
+   "ins": 21024,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "wp17",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 50,
+   "lv": 4,
+   "name": "17.2 Concrete collar connection to lining + technical slab / Vành BT liên kết vỏ hầm + sàn kỹ thuật",
+   "dur": 5,
+   "pred": "49FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21027,
+   "bf": 21031,
+   "ins": 21027,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "collar",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 51,
+   "lv": 4,
+   "name": "17.3 Removal of temporary steel frame after collar reaches strength / Tháo khung thép tạm khi vành đủ cường độ",
+   "dur": 22,
+   "pred": "50FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21032,
+   "bf": 21053,
+   "ins": 21032,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 8,
+   "lot": "PP1-3",
+   "m4": [
+    [
+     "tss",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 52,
+   "lv": 3,
+   "name": "PIT PP2-3 (Km21+824, Tunnel 2) / HỐ BƠM PP2-3 (Km21+824, Hầm 2)",
+   "dur": 0,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "",
+   "bs": 0,
+   "bf": 0,
+   "ins": 0,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": true,
+   "mile": false
+  },
+  {
+   "id": 53,
+   "lv": 4,
+   "name": "2.0 Access road, sand bags / Đường công vụ, bao cát",
+   "dur": 4,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20797,
+   "bf": 20800,
+   "ins": 20797,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 0,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "sandbag",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 54,
+   "lv": 4,
+   "name": "2.1 Coring / Khoan lõi",
+   "dur": 22,
+   "pred": "53SS+3",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20800,
+   "bf": 20821,
+   "ins": 20800,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "preventer",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 55,
+   "lv": 4,
+   "name": "2.1 Preventer installation / Lắp preventer",
+   "dur": 22,
+   "pred": "54SS+1",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20801,
+   "bf": 20822,
+   "ins": 20801,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "preventer",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 56,
+   "lv": 4,
+   "name": "2.1 Contact grouting / Phụt vữa tiếp xúc",
+   "dur": 12,
+   "pred": "55FS+42",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20865,
+   "bf": 20876,
+   "ins": 20865,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "contact",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 57,
+   "lv": 4,
+   "name": "2.1 TAM grouting / Phụt vữa TAM",
+   "dur": 12,
+   "pred": "56SS+1",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20866,
+   "bf": 20877,
+   "ins": 20866,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "tam",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 58,
+   "lv": 4,
+   "name": "3.1 Inclined steel pipes interfering with steel frame / Ống thép nghiêng giao khung thép",
+   "dur": 4,
+   "pred": "57FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 4 Nos",
+   "bs": 20878,
+   "bf": 20881,
+   "ins": 20878,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "incl31",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 59,
+   "lv": 4,
+   "name": "3.2 Temporary steel support frame installation / Lắp khung thép tạm",
+   "dur": 10,
+   "pred": "58FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV · 1 Unit",
+   "bs": 20882,
+   "bf": 20891,
+   "ins": 20882,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "tss",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 60,
+   "lv": 4,
+   "name": "4.1 Pipe umbrella execution / Thi công mái ống",
+   "dur": 24,
+   "pred": "59FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 51 Nos",
+   "bs": 20892,
+   "bf": 20915,
+   "ins": 20892,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "umbrella",
+     "b"
+    ],
+    [
+     "umbcut",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 61,
+   "lv": 4,
+   "name": "4.2 Drainage check pipes / Ống kiểm tra nước ngầm",
+   "dur": 2,
+   "pred": "60FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 4 Nos",
+   "bs": 20916,
+   "bf": 20917,
+   "ins": 20916,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "check",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 62,
+   "lv": 4,
+   "name": "4.3 Soil nailing / Neo đất",
+   "dur": 2,
+   "pred": "61FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 13 Nos",
+   "bs": 20918,
+   "bf": 20919,
+   "ins": 20918,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "nail",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 63,
+   "lv": 4,
+   "name": "5.1 Remaining inclined steel pipes / Ống thép nghiêng còn lại",
+   "dur": 4,
+   "pred": "62FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 16 Nos",
+   "bs": 20920,
+   "bf": 20923,
+   "ins": 20920,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "incl51",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 64,
+   "lv": 4,
+   "name": "Contingency (grouting rework), acceptance period / Dự phòng phụt lại, nghiệm thu phụt vữa",
+   "dur": 7,
+   "pred": "63FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 20924,
+   "bf": 20930,
+   "ins": 20924,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 2,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "gate",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 65,
+   "lv": 4,
+   "name": "6.1 Segmental lining demolition / Phá dỡ vỏ hầm tại lỗ mở",
+   "dur": 7,
+   "pred": "64FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20931,
+   "bf": 20937,
+   "ins": 20931,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 4,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "demo",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 66,
+   "lv": 4,
+   "name": "6.3 Excavation of 1st advance of PP upper section, shotcrete at face / Đào phần trên đợt 1 + phun BT gương",
+   "dur": 5,
+   "pred": "65FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20938,
+   "bf": 20942,
+   "ins": 20938,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "soil1",
+     "b"
+    ],
+    [
+     "adv1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 67,
+   "lv": 4,
+   "name": "6.4 Installation of 1st row of vertical pre-support pipes / Lắp ống thép đứng hàng 1",
+   "dur": 5,
+   "pred": "66FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 15 Nos",
+   "bs": 20943,
+   "bf": 20947,
+   "ins": 20943,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "vrow1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 68,
+   "lv": 4,
+   "name": "6.5 Installation of 1st steel element for pipe umbrella support / Lắp cấu kiện thép 1 đỡ mái ống",
+   "dur": 2,
+   "pred": "67FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20948,
+   "bf": 20949,
+   "ins": 20948,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "steel1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 69,
+   "lv": 4,
+   "name": "7.1 2nd excavation of PP upper section, shotcrete at face / Đào phần trên đợt 2 + phun BT",
+   "dur": 5,
+   "pred": "68FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20950,
+   "bf": 20954,
+   "ins": 20950,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "soil2",
+     "b"
+    ],
+    [
+     "adv2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 70,
+   "lv": 4,
+   "name": "7.2 Installation of 2nd row of vertical pre-support pipes / Lắp ống thép đứng hàng 2",
+   "dur": 2,
+   "pred": "69FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 4 Nos",
+   "bs": 20955,
+   "bf": 20956,
+   "ins": 20955,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "vrow2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 71,
+   "lv": 4,
+   "name": "7.3 Installation of 2nd steel element for pipe umbrella / Lắp cấu kiện thép 2",
+   "dur": 2,
+   "pred": "70FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20957,
+   "bf": 20958,
+   "ins": 20957,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "steel2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 72,
+   "lv": 4,
+   "name": "8.1 3rd excavation of PP upper section, shotcrete at face / Đào phần trên đợt 3 + phun BT gương",
+   "dur": 5,
+   "pred": "71FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20959,
+   "bf": 20963,
+   "ins": 20959,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "soil3",
+     "b"
+    ],
+    [
+     "adv3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 73,
+   "lv": 4,
+   "name": "8.2 Installation of 3rd row of vertical steel pipes / Lắp ống thép đứng hàng 3",
+   "dur": 5,
+   "pred": "72FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 15 Nos",
+   "bs": 20964,
+   "bf": 20968,
+   "ins": 20964,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "vrow3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 74,
+   "lv": 4,
+   "name": "8.3 Installation of 3rd steel element for pipe umbrella / Lắp cấu kiện thép 3",
+   "dur": 2,
+   "pred": "73FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20969,
+   "bf": 20970,
+   "ins": 20969,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "steel3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 75,
+   "lv": 4,
+   "name": "9.1 Excavation of lower section of PP / Đào phần dưới hố",
+   "dur": 5,
+   "pred": "74FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20971,
+   "bf": 20975,
+   "ins": 20971,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "soil9",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 76,
+   "lv": 4,
+   "name": "9.2 Removal of 2nd steel element / Tháo cấu kiện thép 2",
+   "dur": 1,
+   "pred": "75FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20976,
+   "bf": 20976,
+   "ins": 20976,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "steel2",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 77,
+   "lv": 4,
+   "name": "9.3 Removal of 2nd row of vertical steel pipes / Tháo ống đứng hàng 2",
+   "dur": 1,
+   "pred": "76FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20977,
+   "bf": 20977,
+   "ins": 20977,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "vrow2",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 78,
+   "lv": 4,
+   "name": "9.4 Initial support layer at bottom part / Lớp chống ban đầu phần đáy",
+   "dur": 5,
+   "pred": "77FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20978,
+   "bf": 20982,
+   "ins": 20978,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "scbottom",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 79,
+   "lv": 4,
+   "name": "10.1 Concrete filling at lateral sides of bottom part / BT đổ bù hai bên phần đáy",
+   "dur": 5,
+   "pred": "78FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20983,
+   "bf": 20987,
+   "ins": 20983,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "fill10",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 80,
+   "lv": 4,
+   "name": "10.2 Waterproofing at bottom part / Chống thấm phần đáy",
+   "dur": 4,
+   "pred": "79FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20988,
+   "bf": 20991,
+   "ins": 20988,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "wp10",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 81,
+   "lv": 4,
+   "name": "11.1 PP final lining at bottom part / BT vĩnh cửu phần đáy",
+   "dur": 5,
+   "pred": "80FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20992,
+   "bf": 20996,
+   "ins": 20992,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "bot",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 82,
+   "lv": 4,
+   "name": "12.1 Concrete filling / BT đổ bù",
+   "dur": 3,
+   "pred": "81FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20997,
+   "bf": 20999,
+   "ins": 20997,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "fill12",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 83,
+   "lv": 4,
+   "name": "13.1 Waterproofing at middle part / Chống thấm phần giữa",
+   "dur": 4,
+   "pred": "82FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21000,
+   "bf": 21003,
+   "ins": 21000,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "wp13",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 84,
+   "lv": 4,
+   "name": "13.2 PP final lining at middle part / BT vĩnh cửu phần giữa",
+   "dur": 7,
+   "pred": "83FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21004,
+   "bf": 21010,
+   "ins": 21004,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "mid",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 85,
+   "lv": 4,
+   "name": "14.1 Waterproofing at the roof / Chống thấm mái",
+   "dur": 4,
+   "pred": "84FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21011,
+   "bf": 21014,
+   "ins": 21011,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "wp14",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 86,
+   "lv": 4,
+   "name": "14.2 PP final lining at roof / BT vĩnh cửu mái",
+   "dur": 5,
+   "pred": "85FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21015,
+   "bf": 21019,
+   "ins": 21015,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "roof",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 87,
+   "lv": 4,
+   "name": "15.1 Removal of 1st installed steel element / Tháo cấu kiện thép 1",
+   "dur": 1,
+   "pred": "86FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21020,
+   "bf": 21020,
+   "ins": 21020,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "steel1",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 88,
+   "lv": 4,
+   "name": "15.2 Steel pipes partially cut at tunnel extrados / Cắt một phần ống thép tại mặt ngoài vỏ hầm",
+   "dur": 2,
+   "pred": "87FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21021,
+   "bf": 21022,
+   "ins": 21021,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "umbcut",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 89,
+   "lv": 4,
+   "name": "15.3 Further partial demolition of segmental lining for collar / Phá dỡ thêm vỏ hầm làm vành",
+   "dur": 2,
+   "pred": "88FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21023,
+   "bf": 21024,
+   "ins": 21023,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 4,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "demo2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 90,
+   "lv": 4,
+   "name": "15.4 Excavation of 2nd stage bottom excavation line / Đào đáy đợt 2",
+   "dur": 3,
+   "pred": "89FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21025,
+   "bf": 21027,
+   "ins": 21025,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "soil15",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 91,
+   "lv": 4,
+   "name": "16.1 Waterproofing at bottom slab up to segmental lining / Chống thấm bản đáy đến vỏ hầm",
+   "dur": 3,
+   "pred": "90FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21028,
+   "bf": 21030,
+   "ins": 21028,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "wp16",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 92,
+   "lv": 4,
+   "name": "16.2 Final bottom slab connection to segmental lining / Bản đáy liên kết vỏ hầm",
+   "dur": 4,
+   "pred": "91FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21031,
+   "bf": 21034,
+   "ins": 21031,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "slabconn",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 93,
+   "lv": 4,
+   "name": "17.1 Waterproofing at concrete collar / Chống thấm vành bê tông",
+   "dur": 3,
+   "pred": "92FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21035,
+   "bf": 21037,
+   "ins": 21035,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "wp17",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 94,
+   "lv": 4,
+   "name": "17.2 Concrete collar connection to lining + technical slab / Vành BT liên kết vỏ hầm + sàn kỹ thuật",
+   "dur": 5,
+   "pred": "93FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21038,
+   "bf": 21042,
+   "ins": 21038,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "collar",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 95,
+   "lv": 4,
+   "name": "17.3 Removal of temporary steel frame after collar reaches strength / Tháo khung thép tạm khi vành đủ cường độ",
+   "dur": 22,
+   "pred": "94FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21043,
+   "bf": 21064,
+   "ins": 21043,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 8,
+   "lot": "PP2-3",
+   "m4": [
+    [
+     "tss",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 96,
+   "lv": 2,
+   "name": "SECTION STATION 10–11 / ĐOẠN GA 10–11",
+   "dur": 0,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "",
+   "bs": 0,
+   "bf": 0,
+   "ins": 0,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": true,
+   "mile": false
+  },
+  {
+   "id": 97,
+   "lv": 3,
+   "name": "PIT PP1-2 (Km20+996, Tunnel 1) / HỐ BƠM PP1-2 (Km20+996, Hầm 1)",
+   "dur": 0,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "",
+   "bs": 0,
+   "bf": 0,
+   "ins": 0,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": true,
+   "mile": false
+  },
+  {
+   "id": 98,
+   "lv": 4,
+   "name": "2.0 Access road, sand bags / Đường công vụ, bao cát",
+   "dur": 3,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20822,
+   "bf": 20824,
+   "ins": 20822,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 0,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "sandbag",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 99,
+   "lv": 4,
+   "name": "2.1 Coring / Khoan lõi",
+   "dur": 22,
+   "pred": "98FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20825,
+   "bf": 20846,
+   "ins": 20825,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "preventer",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 100,
+   "lv": 4,
+   "name": "2.1 Preventer installation / Lắp preventer",
+   "dur": 22,
+   "pred": "99SS+1",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20826,
+   "bf": 20847,
+   "ins": 20826,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "preventer",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 101,
+   "lv": 4,
+   "name": "2.1 Contact grouting / Phụt vữa tiếp xúc",
+   "dur": 12,
+   "pred": "100FS+29",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20877,
+   "bf": 20888,
+   "ins": 20877,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "contact",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 102,
+   "lv": 4,
+   "name": "2.1 TAM grouting / Phụt vữa TAM",
+   "dur": 12,
+   "pred": "101FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20889,
+   "bf": 20900,
+   "ins": 20889,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "tam",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 103,
+   "lv": 4,
+   "name": "3.1 Inclined steel pipes interfering with steel frame / Ống thép nghiêng giao khung thép",
+   "dur": 4,
+   "pred": "102FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 4 Nos",
+   "bs": 20901,
+   "bf": 20904,
+   "ins": 20901,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "incl31",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 104,
+   "lv": 4,
+   "name": "3.2 Temporary steel support frame installation / Lắp khung thép tạm",
+   "dur": 10,
+   "pred": "103FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV · 1 Unit",
+   "bs": 20905,
+   "bf": 20914,
+   "ins": 20905,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "tss",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 105,
+   "lv": 4,
+   "name": "4.1 Pipe umbrella execution / Thi công mái ống",
+   "dur": 24,
+   "pred": "104FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 51 Nos",
+   "bs": 20915,
+   "bf": 20938,
+   "ins": 20915,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "umbrella",
+     "b"
+    ],
+    [
+     "umbcut",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 106,
+   "lv": 4,
+   "name": "4.2 Drainage check pipes / Ống kiểm tra nước ngầm",
+   "dur": 2,
+   "pred": "105FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 4 Nos",
+   "bs": 20939,
+   "bf": 20940,
+   "ins": 20939,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "check",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 107,
+   "lv": 4,
+   "name": "4.3 Soil nailing / Neo đất",
+   "dur": 2,
+   "pred": "106FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 13 Nos",
+   "bs": 20941,
+   "bf": 20942,
+   "ins": 20941,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "nail",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 108,
+   "lv": 4,
+   "name": "5.1 Remaining inclined steel pipes / Ống thép nghiêng còn lại",
+   "dur": 4,
+   "pred": "107FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 16 Nos",
+   "bs": 20943,
+   "bf": 20946,
+   "ins": 20943,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "incl51",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 109,
+   "lv": 4,
+   "name": "Contingency (grouting rework), acceptance period / Dự phòng phụt lại, nghiệm thu phụt vữa",
+   "dur": 7,
+   "pred": "108FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 20947,
+   "bf": 20953,
+   "ins": 20947,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 2,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "gate",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 110,
+   "lv": 4,
+   "name": "6.1 Segmental lining demolition / Phá dỡ vỏ hầm tại lỗ mở",
+   "dur": 7,
+   "pred": "109FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20954,
+   "bf": 20960,
+   "ins": 20954,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 4,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "demo",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 111,
+   "lv": 4,
+   "name": "6.3 Excavation of 1st advance of PP upper section, shotcrete at face / Đào phần trên đợt 1 + phun BT gương",
+   "dur": 5,
+   "pred": "110FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20961,
+   "bf": 20965,
+   "ins": 20961,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "soil1",
+     "b"
+    ],
+    [
+     "adv1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 112,
+   "lv": 4,
+   "name": "6.4 Installation of 1st row of vertical pre-support pipes / Lắp ống thép đứng hàng 1",
+   "dur": 5,
+   "pred": "111FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 20966,
+   "bf": 20970,
+   "ins": 20966,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "vrow1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 113,
+   "lv": 4,
+   "name": "6.5 Installation of 1st steel element for pipe umbrella support / Lắp cấu kiện thép 1 đỡ mái ống",
+   "dur": 2,
+   "pred": "112FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20971,
+   "bf": 20972,
+   "ins": 20971,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "steel1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 114,
+   "lv": 4,
+   "name": "7.1 2nd excavation of PP upper section, shotcrete at face / Đào phần trên đợt 2 + phun BT",
+   "dur": 5,
+   "pred": "113FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20973,
+   "bf": 20977,
+   "ins": 20973,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "soil2",
+     "b"
+    ],
+    [
+     "adv2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 115,
+   "lv": 4,
+   "name": "7.2 Installation of 2nd row of vertical pre-support pipes / Lắp ống thép đứng hàng 2",
+   "dur": 2,
+   "pred": "114FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 20978,
+   "bf": 20979,
+   "ins": 20978,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "vrow2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 116,
+   "lv": 4,
+   "name": "7.3 Installation of 2nd steel element for pipe umbrella / Lắp cấu kiện thép 2",
+   "dur": 2,
+   "pred": "115FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20980,
+   "bf": 20981,
+   "ins": 20980,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "steel2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 117,
+   "lv": 4,
+   "name": "8.1 3rd excavation of PP upper section, shotcrete at face / Đào phần trên đợt 3 + phun BT gương",
+   "dur": 5,
+   "pred": "116FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20982,
+   "bf": 20986,
+   "ins": 20982,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "soil3",
+     "b"
+    ],
+    [
+     "adv3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 118,
+   "lv": 4,
+   "name": "8.2 Installation of 3rd row of vertical steel pipes / Lắp ống thép đứng hàng 3",
+   "dur": 5,
+   "pred": "117FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 20987,
+   "bf": 20991,
+   "ins": 20987,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "vrow3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 119,
+   "lv": 4,
+   "name": "8.3 Installation of 3rd steel element for pipe umbrella / Lắp cấu kiện thép 3",
+   "dur": 2,
+   "pred": "118FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20992,
+   "bf": 20993,
+   "ins": 20992,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "steel3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 120,
+   "lv": 4,
+   "name": "9.1 Excavation of lower section of PP / Đào phần dưới hố",
+   "dur": 5,
+   "pred": "119FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20994,
+   "bf": 20998,
+   "ins": 20994,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "soil9",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 121,
+   "lv": 4,
+   "name": "9.2 Removal of 2nd steel element / Tháo cấu kiện thép 2",
+   "dur": 1,
+   "pred": "120FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20999,
+   "bf": 20999,
+   "ins": 20999,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "steel2",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 122,
+   "lv": 4,
+   "name": "9.3 Removal of 2nd row of vertical steel pipes / Tháo ống đứng hàng 2",
+   "dur": 1,
+   "pred": "121FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21000,
+   "bf": 21000,
+   "ins": 21000,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "vrow2",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 123,
+   "lv": 4,
+   "name": "9.4 Initial support layer at bottom part / Lớp chống ban đầu phần đáy",
+   "dur": 5,
+   "pred": "122FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21001,
+   "bf": 21005,
+   "ins": 21001,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "scbottom",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 124,
+   "lv": 4,
+   "name": "10.1 Concrete filling at lateral sides of bottom part / BT đổ bù hai bên phần đáy",
+   "dur": 5,
+   "pred": "123FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21006,
+   "bf": 21010,
+   "ins": 21006,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "fill10",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 125,
+   "lv": 4,
+   "name": "10.2 Waterproofing at bottom part / Chống thấm phần đáy",
+   "dur": 4,
+   "pred": "124FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21011,
+   "bf": 21014,
+   "ins": 21011,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "wp10",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 126,
+   "lv": 4,
+   "name": "11.1 PP final lining at bottom part / BT vĩnh cửu phần đáy",
+   "dur": 5,
+   "pred": "125FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21015,
+   "bf": 21019,
+   "ins": 21015,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "bot",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 127,
+   "lv": 4,
+   "name": "12.1 Concrete filling / BT đổ bù",
+   "dur": 3,
+   "pred": "126FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21020,
+   "bf": 21022,
+   "ins": 21020,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "fill12",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 128,
+   "lv": 4,
+   "name": "13.1 Waterproofing at middle part / Chống thấm phần giữa",
+   "dur": 4,
+   "pred": "127FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21023,
+   "bf": 21026,
+   "ins": 21023,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "wp13",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 129,
+   "lv": 4,
+   "name": "13.2 PP final lining at middle part / BT vĩnh cửu phần giữa",
+   "dur": 7,
+   "pred": "128FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21027,
+   "bf": 21033,
+   "ins": 21027,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "mid",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 130,
+   "lv": 4,
+   "name": "14.1 Waterproofing at the roof / Chống thấm mái",
+   "dur": 4,
+   "pred": "129FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21034,
+   "bf": 21037,
+   "ins": 21034,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "wp14",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 131,
+   "lv": 4,
+   "name": "14.2 PP final lining at roof / BT vĩnh cửu mái",
+   "dur": 5,
+   "pred": "130FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21038,
+   "bf": 21042,
+   "ins": 21038,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "roof",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 132,
+   "lv": 4,
+   "name": "15.1 Removal of 1st installed steel element / Tháo cấu kiện thép 1",
+   "dur": 1,
+   "pred": "131FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21043,
+   "bf": 21043,
+   "ins": 21043,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "steel1",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 133,
+   "lv": 4,
+   "name": "15.2 Steel pipes partially cut at tunnel extrados / Cắt một phần ống thép tại mặt ngoài vỏ hầm",
+   "dur": 2,
+   "pred": "132FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21044,
+   "bf": 21045,
+   "ins": 21044,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "umbcut",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 134,
+   "lv": 4,
+   "name": "15.3 Further partial demolition of segmental lining for collar / Phá dỡ thêm vỏ hầm làm vành",
+   "dur": 2,
+   "pred": "133FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21046,
+   "bf": 21047,
+   "ins": 21046,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 4,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "demo2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 135,
+   "lv": 4,
+   "name": "15.4 Excavation of 2nd stage bottom excavation line / Đào đáy đợt 2",
+   "dur": 3,
+   "pred": "134FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21048,
+   "bf": 21050,
+   "ins": 21048,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "soil15",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 136,
+   "lv": 4,
+   "name": "16.1 Waterproofing at bottom slab up to segmental lining / Chống thấm bản đáy đến vỏ hầm",
+   "dur": 3,
+   "pred": "135FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21051,
+   "bf": 21053,
+   "ins": 21051,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "wp16",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 137,
+   "lv": 4,
+   "name": "16.2 Final bottom slab connection to segmental lining / Bản đáy liên kết vỏ hầm",
+   "dur": 5,
+   "pred": "136FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21054,
+   "bf": 21058,
+   "ins": 21054,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "slabconn",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 138,
+   "lv": 4,
+   "name": "17.1 Waterproofing at concrete collar / Chống thấm vành bê tông",
+   "dur": 3,
+   "pred": "137FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21059,
+   "bf": 21061,
+   "ins": 21059,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "wp17",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 139,
+   "lv": 4,
+   "name": "17.2 Concrete collar connection to lining + technical slab / Vành BT liên kết vỏ hầm + sàn kỹ thuật",
+   "dur": 5,
+   "pred": "138FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21062,
+   "bf": 21066,
+   "ins": 21062,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "collar",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 140,
+   "lv": 4,
+   "name": "17.3 Removal of temporary steel frame after collar reaches strength / Tháo khung thép tạm khi vành đủ cường độ",
+   "dur": 21,
+   "pred": "139FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21067,
+   "bf": 21087,
+   "ins": 21067,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 8,
+   "lot": "PP1-2",
+   "m4": [
+    [
+     "tss",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 141,
+   "lv": 3,
+   "name": "PIT PP2-2 (Km21+000, Tunnel 2) / HỐ BƠM PP2-2 (Km21+000, Hầm 2)",
+   "dur": 0,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "",
+   "bs": 0,
+   "bf": 0,
+   "ins": 0,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": true,
+   "mile": false
+  },
+  {
+   "id": 142,
+   "lv": 4,
+   "name": "2.0 Access road, sand bags / Đường công vụ, bao cát",
+   "dur": 3,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20837,
+   "bf": 20839,
+   "ins": 20837,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 0,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "sandbag",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 143,
+   "lv": 4,
+   "name": "2.1 Coring / Khoan lõi",
+   "dur": 21,
+   "pred": "142FS+25",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20865,
+   "bf": 20885,
+   "ins": 20865,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "preventer",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 144,
+   "lv": 4,
+   "name": "2.1 Preventer installation / Lắp preventer",
+   "dur": 22,
+   "pred": "143SS+1",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20866,
+   "bf": 20887,
+   "ins": 20866,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "preventer",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 145,
+   "lv": 4,
+   "name": "2.1 Contact grouting / Phụt vữa tiếp xúc",
+   "dur": 12,
+   "pred": "144FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20888,
+   "bf": 20899,
+   "ins": 20888,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "contact",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 146,
+   "lv": 4,
+   "name": "2.1 TAM grouting / Phụt vữa TAM",
+   "dur": 12,
+   "pred": "145FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20900,
+   "bf": 20911,
+   "ins": 20900,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "tam",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 147,
+   "lv": 4,
+   "name": "3.1 Inclined steel pipes interfering with steel frame / Ống thép nghiêng giao khung thép",
+   "dur": 4,
+   "pred": "146FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 4 Nos",
+   "bs": 20912,
+   "bf": 20915,
+   "ins": 20912,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "incl31",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 148,
+   "lv": 4,
+   "name": "3.2 Temporary steel support frame installation / Lắp khung thép tạm",
+   "dur": 10,
+   "pred": "147FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV · 1 Unit",
+   "bs": 20916,
+   "bf": 20925,
+   "ins": 20916,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "tss",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 149,
+   "lv": 4,
+   "name": "4.1 Pipe umbrella execution / Thi công mái ống",
+   "dur": 24,
+   "pred": "148FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 51 Nos",
+   "bs": 20926,
+   "bf": 20949,
+   "ins": 20926,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "umbrella",
+     "b"
+    ],
+    [
+     "umbcut",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 150,
+   "lv": 4,
+   "name": "4.2 Drainage check pipes / Ống kiểm tra nước ngầm",
+   "dur": 2,
+   "pred": "149FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 4 Nos",
+   "bs": 20950,
+   "bf": 20951,
+   "ins": 20950,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "check",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 151,
+   "lv": 4,
+   "name": "4.3 Soil nailing / Neo đất",
+   "dur": 2,
+   "pred": "150FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 13 Nos",
+   "bs": 20952,
+   "bf": 20953,
+   "ins": 20952,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "nail",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 152,
+   "lv": 4,
+   "name": "5.1 Remaining inclined steel pipes / Ống thép nghiêng còn lại",
+   "dur": 4,
+   "pred": "151FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 16 Nos",
+   "bs": 20954,
+   "bf": 20957,
+   "ins": 20954,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "incl51",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 153,
+   "lv": 4,
+   "name": "Contingency (grouting rework), acceptance period / Dự phòng phụt lại, nghiệm thu phụt vữa",
+   "dur": 7,
+   "pred": "152FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 20958,
+   "bf": 20964,
+   "ins": 20958,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 2,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "gate",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 154,
+   "lv": 4,
+   "name": "6.1 Segmental lining demolition / Phá dỡ vỏ hầm tại lỗ mở",
+   "dur": 7,
+   "pred": "153FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20965,
+   "bf": 20971,
+   "ins": 20965,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 4,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "demo",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 155,
+   "lv": 4,
+   "name": "6.3 Excavation of 1st advance of PP upper section, shotcrete at face / Đào phần trên đợt 1 + phun BT gương",
+   "dur": 5,
+   "pred": "154FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20972,
+   "bf": 20976,
+   "ins": 20972,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "soil1",
+     "b"
+    ],
+    [
+     "adv1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 156,
+   "lv": 4,
+   "name": "6.4 Installation of 1st row of vertical pre-support pipes / Lắp ống thép đứng hàng 1",
+   "dur": 5,
+   "pred": "155FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 20977,
+   "bf": 20981,
+   "ins": 20977,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "vrow1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 157,
+   "lv": 4,
+   "name": "6.5 Installation of 1st steel element for pipe umbrella support / Lắp cấu kiện thép 1 đỡ mái ống",
+   "dur": 2,
+   "pred": "156FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20982,
+   "bf": 20983,
+   "ins": 20982,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "steel1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 158,
+   "lv": 4,
+   "name": "7.1 2nd excavation of PP upper section, shotcrete at face / Đào phần trên đợt 2 + phun BT",
+   "dur": 5,
+   "pred": "157FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20984,
+   "bf": 20988,
+   "ins": 20984,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "soil2",
+     "b"
+    ],
+    [
+     "adv2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 159,
+   "lv": 4,
+   "name": "7.2 Installation of 2nd row of vertical pre-support pipes / Lắp ống thép đứng hàng 2",
+   "dur": 2,
+   "pred": "158FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 20989,
+   "bf": 20990,
+   "ins": 20989,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "vrow2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 160,
+   "lv": 4,
+   "name": "7.3 Installation of 2nd steel element for pipe umbrella / Lắp cấu kiện thép 2",
+   "dur": 2,
+   "pred": "159FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20991,
+   "bf": 20992,
+   "ins": 20991,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "steel2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 161,
+   "lv": 4,
+   "name": "8.1 3rd excavation of PP upper section, shotcrete at face / Đào phần trên đợt 3 + phun BT gương",
+   "dur": 5,
+   "pred": "160FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20993,
+   "bf": 20997,
+   "ins": 20993,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "soil3",
+     "b"
+    ],
+    [
+     "adv3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 162,
+   "lv": 4,
+   "name": "8.2 Installation of 3rd row of vertical steel pipes / Lắp ống thép đứng hàng 3",
+   "dur": 5,
+   "pred": "161FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 20998,
+   "bf": 21002,
+   "ins": 20998,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "vrow3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 163,
+   "lv": 4,
+   "name": "8.3 Installation of 3rd steel element for pipe umbrella / Lắp cấu kiện thép 3",
+   "dur": 2,
+   "pred": "162FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21003,
+   "bf": 21004,
+   "ins": 21003,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "steel3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 164,
+   "lv": 4,
+   "name": "9.1 Excavation of lower section of PP / Đào phần dưới hố",
+   "dur": 5,
+   "pred": "163FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21005,
+   "bf": 21009,
+   "ins": 21005,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "soil9",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 165,
+   "lv": 4,
+   "name": "9.2 Removal of 2nd steel element / Tháo cấu kiện thép 2",
+   "dur": 1,
+   "pred": "164FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21010,
+   "bf": 21010,
+   "ins": 21010,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "steel2",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 166,
+   "lv": 4,
+   "name": "9.3 Removal of 2nd row of vertical steel pipes / Tháo ống đứng hàng 2",
+   "dur": 1,
+   "pred": "165FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21011,
+   "bf": 21011,
+   "ins": 21011,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "vrow2",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 167,
+   "lv": 4,
+   "name": "9.4 Initial support layer at bottom part / Lớp chống ban đầu phần đáy",
+   "dur": 5,
+   "pred": "166FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21012,
+   "bf": 21016,
+   "ins": 21012,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "scbottom",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 168,
+   "lv": 4,
+   "name": "10.1 Concrete filling at lateral sides of bottom part / BT đổ bù hai bên phần đáy",
+   "dur": 5,
+   "pred": "167FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21017,
+   "bf": 21021,
+   "ins": 21017,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "fill10",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 169,
+   "lv": 4,
+   "name": "10.2 Waterproofing at bottom part / Chống thấm phần đáy",
+   "dur": 4,
+   "pred": "168FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21022,
+   "bf": 21025,
+   "ins": 21022,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "wp10",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 170,
+   "lv": 4,
+   "name": "11.1 PP final lining at bottom part / BT vĩnh cửu phần đáy",
+   "dur": 5,
+   "pred": "169FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21026,
+   "bf": 21030,
+   "ins": 21026,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "bot",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 171,
+   "lv": 4,
+   "name": "12.1 Concrete filling / BT đổ bù",
+   "dur": 3,
+   "pred": "170FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21031,
+   "bf": 21033,
+   "ins": 21031,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "fill12",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 172,
+   "lv": 4,
+   "name": "13.1 Waterproofing at middle part / Chống thấm phần giữa",
+   "dur": 4,
+   "pred": "171FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21034,
+   "bf": 21037,
+   "ins": 21034,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "wp13",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 173,
+   "lv": 4,
+   "name": "13.2 PP final lining at middle part / BT vĩnh cửu phần giữa",
+   "dur": 7,
+   "pred": "172FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21038,
+   "bf": 21044,
+   "ins": 21038,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "mid",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 174,
+   "lv": 4,
+   "name": "14.1 Waterproofing at the roof / Chống thấm mái",
+   "dur": 7,
+   "pred": "173FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21045,
+   "bf": 21051,
+   "ins": 21045,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "wp14",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 175,
+   "lv": 4,
+   "name": "14.2 PP final lining at roof / BT vĩnh cửu mái",
+   "dur": 5,
+   "pred": "174FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21052,
+   "bf": 21056,
+   "ins": 21052,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "roof",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 176,
+   "lv": 4,
+   "name": "15.1 Removal of 1st installed steel element / Tháo cấu kiện thép 1",
+   "dur": 1,
+   "pred": "175FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21057,
+   "bf": 21057,
+   "ins": 21057,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "steel1",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 177,
+   "lv": 4,
+   "name": "15.2 Steel pipes partially cut at tunnel extrados / Cắt một phần ống thép tại mặt ngoài vỏ hầm",
+   "dur": 1,
+   "pred": "176FS+1",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21059,
+   "bf": 21059,
+   "ins": 21059,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "umbcut",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 178,
+   "lv": 4,
+   "name": "15.3 Further partial demolition of segmental lining for collar / Phá dỡ thêm vỏ hầm làm vành",
+   "dur": 2,
+   "pred": "177FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21060,
+   "bf": 21061,
+   "ins": 21060,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 4,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "demo2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 179,
+   "lv": 4,
+   "name": "15.4 Excavation of 2nd stage bottom excavation line / Đào đáy đợt 2",
+   "dur": 3,
+   "pred": "178FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21062,
+   "bf": 21064,
+   "ins": 21062,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "soil15",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 180,
+   "lv": 4,
+   "name": "16.1 Waterproofing at bottom slab up to segmental lining / Chống thấm bản đáy đến vỏ hầm",
+   "dur": 3,
+   "pred": "179FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21065,
+   "bf": 21067,
+   "ins": 21065,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "wp16",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 181,
+   "lv": 4,
+   "name": "16.2 Final bottom slab connection to segmental lining / Bản đáy liên kết vỏ hầm",
+   "dur": 5,
+   "pred": "180FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21068,
+   "bf": 21072,
+   "ins": 21068,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "slabconn",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 182,
+   "lv": 4,
+   "name": "17.1 Waterproofing at concrete collar / Chống thấm vành bê tông",
+   "dur": 3,
+   "pred": "181FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21073,
+   "bf": 21075,
+   "ins": 21073,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "wp17",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 183,
+   "lv": 4,
+   "name": "17.2 Concrete collar connection to lining + technical slab / Vành BT liên kết vỏ hầm + sàn kỹ thuật",
+   "dur": 5,
+   "pred": "182FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21076,
+   "bf": 21080,
+   "ins": 21076,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "collar",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 184,
+   "lv": 4,
+   "name": "17.3 Removal of temporary steel frame after collar reaches strength / Tháo khung thép tạm khi vành đủ cường độ",
+   "dur": 22,
+   "pred": "183FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21081,
+   "bf": 21102,
+   "ins": 21081,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 8,
+   "lot": "PP2-2",
+   "m4": [
+    [
+     "tss",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 185,
+   "lv": 2,
+   "name": "SECTION STATION 09–10 / ĐOẠN GA 09–10",
+   "dur": 0,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "",
+   "bs": 0,
+   "bf": 0,
+   "ins": 0,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": true,
+   "mile": false
+  },
+  {
+   "id": 186,
+   "lv": 3,
+   "name": "PIT PP1-1 (Km19+812, Tunnel 1) / HỐ BƠM PP1-1 (Km19+812, Hầm 1)",
+   "dur": 0,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "",
+   "bs": 0,
+   "bf": 0,
+   "ins": 0,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": true,
+   "mile": false
+  },
+  {
+   "id": 187,
+   "lv": 4,
+   "name": "2.0 Access road, sand bags / Đường công vụ, bao cát",
+   "dur": 3,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20885,
+   "bf": 20887,
+   "ins": 20885,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 0,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "sandbag",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 188,
+   "lv": 4,
+   "name": "2.1 Coring / Khoan lõi",
+   "dur": 22,
+   "pred": "187FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20888,
+   "bf": 20909,
+   "ins": 20888,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "preventer",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 189,
+   "lv": 4,
+   "name": "2.1 Preventer installation / Lắp preventer",
+   "dur": 22,
+   "pred": "188SS+1",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20889,
+   "bf": 20910,
+   "ins": 20889,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "preventer",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 190,
+   "lv": 4,
+   "name": "2.1 Contact grouting / Phụt vữa tiếp xúc",
+   "dur": 12,
+   "pred": "189FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20911,
+   "bf": 20922,
+   "ins": 20911,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "contact",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 191,
+   "lv": 4,
+   "name": "2.1 TAM grouting / Phụt vữa TAM",
+   "dur": 12,
+   "pred": "190FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 170 Nos",
+   "bs": 20923,
+   "bf": 20934,
+   "ins": 20923,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "tam",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 192,
+   "lv": 4,
+   "name": "3.1 Inclined steel pipes interfering with steel frame / Ống thép nghiêng giao khung thép",
+   "dur": 34,
+   "pred": "191FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 4 Nos",
+   "bs": 20935,
+   "bf": 20968,
+   "ins": 20935,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "incl31",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 193,
+   "lv": 4,
+   "name": "3.2 Temporary steel support frame installation / Lắp khung thép tạm",
+   "dur": 10,
+   "pred": "192SS+4",
+   "res": "",
+   "pct": 0,
+   "note": "VV · 1 Unit",
+   "bs": 20939,
+   "bf": 20948,
+   "ins": 20939,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "tss",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 194,
+   "lv": 4,
+   "name": "4.1 Pipe umbrella execution / Thi công mái ống",
+   "dur": 24,
+   "pred": "193FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 51 Nos",
+   "bs": 20949,
+   "bf": 20972,
+   "ins": 20949,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "umbrella",
+     "b"
+    ],
+    [
+     "umbcut",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 195,
+   "lv": 4,
+   "name": "4.2 Drainage check pipes / Ống kiểm tra nước ngầm",
+   "dur": 2,
+   "pred": "194FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 4 Nos",
+   "bs": 20973,
+   "bf": 20974,
+   "ins": 20973,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "check",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 196,
+   "lv": 4,
+   "name": "4.3 Soil nailing / Neo đất",
+   "dur": 2,
+   "pred": "195FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 13 Nos",
+   "bs": 20975,
+   "bf": 20976,
+   "ins": 20975,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "nail",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 197,
+   "lv": 4,
+   "name": "5.1 Remaining inclined steel pipes / Ống thép nghiêng còn lại",
+   "dur": 4,
+   "pred": "196FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH · 16 Nos",
+   "bs": 20977,
+   "bf": 20980,
+   "ins": 20977,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "incl51",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 198,
+   "lv": 4,
+   "name": "Contingency (grouting rework), acceptance period / Dự phòng phụt lại, nghiệm thu phụt vữa",
+   "dur": 7,
+   "pred": "197FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 20981,
+   "bf": 20987,
+   "ins": 20981,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 2,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "gate",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 199,
+   "lv": 4,
+   "name": "6.1 Segmental lining demolition / Phá dỡ vỏ hầm tại lỗ mở",
+   "dur": 7,
+   "pred": "198FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20988,
+   "bf": 20994,
+   "ins": 20988,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 4,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "demo",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 200,
+   "lv": 4,
+   "name": "6.3 Excavation of 1st advance of PP upper section, shotcrete at face / Đào phần trên đợt 1 + phun BT gương",
+   "dur": 5,
+   "pred": "199FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 20995,
+   "bf": 20999,
+   "ins": 20995,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "soil1",
+     "b"
+    ],
+    [
+     "adv1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 201,
+   "lv": 4,
+   "name": "6.4 Installation of 1st row of vertical pre-support pipes / Lắp ống thép đứng hàng 1",
+   "dur": 5,
+   "pred": "200SS-25",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 20970,
+   "bf": 20974,
+   "ins": 20970,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "vrow1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 202,
+   "lv": 4,
+   "name": "6.5 Installation of 1st steel element for pipe umbrella support / Lắp cấu kiện thép 1 đỡ mái ống",
+   "dur": 2,
+   "pred": "201FS+30",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21005,
+   "bf": 21006,
+   "ins": 21005,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "steel1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 203,
+   "lv": 4,
+   "name": "7.1 2nd excavation of PP upper section, shotcrete at face / Đào phần trên đợt 2 + phun BT",
+   "dur": 5,
+   "pred": "202FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21007,
+   "bf": 21011,
+   "ins": 21007,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "soil2",
+     "b"
+    ],
+    [
+     "adv2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 204,
+   "lv": 4,
+   "name": "7.2 Installation of 2nd row of vertical pre-support pipes / Lắp ống thép đứng hàng 2",
+   "dur": 2,
+   "pred": "203FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 21012,
+   "bf": 21013,
+   "ins": 21012,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "vrow2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 205,
+   "lv": 4,
+   "name": "7.3 Installation of 2nd steel element for pipe umbrella / Lắp cấu kiện thép 2",
+   "dur": 2,
+   "pred": "204FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21014,
+   "bf": 21015,
+   "ins": 21014,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "steel2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 206,
+   "lv": 4,
+   "name": "8.1 3rd excavation of PP upper section, shotcrete at face / Đào phần trên đợt 3 + phun BT gương",
+   "dur": 5,
+   "pred": "205FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21016,
+   "bf": 21020,
+   "ins": 21016,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "soil3",
+     "b"
+    ],
+    [
+     "adv3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 207,
+   "lv": 4,
+   "name": "8.2 Installation of 3rd row of vertical steel pipes / Lắp ống thép đứng hàng 3",
+   "dur": 5,
+   "pred": "206FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 21021,
+   "bf": 21025,
+   "ins": 21021,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "vrow3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 208,
+   "lv": 4,
+   "name": "8.3 Installation of 3rd steel element for pipe umbrella / Lắp cấu kiện thép 3",
+   "dur": 2,
+   "pred": "207FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21026,
+   "bf": 21027,
+   "ins": 21026,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "steel3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 209,
+   "lv": 4,
+   "name": "9.1 Excavation of lower section of PP / Đào phần dưới hố",
+   "dur": 5,
+   "pred": "208FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21028,
+   "bf": 21032,
+   "ins": 21028,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "soil9",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 210,
+   "lv": 4,
+   "name": "9.2 Removal of 2nd steel element / Tháo cấu kiện thép 2",
+   "dur": 1,
+   "pred": "209FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21033,
+   "bf": 21033,
+   "ins": 21033,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "steel2",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 211,
+   "lv": 4,
+   "name": "9.3 Removal of 2nd row of vertical steel pipes / Tháo ống đứng hàng 2",
+   "dur": 1,
+   "pred": "210FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21034,
+   "bf": 21034,
+   "ins": 21034,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "vrow2",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 212,
+   "lv": 4,
+   "name": "9.4 Initial support layer at bottom part / Lớp chống ban đầu phần đáy",
+   "dur": 5,
+   "pred": "211FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21035,
+   "bf": 21039,
+   "ins": 21035,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "scbottom",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 213,
+   "lv": 4,
+   "name": "10.1 Concrete filling at lateral sides of bottom part / BT đổ bù hai bên phần đáy",
+   "dur": 5,
+   "pred": "212FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21040,
+   "bf": 21044,
+   "ins": 21040,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "fill10",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 214,
+   "lv": 4,
+   "name": "10.2 Waterproofing at bottom part / Chống thấm phần đáy",
+   "dur": 4,
+   "pred": "213FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21045,
+   "bf": 21048,
+   "ins": 21045,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "wp10",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 215,
+   "lv": 4,
+   "name": "11.1 PP final lining at bottom part / BT vĩnh cửu phần đáy",
+   "dur": 5,
+   "pred": "214FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21049,
+   "bf": 21053,
+   "ins": 21049,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "bot",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 216,
+   "lv": 4,
+   "name": "12.1 Concrete filling / BT đổ bù",
+   "dur": 3,
+   "pred": "215FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21054,
+   "bf": 21056,
+   "ins": 21054,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "fill12",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 217,
+   "lv": 4,
+   "name": "13.1 Waterproofing at middle part / Chống thấm phần giữa",
+   "dur": 4,
+   "pred": "216FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21057,
+   "bf": 21060,
+   "ins": 21057,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "wp13",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 218,
+   "lv": 4,
+   "name": "13.2 PP final lining at middle part / BT vĩnh cửu phần giữa",
+   "dur": 7,
+   "pred": "217FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21061,
+   "bf": 21067,
+   "ins": 21061,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "mid",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 219,
+   "lv": 4,
+   "name": "14.1 Waterproofing at the roof / Chống thấm mái",
+   "dur": 7,
+   "pred": "218FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21068,
+   "bf": 21074,
+   "ins": 21068,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "wp14",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 220,
+   "lv": 4,
+   "name": "14.2 PP final lining at roof / BT vĩnh cửu mái",
+   "dur": 5,
+   "pred": "219FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21075,
+   "bf": 21079,
+   "ins": 21075,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "roof",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 221,
+   "lv": 4,
+   "name": "15.1 Removal of 1st installed steel element / Tháo cấu kiện thép 1",
+   "dur": 1,
+   "pred": "220FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21080,
+   "bf": 21080,
+   "ins": 21080,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "steel1",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 222,
+   "lv": 4,
+   "name": "15.2 Steel pipes partially cut at tunnel extrados / Cắt một phần ống thép tại mặt ngoài vỏ hầm",
+   "dur": 2,
+   "pred": "221FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21081,
+   "bf": 21082,
+   "ins": 21081,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "umbcut",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 223,
+   "lv": 4,
+   "name": "15.3 Further partial demolition of segmental lining for collar / Phá dỡ thêm vỏ hầm làm vành",
+   "dur": 2,
+   "pred": "222FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21083,
+   "bf": 21084,
+   "ins": 21083,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 4,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "demo2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 224,
+   "lv": 4,
+   "name": "15.4 Excavation of 2nd stage bottom excavation line / Đào đáy đợt 2",
+   "dur": 3,
+   "pred": "223FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21085,
+   "bf": 21087,
+   "ins": 21085,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "soil15",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 225,
+   "lv": 4,
+   "name": "16.1 Waterproofing at bottom slab up to segmental lining / Chống thấm bản đáy đến vỏ hầm",
+   "dur": 3,
+   "pred": "224FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21088,
+   "bf": 21090,
+   "ins": 21088,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "wp16",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 226,
+   "lv": 4,
+   "name": "16.2 Final bottom slab connection to segmental lining / Bản đáy liên kết vỏ hầm",
+   "dur": 5,
+   "pred": "225FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21091,
+   "bf": 21095,
+   "ins": 21091,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "slabconn",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 227,
+   "lv": 4,
+   "name": "17.1 Waterproofing at concrete collar / Chống thấm vành bê tông",
+   "dur": 3,
+   "pred": "226FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21096,
+   "bf": 21098,
+   "ins": 21096,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "wp17",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 228,
+   "lv": 4,
+   "name": "17.2 Concrete collar connection to lining + technical slab / Vành BT liên kết vỏ hầm + sàn kỹ thuật",
+   "dur": 5,
+   "pred": "227FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21099,
+   "bf": 21103,
+   "ins": 21099,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "collar",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 229,
+   "lv": 4,
+   "name": "17.3 Removal of temporary steel frame after collar reaches strength / Tháo khung thép tạm khi vành đủ cường độ",
+   "dur": 22,
+   "pred": "228FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21104,
+   "bf": 21125,
+   "ins": 21104,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 8,
+   "lot": "PP1-1",
+   "m4": [
+    [
+     "tss",
+     "r"
+    ]
+   ]
+  },
+  {
+   "id": 230,
+   "lv": 3,
+   "name": "PIT PP2-1 (Km19+808, Tunnel 2) – estimated schedule / HỐ BƠM PP2-1 (Km19+808, Hầm 2) – tiến độ ước tính",
+   "dur": 0,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "",
+   "bs": 0,
+   "bf": 0,
+   "ins": 0,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": true,
+   "mile": false
+  },
+  {
+   "id": 231,
+   "lv": 4,
+   "name": "Ground condition check (estimated) / Kiểm tra điều kiện nền (ước tính)",
+   "dur": 30,
+   "pred": "",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21000,
+   "bf": 21029,
+   "ins": 21000,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 1,
+   "lot": "PP2-1",
+   "m4": []
+  },
+  {
+   "id": 232,
+   "lv": 4,
+   "name": "Ground treatment if needed (estimated) / Gia cố nền nếu cần (ước tính)",
+   "dur": 30,
+   "pred": "231FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "SH",
+   "bs": 21030,
+   "bf": 21059,
+   "ins": 21030,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP2-1",
+   "m4": []
+  },
+  {
+   "id": 233,
+   "lv": 4,
+   "name": "H.1 Fabricate + install H175 frame (estimated) / Gia công, lắp khung H175 (ước tính)",
+   "dur": 7,
+   "pred": "232FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV · 0,27 t",
+   "bs": 21060,
+   "bf": 21066,
+   "ins": 21060,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 3,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "hb",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 234,
+   "lv": 4,
+   "name": "6.1 Lining demolition at opening (estimated) / Phá dỡ vỏ hầm tại lỗ mở (ước tính)",
+   "dur": 7,
+   "pred": "233FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21067,
+   "bf": 21073,
+   "ins": 21067,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 4,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "demo",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 235,
+   "lv": 4,
+   "name": "6.3 Upper excavation step 1 + shotcrete (estimated) / Đào phần trên đợt 1 + phun BT (ước tính)",
+   "dur": 3,
+   "pred": "234FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21074,
+   "bf": 21076,
+   "ins": 21074,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "soil1",
+     "b"
+    ],
+    [
+     "adv1",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 236,
+   "lv": 4,
+   "name": "7.1 Upper excavation step 2 + shotcrete (estimated) / Đào phần trên đợt 2 + phun BT (ước tính)",
+   "dur": 3,
+   "pred": "235FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21077,
+   "bf": 21079,
+   "ins": 21077,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "soil2",
+     "b"
+    ],
+    [
+     "adv2",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 237,
+   "lv": 4,
+   "name": "8.1 Upper excavation step 3 + shotcrete (estimated) / Đào phần trên đợt 3 + phun BT (ước tính)",
+   "dur": 3,
+   "pred": "236FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21080,
+   "bf": 21082,
+   "ins": 21080,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "soil3",
+     "b"
+    ],
+    [
+     "adv3",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 238,
+   "lv": 4,
+   "name": "9.4 Lower excavation + bottom support (estimated) / Đào phần dưới + lớp chống đáy (ước tính)",
+   "dur": 5,
+   "pred": "237FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV · 52 m3",
+   "bs": 21083,
+   "bf": 21087,
+   "ins": 21083,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 5,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "soil9",
+     "b"
+    ],
+    [
+     "scbottom",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 239,
+   "lv": 4,
+   "name": "10.2 Waterproofing – bottom (estimated) / Chống thấm phần đáy (ước tính)",
+   "dur": 4,
+   "pred": "238FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21088,
+   "bf": 21091,
+   "ins": 21088,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "wp10",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 240,
+   "lv": 4,
+   "name": "11.1 Final lining – bottom (estimated) / BT vĩnh cửu phần đáy (ước tính)",
+   "dur": 5,
+   "pred": "239FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21092,
+   "bf": 21096,
+   "ins": 21092,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "bot",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 241,
+   "lv": 4,
+   "name": "12.1 Concrete filling (estimated) / Bê tông đổ bù (ước tính)",
+   "dur": 3,
+   "pred": "240FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21097,
+   "bf": 21099,
+   "ins": 21097,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "fill12",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 242,
+   "lv": 4,
+   "name": "13.1 Waterproofing – middle (estimated) / Chống thấm phần giữa (ước tính)",
+   "dur": 4,
+   "pred": "241FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21100,
+   "bf": 21103,
+   "ins": 21100,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "wp13",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 243,
+   "lv": 4,
+   "name": "13.2 Final lining – middle (estimated) / BT vĩnh cửu phần giữa (ước tính)",
+   "dur": 7,
+   "pred": "242FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21104,
+   "bf": 21110,
+   "ins": 21104,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "mid",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 244,
+   "lv": 4,
+   "name": "14.1 Waterproofing – roof (estimated) / Chống thấm mái (ước tính)",
+   "dur": 4,
+   "pred": "243FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21111,
+   "bf": 21114,
+   "ins": 21111,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "wp14",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 245,
+   "lv": 4,
+   "name": "14.2 Final lining – roof (estimated) / BT vĩnh cửu mái (ước tính)",
+   "dur": 5,
+   "pred": "244FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21115,
+   "bf": 21119,
+   "ins": 21115,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 6,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "roof",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 246,
+   "lv": 4,
+   "name": "17.2 Concrete collar + technical slab (estimated) / Vành BT + sàn kỹ thuật (ước tính)",
+   "dur": 5,
+   "pred": "245FS+0",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21120,
+   "bf": 21124,
+   "ins": 21120,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 7,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "collar",
+     "b"
+    ]
+   ]
+  },
+  {
+   "id": 247,
+   "lv": 4,
+   "name": "H.2 Remove H frame, clean up (estimated) / Tháo khung H, vệ sinh (ước tính)",
+   "dur": 21,
+   "pred": "246FS+59",
+   "res": "",
+   "pct": 0,
+   "note": "VV",
+   "bs": 21184,
+   "bf": 21204,
+   "ins": 21184,
+   "as": 0,
+   "af": 0,
+   "link": null,
+   "sum": false,
+   "mile": false,
+   "wt": 8,
+   "lot": "PP2-1",
+   "m4": [
+    [
+     "hb",
+     "r"
+    ]
+   ]
+  }
+ ],
+ "W": [
+  "Site preparation / Chuẩn bị mặt bằng",
+  "Ground improvement & grouting / Xử lý nền, phụt vữa",
+  "Grouting acceptance / Nghiệm thu phụt vữa",
+  "Ground reinforcement (steel frame, pipe umbrella, nails, inclined pipes) / Gia cố nền (khung thép, mái ống, neo, ống nghiêng)",
+  "Lining demolition / Phá dỡ vỏ hầm",
+  "Excavation & initial support / Đào đất + chống tạm",
+  "Waterproofing & final lining / Chống thấm + BT vĩnh cửu",
+  "Bottom slab & collar connection / Bản đáy, vành BT nối vỏ hầm",
+  "Temporary frame removal / Tháo khung tạm"
+ ],
+ "res": [
+  {
+   "code": "NC",
+   "name": "Công nhân xây dựng",
+   "type": "Công nhân",
+   "unit": "người",
+   "lim": 0,
+   "price": 450000
+  },
+  {
+   "code": "KS",
+   "name": "Kỹ sư, cán bộ kỹ thuật",
+   "type": "Kỹ sư",
+   "unit": "người",
+   "lim": 0,
+   "price": 900000
+  }
+ ],
+ "done": {},
+ "dd": {},
+ "piles": [],
+ "pl": [],
+ "mq": {},
+ "mrows": [],
+ "hist": [],
+ "hide": [
+  "type",
+  "res",
+  "tf",
+  "as",
+  "af"
+ ],
+ "hideRes": true,
+ "pj": "METRO CP-03 – 6 PUMPING PITS",
+ "daily": {},
+ "m4d": {
+  "src": "/m4d/metro-pp.json",
+  "lots": {
+   "PP1-3": "std",
+   "PP2-3": "std",
+   "PP1-2": "std",
+   "PP2-2": "std",
+   "PP1-1": "std",
+   "PP2-1": "H"
+  },
+  "lotInfo": {
+   "PP1-3": "Km21+810 · Tunnel 1",
+   "PP2-3": "Km21+824 · Tunnel 2",
+   "PP1-2": "Km20+996 · Tunnel 1",
+   "PP2-2": "Km21+000 · Tunnel 2",
+   "PP1-1": "Km19+812 · Tunnel 1",
+   "PP2-1": "Km19+808 · Tunnel 2"
+  }
+ }
+}
